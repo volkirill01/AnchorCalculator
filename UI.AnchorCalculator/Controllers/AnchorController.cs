@@ -99,7 +99,7 @@ namespace UI.AnchorCalculator.Controllers
             if (!viewModel.HasThreadSecond)
                 ModelState.Remove(nameof(viewModel.ThreadLengthSecond));
             if (viewModel.Kind == Kind.BendDouble.ToString())
-            {
+            {                       
                 minBendLength += viewModel.BendRadius;
                 minBendLength += diameterParse;
             }

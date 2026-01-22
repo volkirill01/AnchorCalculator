@@ -11,11 +11,11 @@ namespace UI.AnchorCalculator.ViewModels
     public class AnchorViewModel 
     {
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
-        [CheckLength("HasThread", "BendRadius", "Length")] // min 1000 for hydraulic , 400 for rolling and cutting, min bendRadius + 60 for nonThread
+        [CheckLength()] // min 1000 for hydraulic , 400 for rolling and cutting, min bendRadius + 60 for nonThread, BilletLength >= 400 мм for double bend radius anchor   
         [Display(Name = "Длина, мм:")]
         public int Length { get; set; }
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
-        [CheckLength("HasThread", "BendRadius", "Length")] // min 1000 for hydraulic , 400 for rolling and cutting, min bendRadius + 60 for nonThread
+        [CheckLength()] // min 1000 for hydraulic , 400 for rolling and cutting, min bendRadius + 60 for nonThread, BilletLength >= 400 мм for double bend radius anchor
         [Display(Name = "Длина вторая, мм:")]
         public int LengthSecond { get; set; }
         [Required(ErrorMessage = "Выберите материал")]

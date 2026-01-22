@@ -2,6 +2,7 @@
 using Core.AnchorCalculator.Entities.Enums;
 using DAL.AnchorCalculator;
 using UI.AnchorCalculator.Extensions;
+using UI.AnchorCalculator.Utils;
 
 namespace UI.AnchorCalculator.Services
 {
@@ -31,7 +32,7 @@ namespace UI.AnchorCalculator.Services
                 throw;
             }
 
-            anchor.BilletLength = GetLengthBillet(anchor);
+            anchor.BilletLength = CalculParams.GetLengthBillet(anchor);
             anchor.LengthFull = anchor.BilletLength * anchor.Quantity / 1000; // length of material of anchor's batch in metres
             double BilletWeight = anchor.BilletLength * (Math.PI * Math.Pow(anchor.Diameter, 2) / 4) / Math.Pow(10, 9) * dencitySteel; // weight of anchor's billet
             anchor.Weight = Math.Round(BilletWeight - ((Math.PI * Math.Pow(anchor.Diameter, 2) / 4) - (Math.PI * Math.Pow(anchor.ThreadDiameter, 2) / 4)) * anchor.ThreadLength / Math.Pow(10, 9) * dencitySteel, 2); // weight of anchor
@@ -159,34 +160,6 @@ namespace UI.AnchorCalculator.Services
             anchor.TimeProductionThread = (timeProductionThread + timeCutWithoutBindThreadMaterial) * anchor.Quantity; // time of anchor's thread production in hours
             anchor.TimeProductionBend = timeProductionBend * anchor.Quantity; // time of anchor's bend production in hours
             anchor.TimeProductionBandSaw = timeProductionBandSaw * anchor.Quantity; // time of anchor's bandSaw production in hours
-        }
-            
-        static double GetLengthBillet(Anchor anchor)
-        {
-            double lengthBillet;
-            double kFactor = 1 / (Math.Log(1 + (double)anchor.Diameter / anchor.BendRadius)) - anchor.BendRadius / anchor.Diameter; // K-factor
-            anchor.LengthPathRoller = Math.PI * anchor.BendRadius * 1 / 2;      
-            
-            if (anchor.Kind != Kind.Straight)
-                anchor.LengthBeforeEndPathRoller = anchor.Length - anchor.BendRadius + anchor.LengthPathRoller;
-            else
-                anchor.LengthBeforeEndPathRoller = 0;
-
-            if (anchor.Kind == Kind.Bend)
-            {               
-                lengthBillet = anchor.Length - anchor.BendRadius - anchor.Diameter
-                    + ((Math.PI * (anchor.BendRadius + kFactor * anchor.Diameter) * 1 / 2)
-                    + (anchor.BendLength - (anchor.Diameter + anchor.BendRadius)));
-            }
-            else if (anchor.Kind == Kind.BendDouble)
-            {               
-                lengthBillet = anchor.Length + anchor.LengthSecond
-                    - 2 * (anchor.BendRadius + anchor.Diameter - (Math.PI * (anchor.BendRadius + kFactor * anchor.Diameter) * 1 / 2))
-                    + anchor.BendLength - 2 * (anchor.Diameter + anchor.BendRadius);                
-            }
-            else
-                lengthBillet = anchor.Length;    
-            return lengthBillet;
-        }
+        }           
     }
 }
