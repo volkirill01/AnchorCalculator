@@ -76,7 +76,7 @@ namespace DAL.AnchorCalculator.Migrations
                     b.Property<double>("PriceMaterial")
                         .HasColumnType("double");
 
-                    b.Property<double>("PricePerMetr")
+                    b.Property<double>("PricePerMeter")
                         .HasColumnType("double");
 
                     b.Property<int>("Quantity")
@@ -125,22 +125,22 @@ namespace DAL.AnchorCalculator.Migrations
                     b.Property<DateTime>("DateUpdate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<double>("LengthBladeBandSaw")
+                    b.Property<double>("BandSawBladeLengthMeters")
                         .HasColumnType("double");
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<double>("PricePerMetr")
+                    b.Property<double>("PricePerMeter")
                         .HasColumnType("double");
 
                     b.Property<double>("Size")
                         .HasColumnType("double");
 
-                    b.Property<double>("TimeBandSaw")
+                    b.Property<double>("BandSawHours")
                         .HasColumnType("double");
 
-                    b.Property<double>("TimeTheradRolling")
+                    b.Property<double>("TheradRollingHours")
                         .HasColumnType("double");
 
                     b.Property<int>("Type")

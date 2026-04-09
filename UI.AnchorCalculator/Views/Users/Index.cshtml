@@ -1,70 +1,76 @@
 ﻿@using Core.AnchorCalculator.Entities
 
 @model IEnumerable<User>
-@{
-    ViewBag.Title = "Список сотрудников";
-}
- 
+@{ ViewBag.Title = "Список сотрудников"; }
+
 <a role="button" class="btn btn-secondary" asp-action="Create">Добавить сотрудника</a>
- 
+
 <table class="table">
-    <tr><th>Email</th><th>Логин</th><th></th></tr>
-    @foreach (var user in Model)
-    {
-        <tr id="user-@user.Id">
-            <td>@user.Email</td>
-            <td>@user.UserName</td>
-            <td>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setIdForButton('@user.Id')">
-                    Удалить
-                </button>
-            </td>
-        </tr>
-    }
+	<tr>
+		<th>Email</th>
+		<th>Логин</th>
+		<th></th>
+	</tr>
+
+	@foreach (var user in Model)
+	{
+		<tr id="user-@user.Id">
+			<td>@user.Email</td>
+			<td>@user.UserName</td>
+
+			<td>
+				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setIdForButton('@user.Id')">Удалить</button>
+			</td>
+		</tr>
+	}
 </table>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Удаление сотрудника</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div id="modal_body" class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
-                <button id="btnDelCard" type="button" class="btn btn-danger" data-bs-dismiss="modal">Да</button>
-            </div>
-        </div>
-    </div>
-</div>  
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Удаление сотрудника</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
 
+			<div id="modal_body" class="modal-body">
 
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+				<button id="btnDelCard" type="button" class="btn btn-danger" data-bs-dismiss="modal">Да</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script>
+	let userLine;
 
-    let userLine;
+	function setIdForButton(id)
+	{
+		userLine = document.getElementById('user-' + id + '')
 
-    function setIdForButton(id) {
-      userLine = document.getElementById('user-' + id + '')
-      var userLogin = userLine.getElementsByTagName('td')[1].textContent;
-      var btnDelCard = document.getElementById("btnDelCard");
-      var modal_body = document.getElementById("modal_body");
-      modal_body.innerHTML = 'Вы действительно хотите удалить сотрудника '+ userLogin +'?';
-      btnDelCard.setAttribute('onclick', 'delUser("' + id + '");');
-    }
+		var userLogin = userLine.getElementsByTagName('td')[1].textContent;
+		var btnDelCard = document.getElementById("btnDelCard");
+		var modal_body = document.getElementById("modal_body");
 
-    function delUser(id) {
-        event.preventDefault();
-        userLine.remove();
-        $.ajax(
-            {
-                url: '@Url.Action("Delete","Users")',
-                type: 'POST',
-                data: { 'id': id }
-            }
-        )
-    }
-  
+		modal_body.innerHTML = 'Вы действительно хотите удалить сотрудника '+ userLogin +'?';
+		btnDelCard.onclick = () => deleteUser(id);
+	}
+
+	function deleteUser(id)
+	{
+		event.preventDefault();
+		userLine.remove();
+
+		$.ajax(
+			{
+				url: '@Url.Action("Delete","Users")',
+				type: 'POST',
+				data: { 'id': id }
+			}
+		)
+	}
 </script>

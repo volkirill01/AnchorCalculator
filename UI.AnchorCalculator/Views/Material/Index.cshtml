@@ -1,331 +1,378 @@
-﻿@model UI.AnchorCalculator.ViewModels.MaterialsAndCostWorkViewModel
+﻿@model UI.AnchorCalculator.ViewModels.MaterialsAndWorkCostViewModel
+@{ ViewData["Title"] = "Material"; }
 
 <div class="row" style="max-width: 1400px">
-    <div class="col-sm-12 col-md-12">
-        <table class="table">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Наим-ие</th>
-      <th scope="col">Размер,мм</th>
-      <th scope="col">Тиg профиля</th>
-      <th scope="col">Цена за метр,сом</th>
-      <th scope="col">Время накатки резьбы,ч</th>
-      <th scope="col">Время нарезки резьбы,ч</th>
-      <th scope="col">Время лентопила,ч</th>
-      <th scope="col">Длина полотна лентопила,мм</th>
-      <th scope="col">Плашка,шт</th>
-      <th scope="col">Резец,шт</th>
-      <th scope="col">Дата обнов-я</th>
-    </tr>
-    </thead>
-      @if (@Model.Materials.Count == 0)
-      { }
-      else
-      {
-       <tbody>
-      @foreach (var item in Model.Materials)
-      {
-      <tr id="@item.Id">
-          <th scope="row">@item.Id</th>
-          <td>@item.Name</td>
-          <td>@(String.Format("{0} {1}", "Ø", item.Size))</td>
-          <td>@item.Type.ToString()</td>
-          <td>@item.PricePerMetr</td>
-          <td>@item.TimeThreadRolling</td>
-          <td>@item.TimeThreadCutting</td>
-          <td>@item.TimeBandSaw</td>
-          <td>@item.LengthBladeBandSaw</td>
-          <td>@item.Plashka</td>
-          <td>@item.Cutter</td>
-          <td>@item.DateUpdate.ToLocalTime()</td>
-          <td>
-              <p class="btn-group-vertical">
-              <a class="btn btn-dark btn-sm" asp-controller="Material" asp-action="Edit" role="button" asp-route-id="@item.Id">Редактировать</a>
-              <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setIdForButton('@item.Id')">Удалить</button>
-              </p>
-          </td>         
-      </tr>  
-      }  
-      </tbody>
-      } 
-</table>
-<a class="btn btn-dark mb-3" asp-controller="Material" asp-action="Add" role="button">Добавить материал</a>
-    </div>
-     <div class="col-sm-0 col-md-0">
-         <div class="card">
-  <div class="card-body">
-    <h5 class="card-title">Стоимость работ и наценка</h5>
-    <form id="CostWorkForm">
-         <div class="row mb-3">
-                        <label for="ExchangeDollar" class="col-sm-9 col-form-label ml-0 pl-0">Курс доллара,сом/$:</label>
-               <div class="col-sm-3 mb-1">
-                            <input asp-for="CostWork.ExchangeDollar" type="text" class="form-control" id="ExchangeDollar" value="@Model.CostWork.ExchangeDollar">
-                        </div>
-                        <label for="PnrRollingThread" class="col-sm-9 col-form-label ml-0 pl-0">Накатка резьбы,$:</label>
-               <div class="col-sm-3 mb-1">
-                            <input asp-for="CostWork.PnrRollingThread" type="text" class="form-control" id="PnrRollingThread" value="@Model.CostWork.PnrRollingThread">
-                        </div>
-                        <label for="PnrBendingAnchor" class="col-sm-9 col-form-label ml-0 pl-0">Гибка анкеров,$:</label>
-               <div class="col-sm-3 mb-1">
-                            <input asp-for="CostWork.PnrBendingAnchor" type="text" class="form-control" id="PnrBendingAnchor" value="@Model.CostWork.PnrBendingAnchor">
-                        </div>
-                        <label for="PnrBandSaw" class="col-sm-9 col-form-label ml-0 pl-0">Лентопил,$:</label>
-               <div class="col-sm-3 mb-1">
-                            <input asp-for="CostWork.PnrBandSaw" type="text" class="form-control" id="PnrBandSaw" value="@Model.CostWork.PnrBandSaw">
-                        </div>
-                        <label for="AreaLockSmith" class="col-sm-9 col-form-label ml-0 pl-0">Слесарный участок,$:</label>
-                <div class="col-sm-3 mb-1">
-                            <input asp-for="CostWork.AreaLockSmith" type="text" class="form-control" id="AreaLockSmith" value="@Model.CostWork.AreaLockSmith">
-                </div>
-                        <label for="LengthEffective" class="col-sm-9 col-form-label ml-0 pl-0">Расчетная длина,мм:</label>
-               <div class="col-sm-3 mb-1">
-                            <input asp-for="CostWork.LengthEffective" type="text" class="form-control" id="LengthEffective" value="100" readonly>
-                        </div>
-                        <label for="PriceBandSaw" class="col-sm-9 col-form-label ml-0 pl-0">Цена лентопила,$:</label>
-               <div class="col-sm-3 mb-1">
-                            <input asp-for="CostWork.PriceBandSaw" type="text" class="form-control" id="PriceBandSaw" value="@Model.CostWork.PriceBandSaw">
-                        </div>
-                <label for="PricePlashka" class="col-sm-9 col-form-label ml-0 pl-0">Цена плашки,$:</label>
-                <div class="col-sm-3 mb-1">
-                    <input asp-for="CostWork.PricePlashka" type="text" class="form-control" id="PricePlashka" value="@Model.CostWork.PricePlashka">
-                </div>
-                        <label for="PriceCutter" class="col-sm-9 col-form-label ml-0 pl-0">Цена резца,$:</label>
-                <div class="col-sm-3 mb-1">
-                            <input asp-for="CostWork.PriceCutter" type="text" class="form-control" id="PriceCutter" value="@Model.CostWork.PriceCutter">
-                </div>
-                        <label for="TimeSetThreadRolling" class="col-sm-9 col-form-label ml-0 pl-0">Время настройки резьбонакатного станка,ч:</label>
-               <div class="col-sm-3 mb-1">
-                            <input asp-for="CostWork.TimeSetThreadRolling" type="text" class="form-control" id="TimeSetThreadRolling" value="@Model.CostWork.TimeSetThreadRolling">
-                        </div>
-                        <label for="TimeBend" class="col-sm-9 col-form-label ml-0 pl-0">Время гиба,ч:</label>
-               <div class="col-sm-3 mb-1">
-                            <input asp-for="CostWork.TimeBend" type="text" class="form-control" id="TimeBend" value="@Model.CostWork.TimeBend">
-                        </div>
-                        <label for="TimeSetBend" class="col-sm-9 col-form-label ml-0 pl-0">Время настройки гибочного станка,ч:</label>
-               <div class="col-sm-3 mb-1">
-                            <input asp-for="CostWork.TimeSetBend" type="text" class="form-control" id="TimeSetBend" value="@Model.CostWork.TimeSetBend">
-                        </div>
-                         <label for="Margin" class="col-sm-9 col-form-label ml-0 pl-0">Наценка,%:</label>
-               <div class="col-sm-3 mb-1">
-                            <input asp-for="MarginPercent" type="text" class="form-control" id="Margin" value="@Model.MarginPercent">
-                        </div>
-                         <label for="MarginFB" class="col-sm-9 col-form-label ml-0 pl-0">Наценка для > М30,%:</label>
-               <div class="col-sm-3 mb-1">
-                            <input asp-for="MarginFBPercent" type="text" class="form-control" id="MarginFB" value="@Model.MarginFBPercent">            
-                         </div>
-             </div>
-             <button id="liveToastBtn" type="submit" class="btn btn-dark mt-2">Изменить</button>
-    </form>
-  </div>
-</div>
-    </div>
+	<div class="col-sm-12 col-md-12">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Наим-ие</th>
+					<th scope="col">Размер,мм</th>
+					<th scope="col">Тиg профиля</th>
+					<th scope="col">Цена за метр,сом</th>
+					<th scope="col">Время накатки резьбы,ч</th>
+					<th scope="col">Время нарезки резьбы,ч</th>
+					<th scope="col">Время лентопила,ч</th>
+					<th scope="col">Длина полотна лентопила,мм</th>
+					<th scope="col">Плашка,шт</th>
+					<th scope="col">Резец,шт</th>
+					<th scope="col">Дата обнов-я</th>
+				</tr>
+			</thead>
+
+			@if (@Model.Materials.Count != 0)
+			{
+				<tbody>
+					@foreach (var item in Model.Materials)
+					{
+						<tr id="@item.Id">
+							<th scope="row">@item.Id</th>
+							<td>@item.Name</td>
+							<td>@(String.Format("{0} {1}", "Ø", item.Size))</td>
+							<td>@item.Type.ToString()</td>
+							<td>@item.PricePerMeter</td>
+							<td>@item.ThreadRollingHours</td>
+							<td>@item.ThreadCuttingHours</td>
+							<td>@item.BandSawHours</td>
+							<td>@item.BandSawBladeLengthMeters</td>
+							<td>@item.PlashkaCount</td>
+							<td>@item.CutterCount</td>
+							<td>@item.DateUpdate.ToLocalTime()</td>
+							<td>
+								<p class="btn-group-vertical">
+									<a class="btn btn-dark btn-sm" asp-controller="Material" asp-action="Edit" role="button" asp-route-id="@item.Id">Редактировать</a>
+									<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setIdForButton('@item.Id')">Удалить</button>
+								</p>
+							</td>
+						</tr>
+					}
+				</tbody>
+			}
+		</table>
+
+		<a class="btn btn-dark mb-3" asp-controller="Material" asp-action="Add" role="button">Добавить материал</a>
+	</div>
+
+	<div class="col-sm-0 col-md-0">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Стоимость работ и наценка</h5>
+
+				<form id="WorkCostForm">
+					<div class="row mb-3">
+						<label for="ExchangeDollar" class="col-sm-9 col-form-label ml-0 pl-0">Курс доллара,сом/$:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.ExchangeDollar" type="text" class="form-control" id="ExchangeDollar" value="@Model.WorkCost.ExchangeDollar">
+						</div>
+
+						<label for="PnrRollingThreadDollars" class="col-sm-9 col-form-label ml-0 pl-0">Накатка резьбы,$:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.PnrRollingThreadDollars" type="text" class="form-control" id="PnrRollingThreadDollars" value="@Model.WorkCost.PnrRollingThreadDollars">
+						</div>
+
+						<label for="PnrBendingAnchorDollars" class="col-sm-9 col-form-label ml-0 pl-0">Гибка анкеров,$:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.PnrBendingAnchorDollars" type="text" class="form-control" id="PnrBendingAnchorDollars" value="@Model.WorkCost.PnrBendingAnchorDollars">
+						</div>
+
+						<label for="PnrBandSawDollars" class="col-sm-9 col-form-label ml-0 pl-0">Лентопил,$:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.PnrBandSawDollars" type="text" class="form-control" id="PnrBandSawDollars" value="@Model.WorkCost.PnrBandSawDollars">
+						</div>
+
+						<label for="AreaLockSmithDollars" class="col-sm-9 col-form-label ml-0 pl-0">Слесарный участок,$:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.AreaLockSmithDollars" type="text" class="form-control" id="AreaLockSmithDollars" value="@Model.WorkCost.AreaLockSmithDollars">
+						</div>
+
+						<label for="EffectiveLengthMillimeters" class="col-sm-9 col-form-label ml-0 pl-0">Расчетная длина,мм:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.EffectiveLengthMillimeters" type="text" class="form-control" id="EffectiveLengthMillimeters" value="100" readonly>
+						</div>
+
+						<label for="BandSawPriceDollars" class="col-sm-9 col-form-label ml-0 pl-0">Цена лентопила,$:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.BandSawPriceDollars" type="text" class="form-control" id="BandSawPriceDollars" value="@Model.WorkCost.BandSawPriceDollars">
+						</div>
+
+						<label for="PlashkaPriceDollars" class="col-sm-9 col-form-label ml-0 pl-0">Цена плашки,$:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.PlashkaPriceDollars" type="text" class="form-control" id="PlashkaPriceDollars" value="@Model.WorkCost.PlashkaPriceDollars">
+						</div>
+
+						<label for="CutterPriceDollars" class="col-sm-9 col-form-label ml-0 pl-0">Цена резца,$:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.CutterPriceDollars" type="text" class="form-control" id="CutterPriceDollars" value="@Model.WorkCost.CutterPriceDollars">
+						</div>
+
+						<label for="SetThreadRollingHours" class="col-sm-9 col-form-label ml-0 pl-0">Время настройки резьбонакатного станка,ч:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.SetThreadRollingHours" type="text" class="form-control" id="SetThreadRollingHours" value="@Model.WorkCost.SetThreadRollingHours">
+						</div>
+
+						<label for="BendHours" class="col-sm-9 col-form-label ml-0 pl-0">Время гиба,ч:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.BendHours" type="text" class="form-control" id="BendHours" value="@Model.WorkCost.BendHours">
+						</div>
+
+						<label for="SetBendHours" class="col-sm-9 col-form-label ml-0 pl-0">Время настройки гибочного станка,ч:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="WorkCost.SetBendHours" type="text" class="form-control" id="SetBendHours" value="@Model.WorkCost.SetBendHours">
+						</div>
+
+						<label for="Margin" class="col-sm-9 col-form-label ml-0 pl-0">Наценка,%:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="MarginPercent" type="text" class="form-control" id="Margin" value="@Model.MarginPercent">
+						</div>
+
+						<label for="MarginFB" class="col-sm-9 col-form-label ml-0 pl-0">Наценка для > М30,%:</label>
+						<div class="col-sm-3 mb-1">
+							<input asp-for="MarginFBPercent" type="text" class="form-control" id="MarginFB" value="@Model.MarginFBPercent">
+						</div>
+					</div>
+
+					<button id="liveToastBtn" type="submit" class="btn btn-dark mt-2">Изменить</button>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-      <strong class="me-auto">Калькулятор анкеров</strong>
-      <small>Только что</small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-      Стоимость работ успешно изменена!
-    </div>
-  </div>
+	<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+		<div class="toast-header">
+			<strong class="me-auto">Калькулятор анкеров</strong>
+			<small>Только что</small>
+			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		</div>
+
+		<div class="toast-body">
+			Стоимость работ успешно изменена!
+		</div>
+	</div>
 </div>
 
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div id="liveToastUnLucky" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto">Калькулятор анкеров</strong>
-            <small>Только что</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            Стоимость работ не изменена! Все поля должны быть заполнены
-        </div>
-    </div>
-</div>
+	<div id="liveToastUnLucky" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+		<div class="toast-header">
+			<strong class="me-auto">Калькулятор анкеров</strong>
+			<small>Только что</small>
+			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		</div>
 
+		<div class="toast-body">
+			Стоимость работ не изменена! Все поля должны быть заполнены
+		</div>
+	</div>
+</div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Удаление материала</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div id="modal_body" class="modal-body">
-                Вы действительно хотите удалить?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
-                <button id="btnDelCard" type="button" class="btn btn-danger">Да</button>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Удаление материала</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<div id="modal_body" class="modal-body">
+				Вы действительно хотите удалить?
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+				<button id="btnDelCard" type="button" class="btn btn-danger">Да</button>
+			</div>
+		</div>
+	</div>
 </div>
 
-
-
-
 <script>
-    let materialLine;
+	let materialLine;
 
-    function setIdForButton(id) {
-        console.log(id)
-        materialLine = document.getElementById(id)
-        var nameMaterial = materialLine.getElementsByTagName('td')[0].textContent;
-        var sizeMaterial = materialLine.getElementsByTagName('td')[1].textContent;
-        var btnDelCard = document.getElementById("btnDelCard");
-        var modal_body = document.getElementById("modal_body");
-        modal_body.innerHTML = 'Вы действительно хотите удалить материал ' + nameMaterial + ' '+sizeMaterial+' ?';
-        btnDelCard.setAttribute('onclick', 'deleteMaterial("' + id + '");');
-    }
+	function setIdForButton(id)
+	{
+		console.log(id);
+		materialLine = document.getElementById(id);
 
-  function deleteMaterial(id) {
-    event.preventDefault();
-    $.ajax(
-               {
-                   url: '@Url.Action("Delete","Material")',
-                   type: 'POST',
-                   data: { 'id': id },
-                   success: function(response)
-                   {
-                        if(response.success)
-                        {
-                          materialLine.remove();
-                        }
-                   }
-            }
-           )
-    }
+		var nameMaterial = materialLine.getElementsByTagName('td')[0].textContent;
+		var sizeMaterial = materialLine.getElementsByTagName('td')[1].textContent;
+		var btnDelCard = document.getElementById("btnDelCard");
+		var modal_body = document.getElementById("modal_body");
 
-    document.addEventListener("DOMContentLoaded", function(event) {
-        $("#ExchangeDollar").inputmask({
-            alias: 'decimal',
-            allowMinus: false,
-            digits: 4,
-            max: 9999.9999
-        });
-        $("#PnrRollingThread").inputmask({
-            alias: 'decimal',
-            allowMinus: false,
-            digits: 4,
-            max: 9999.9999
-        });
-        $("#PnrBendingAnchor").inputmask({
-            alias: 'decimal',
-            allowMinus: false,
-            digits: 4,
-            max: 9999.9999
-        });
-        $("#PnrBandSaw").inputmask({
-            alias: 'decimal',
-            allowMinus: false,
-            digits: 4,
-            max: 9999.9999
-        });
-        $("#AreaLockSmith").inputmask({
-            alias: 'decimal',
-            allowMinus: false,
-            digits: 4,
-            max: 9999.9999
-        });
-        $("#PricePlashka").inputmask({
-            alias: 'decimal',
-            allowMinus: false,
-            digits: 4,
-            max: 9999.9999
-        });
-        $("#PriceCutter").inputmask({
-            alias: 'decimal',
-            allowMinus: false,
-            digits: 4,
-            max: 9999.9999
-        });
-        $("#PriceBandSaw").inputmask({
-            alias: 'decimal',
-            allowMinus: false,
-            digits: 4,
-            max: 9999.9999
-        });
-        $("#TimeSetThreadRolling").inputmask({
-            alias: 'decimal',
-            allowMinus: false,
-            digits: 4,
-            max: 9999.9999
-        });
-        $("#TimeBend").inputmask({
-            alias: 'decimal',
-            allowMinus: false,
-            digits: 4,
-            max: 9999.9999
-        });
-        $("#TimeSetBend").inputmask({
-            alias: 'decimal',
-            allowMinus: false,
-            digits: 4,
-            max: 9999.9999
-        });
-        $("#LengthEffective").inputmask({
-            alias: 'numeric',
-            allowMinus: false,
-            digits: 0,
-            max: 999
-        });
-        $("#Margin").inputmask({
-            alias: 'numeric',
-            allowMinus: false,
-            digits: 0,
-            max: 999
-        });
-        $("#MarginFB").inputmask({
-            alias: 'numeric',
-            allowMinus: false,
-            digits: 0,
-            max: 999
-        });
-        });
+		modal_body.innerHTML = 'Вы действительно хотите удалить материал ' + nameMaterial + ' '+sizeMaterial+' ?';
+		btnDelCard.onclick = () => deleteMaterial(id);
+	}
 
-        var costWorkForm = document.getElementById("CostWorkForm");
-        costWorkForm.addEventListener("submit", function formSubmit(event){
-            let inputMargin = document.getElementById("Margin");
-            let inputMarginFB = document.getElementById("MarginFB");
-            if (inputMargin.value.trim() === "") {
-                inputMargin.value = 0;
-            }
-            if (inputMarginFB.value.trim() === "") {
-                inputMarginFB.value = 0;
-            }
-            event.preventDefault();    
-            var formData = new FormData(costWorkForm)
-            $.ajax(
-            {
-                url: '@Url.Action("EditCostWork", "Material")',
-                type: 'POST',
-                contentType: false,
-                processData: false,
-                data: formData,          
-                success: function (response)
-                {
-                    var toast;
-                    if(response.success)
-                    {                  
-                        var toastTrigger = document.getElementById('liveToastBtn')
-                        var toastLiveExample = document.getElementById('liveToast')                               
-                        toast = new bootstrap.Toast(toastLiveExample)
-                              
-                    } else {
-                        var toastLiveUnluck = document.getElementById('liveToastUnLucky')
-                        toast = new bootstrap.Toast(toastLiveUnluck)                        
-                    }  
-                    toast.show()
-                }
-            }
-            )
-        }        
-        )
+	function deleteMaterial(id)
+	{
+		event.preventDefault();
+		$.ajax(
+		{
+			url: '@Url.Action("Delete","Material")',
+			type: 'POST',
+			data: { 'id': id },
+			success: function (response)
+			{
+				if (response.success)
+					materialLine.remove();
+			}
+		});
+	}
+
+	document.addEventListener("DOMContentLoaded", function (event)
+	{
+		$("#ExchangeDollar").inputmask(
+		{
+			alias: 'decimal',
+			allowMinus: false,
+			digits: 4,
+			max: 9999.9999
+		});
+
+		$("#PnrRollingThreadDollarsDollars").inputmask(
+		{
+			alias: 'decimal',
+			allowMinus: false,
+			digits: 4,
+			max: 9999.9999
+		});
+
+		$("#PnrBendingAnchorDollars").inputmask(
+		{
+			alias: 'decimal',
+			allowMinus: false,
+			digits: 4,
+			max: 9999.9999
+		});
+
+		$("#PnrBandSawDollars").inputmask(
+		{
+			alias: 'decimal',
+			allowMinus: false,
+			digits: 4,
+			max: 9999.9999
+		});
+
+		$("#AreaLockSmithDollars").inputmask(
+		{
+			alias: 'decimal',
+			allowMinus: false,
+			digits: 4,
+			max: 9999.9999
+		});
+
+		$("#PlashkaPriceDollars").inputmask(
+		{
+			alias: 'decimal',
+			allowMinus: false,
+			digits: 4,
+			max: 9999.9999
+		});
+
+		$("#CutterPriceDollars").inputmask(
+		{
+			alias: 'decimal',
+			allowMinus: false,
+			digits: 4,
+			max: 9999.9999
+		});
+
+		$("#BandSawPriceDollars").inputmask(
+		{
+			alias: 'decimal',
+			allowMinus: false,
+			digits: 4,
+			max: 9999.9999
+		});
+
+		$("#SetThreadRollingHours").inputmask(
+		{
+			alias: 'decimal',
+			allowMinus: false,
+			digits: 4,
+			max: 9999.9999
+		});
+
+		$("#BendHours").inputmask(
+		{
+			alias: 'decimal',
+			allowMinus: false,
+			digits: 4,
+			max: 9999.9999
+		});
+
+		$("#SetBendHours").inputmask(
+		{
+			alias: 'decimal',
+			allowMinus: false,
+			digits: 4,
+			max: 9999.9999
+		});
+
+		$("#EffectiveLengthMillimeters").inputmask(
+		{
+			alias: 'numeric',
+			allowMinus: false,
+			digits: 0,
+			max: 999
+		});
+
+		$("#Margin").inputmask(
+		{
+			alias: 'numeric',
+			allowMinus: false,
+			digits: 0,
+			max: 999
+		});
+
+		$("#MarginFB").inputmask(
+		{
+			alias: 'numeric',
+			allowMinus: false,
+			digits: 0,
+			max: 999
+		});
+	});
+
+	var workCostForm = document.getElementById("WorkCostForm");
+	workCostForm.addEventListener("submit", function formSubmit(event)
+	{
+		event.preventDefault();
+
+		let inputMargin = document.getElementById("Margin");
+		let inputMarginFB = document.getElementById("MarginFB");
+
+		if (inputMargin.value.trim() === "")
+			inputMargin.value = 0;
+
+		if (inputMarginFB.value.trim() === "")
+			inputMarginFB.value = 0;
+
+		var formData = new FormData(workCostForm);
+		$.ajax(
+		{
+			url: '@Url.Action("EditWorkCost", "Material")',
+			type: 'POST',
+			contentType: false,
+			processData: false,
+			data: formData,
+			success: function (response)
+			{
+				var toast;
+				if (response.success)
+				{
+					var toastTrigger = document.getElementById('liveToastBtn');
+					var toastLiveExample = document.getElementById('liveToast');
+					toast = new bootstrap.Toast(toastLiveExample);
+				}
+				else
+				{
+					var toastLiveUnluck = document.getElementById('liveToastUnLucky');
+					toast = new bootstrap.Toast(toastLiveUnluck);
+				}
+				toast.show();
+			}
+		});
+	});
 </script>
-

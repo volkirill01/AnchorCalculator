@@ -1,99 +1,107 @@
 ﻿@model UI.AnchorCalculator.ViewModels.AnchorViewModel
 
 <style>
-    svg {
-        width: 100%;
-        height: auto;
-    }
+	svg {
+		width: 100%;
+		height: auto;
+	}
 </style>
 
 <div class="card mb-3" style="max-width: 840px;" id="cardDetails">
-  <div id="row_details" class="row g-0">
-    <div class="col-md-7">
-      <div class="img-fluid rounded-start"></div>
-    </div>
-    <div class="col-md-5">
-      <div class="card-body">
-        <div id="descript"><h5 class="card-title"># @Model.Anchor.Id</h5>
-        <p class="card-text">Диаметр: @Model.Anchor.Diameter мм</p>
-        <p class="card-text">Длина: @Model.Anchor.Length мм</p>
-        <p class="card-text">Диаметр резьбы: @Model.Anchor.ThreadDiameter мм</p>
-        <p class="card-text">Шаг резьбы: @Model.Anchor.ThreadStep мм</p>
-        <p class="card-text">Длина резьбы: @Model.Anchor.ThreadLength мм</p>
-        <p class="card-text">Длина загиба: @Model.Anchor.BendLength мм</p>
-        <p class="card-text">Радиус загиба: @Model.Anchor.BendRadius мм</p>
-        <p class="card-text" id="billetLength">Длина заготовки: @Math.Round(Model.Anchor.BilletLength, MidpointRounding.AwayFromZero) мм</p>
-        <p class="card-text">Кол-во: @Model.Anchor.Quantity шт</p>
-        <p class="card-text">Вес 1 шт: @Math.Round(Model.Anchor.Weight, 2) кг</p>
-        <p class="card-text">Вес @Model.Anchor.Quantity шт: @Math.Round(Model.Anchor.BatchWeight, MidpointRounding.AwayFromZero) кг</p>
-        <p class="card-text">Себестоимость: @Math.Round(Model.Anchor.Sebes, MidpointRounding.AwayFromZero) сом</p>
-        <p class="card-text">Общая cебестоимость: @Math.Round(Model.Anchor.BatchSebes, MidpointRounding.AwayFromZero) сом</p>          
-        <p class="card-text">Цена: @Math.Round(Model.Anchor.Price, MidpointRounding.AwayFromZero) сом</p>
-        <p class="card-text">Общая стоимость: @Math.Round(Model.Anchor.Amount, MidpointRounding.AwayFromZero) сом</p>
-        <p class="card-text">Цена мат-ла на 1 шт: @Math.Round(Model.Anchor.PriceMaterial, MidpointRounding.AwayFromZero) сом</p>
-        <p class="card-text">Цена мат-ла на @Model.Anchor.Quantity шт: @Math.Round(Model.Anchor.BatchPriceMaterial, MidpointRounding.AwayFromZero) сом</p>
-        <p class="card-text" id="material">Материал: @Model.MaterialName</p>
-        <p class="card-text" id="author">Исполнитель: @Model.UserName</p>
-        <p class="card-text">Цена накатки/нарезки резьбы: @Math.Round(Model.Anchor.BatchPriceProductionThread, MidpointRounding.AwayFromZero) сом</p>
-        <p class="card-text">Цена гибки: @Math.Round(Model.Anchor.BatchPriceProductionBend, MidpointRounding.AwayFromZero) сом</p>
-        <p class="card-text">Цена лентопила: @Math.Round(Model.Anchor.BatchPriceProductionBandSaw, MidpointRounding.AwayFromZero) сом</p>
-        @if (Model.Anchor.ProductionId != 0)
-        {
-            <p class="card-text">Время накатки/нарезки резьбы: @Math.Round(Model.Anchor.TimeProductionThread, 2) ч</p>
-            <p class="card-text">Время гибки: @Math.Round(Model.Anchor.TimeProductionBend, 2) ч</p>
-            <p class="card-text">Время лентопила: @Math.Round(Model.Anchor.TimeProductionBandSaw, 2) ч</p>
-        }
-        <p class="card-text">Общая длина: @Math.Round(Model.Anchor.LengthFull, 1) м</p>
-        <p class="card-text"><small class="text-muted">Дата создания: @Model.Anchor.DateCreate</small></p></div>     
-      </div>
-    </div>
-  </div>
-<div class="btn-group" role="group" aria-label="Basic mixed styles example">
-        <button type="button" class="btn btn-secondary" onclick="PrintBlank(@Model.Anchor.Id);">Рез-ты расчета</button>
-        <button type="button" class="btn btn-dark" onclick="PrintDraw(@Model.Anchor.Id);">Чертеж</button>
-</div>
+	<div id="row_details" class="row g-0">
+		<div class="col-md-7">
+			<div class="img-fluid rounded-start"></div>
+		</div>
+
+		<div class="col-md-5">
+			<div class="card-body">
+				<div id="descript">
+					<h5 class="card-title"># @Model.Anchor.Id</h5>
+					<p class="card-text">Диаметр: @Model.Anchor.DiameterMillimeters мм</p>
+					<p class="card-text">Длина: @Model.Anchor.LengthMillimeters мм</p>
+					<p class="card-text">Диаметр резьбы: @Model.Anchor.ThreadDiameterMillimeters мм</p>
+					<p class="card-text">Шаг резьбы: @Model.Anchor.ThreadStepMillimeters мм</p>
+					<p class="card-text">Длина резьбы: @Model.Anchor.ThreadLengthMillimeters мм</p>
+					<p class="card-text">Длина загиба: @Model.Anchor.BendLengthMillimeters мм</p>
+					<p class="card-text">Радиус загиба: @Model.Anchor.BendRadiusMillimeters мм</p>
+					<p class="card-text" id="billetLengthMillimeters">Длина заготовки: @Model.Anchor.BilletLengthMillimeters мм</p>
+					<p class="card-text">Кол-во: @Model.Anchor.Quantity шт</p>
+					<p class="card-text">Вес 1 шт: @Model.Anchor.WeightKg, 2) кг</p>
+					<p class="card-text">Вес @Model.Anchor.Quantity шт: @Model.Anchor.BatchWeightKg кг</p>
+					<p class="card-text">Себестоимость: @Model.Anchor.Sebes сом</p>
+					<p class="card-text">Общая cебестоимость: @Model.Anchor.BatchSebes сом</p>
+					<p class="card-text">Цена: @Model.Anchor.Price сом</p>
+					<p class="card-text">Общая стоимость: @Model.Anchor.TotalCost сом</p>
+					<p class="card-text">Цена мат-ла на 1 шт: @Model.Anchor.PriceMaterial сом</p>
+					<p class="card-text">Цена мат-ла на @Model.Anchor.Quantity шт: @Model.Anchor.BatchPriceMaterial сом</p>
+					<p class="card-text" id="material">Материал: @Model.MaterialName</p>
+					<p class="card-text" id="author">Исполнитель: @Model.UserName</p>
+					<p class="card-text">Цена накатки/нарезки резьбы: @Model.Anchor.BatchPriceProductionThread сом</p>
+					<p class="card-text">Цена гибки: @Model.Anchor.BatchPriceProductionBend сом</p>
+					<p class="card-text">Цена лентопила: @Model.Anchor.BatchPriceProductionBandSaw сом</p>
+					@if (Model.Anchor.ProductionId != 0)
+					{
+						<p class="card-text">Время накатки/нарезки резьбы: @Model.Anchor.ProductionThreadHours, 2) ч</p>
+						<p class="card-text">Время гибки: @Model.Anchor.ProductionBendHours, 2) ч</p>
+						<p class="card-text">Время лентопила: @Model.Anchor.ProductionBandSawHours, 2) ч</p>
+					}
+					<p class="card-text">Общая длина: @Model.Anchor.FullLengthMeters, 1) м</p>
+					<p class="card-text"><small class="text-muted">Дата создания: @Model.Anchor.DateCreate</small></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="btn-group" role="group" aria-label="Basic mixed styles example">
+		<button type="button" class="btn btn-secondary" onclick="PrintBlank(@Model.Anchor.Id);">Рез-ты расчета</button>
+		<button type="button" class="btn btn-dark" onclick="PrintDraw(@Model.Anchor.Id);">Чертеж</button>
+	</div>
 </div>
 
 <div id="drawing_pdf" class="card mb-3" style="display:none">
-    <div id="svg_pdf" class="card-img-top"></div>
-    <div id="notes_pdf" class="card-body"></div>
-    <div id="stamp_pdf" class="card-body"></div>
+	<div id="svg_pdf" class="card-img-top"></div>
+	<div id="notes_pdf" class="card-body"></div>
+	<div id="stamp_pdf" class="card-body"></div>
 </div>
 
 <div id="blank_pdf" class="card mb-3" style="display:none">
-    <div class="row g-0">
-        <div class="col-md-4">
-            <div id="svg_blank_pdf" class="card-img"></div>
-        </div>
-        <div class="col-md-8 card-img-overlay">
-            <div id="listBlank" class="card-body pb-5"></div>
-        </div>
-    </div>
+	<div class="row g-0">
+		<div class="col-md-4">
+			<div id="svg_blank_pdf" class="card-img"></div>
+		</div>
+
+		<div class="col-md-8 card-img-overlay">
+			<div id="listBlank" class="card-body pb-5"></div>
+		</div>
+	</div>
 </div>
 
 @section Scripts
 {
-   <script>
-      document.addEventListener('DOMContentLoaded', function(){
-           var id = @Model.Anchor.Id;
-           $.ajax(
-                  {
-                      url: '@Url.Action("GetAnchorJsonResult", "Anchor")',
-                      type: 'GET',
-                      data: {'id': id},
-                      success: function (response) {
-                      if(response.success)
-                      {
-                           let divImg = document.getElementsByClassName("img-fluid")[0];
-                           divImg.innerHTML = response.anchor.svgElement;
-                           document.getElementById("svg_pdf").innerHTML = response.anchor.svgElement;
-                           document.getElementById("svg_blank_pdf").innerHTML = response.anchor.svgElement;
-                           document.getElementById("listBlank").innerHTML = document.getElementById("descript").innerHTML
-                        }}})
+	<script>
+		document.addEventListener('DOMContentLoaded', function ()
+		{
+			var id = @Model.Anchor.Id;
+			$.ajax(
+			{
+				url: '@Url.Action("GetAnchorJsonResult", "Anchor")',
+				type: 'GET',
+				data: {'id': id},
+				success: function (response)
+				{
+					if (response.success)
+					{
+						let divImg = document.getElementsByClassName("img-fluid")[0];
+						divImg.innerHTML = response.anchor.svgElement;
+						document.getElementById("svg_pdf").innerHTML = response.anchor.svgElement;
+						document.getElementById("svg_blank_pdf").innerHTML = response.anchor.svgElement;
+						document.getElementById("listBlank").innerHTML = document.getElementById("descript").innerHTML
+					}
+				}
+			});
+		});
+	</script>
 
-      });
-   </script>
-
-   <script type="text/javascript" src="~/js/print.js"></script>
-   <script type="text/javascript" src="~/js/printDrawBlank.js"></script>
+	<script type="text/javascript" src="~/js/print.js"></script>
+	<script type="text/javascript" src="~/js/printDrawBlank.js"></script>
 }

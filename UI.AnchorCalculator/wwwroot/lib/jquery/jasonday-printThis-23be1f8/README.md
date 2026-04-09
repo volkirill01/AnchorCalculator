@@ -84,7 +84,7 @@ jQuery objects are cloned rather than moved.
 
 #### base
 The `base` option allows several behaviors.
-By default it is `false`, meaning a the current document will be set as the base URL.  
+By default it is `false`, meaning a the current document will be set as the base URL.
 
 If set to `true`, a `<base>` attribute will be set if one exists on the page.
 If none is found, the tag is omitted, which may be suitable for pages with Fully Qualified URLs.
@@ -95,7 +95,7 @@ When passed as a string, it will be used as the `href` attribute of a `<base>` t
 This setting copies the current values of form elements into the printThis iframe. On by default.
 
 #### canvas
-Canvas elements will be copied to the printThis iframe 
+Canvas elements will be copied to the printThis iframe
 and you can call printThis directly on a canvas element if you choose.
 
 #### doctypeString
@@ -105,23 +105,23 @@ A doctype string to use on the printThis iframe. Defaults to the HTML5 doctype.
 Deletes script tags from the content to avoid errors or unexpected behavior during print. Disabled by default.
 
 #### copyTagClasses: true
-Copies classes from the body and html tags into the printThis iframe.  
+Copies classes from the body and html tags into the printThis iframe.
 Accepts `true`, `"b"`, `"h"`, or `"bh"` to test for `"b"` and `"h"` for body and html tags, respectively.
 
 #### copyTagStyles: true
 Copies style attributes from the body and html tags into the printThis iframe.
 Added to provide support for CSS Variables.
-Accepts `true`, `"b"`, `"h"`, or `"bh"` to test for `"b"` and `"h"` for body and html tags, respectively.  
+Accepts `true`, `"b"`, `"h"`, or `"bh"` to test for `"b"` and `"h"` for body and html tags, respectively.
 
 #### beforePrintEvent: null
-Function to run inside the iframe before the print occurs.  
+Function to run inside the iframe before the print occurs.
 *This function has not been validated on all browsers.*
 
 #### beforePrint: null
 Function called before the iframe is populated with content.
 
 #### afterPrint: null
-Function called after the print and before the iframe is removed from the page.  
+Function called after the print and before the iframe is removed from the page.
 This is called even if `debug: true`, which does not remove the iframe.
 
 ### All Options

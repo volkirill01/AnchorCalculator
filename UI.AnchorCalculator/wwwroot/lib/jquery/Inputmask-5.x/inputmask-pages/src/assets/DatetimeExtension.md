@@ -14,69 +14,69 @@ Format used to input the date
 
 ex:
 
-- dd/mm/yyyy  
-- mm/dd/yyyy  
-- dd.mm.yyyy HH:MM:ss  
+- dd/mm/yyyy
+- mm/dd/yyyy
+- dd.mm.yyyy HH:MM:ss
 
 ### Supported symbols
 
-- d  
+- d
 Day of the month as digits; no leading zero for single-digit days.
-- dd  
+- dd
 Day of the month as digits; leading zero for single-digit days.
-- ddd  
+- ddd
 Day of the week as a three-letter abbreviation.
-- dddd  
+- dddd
 Day of the week as its full name.
-- m  
+- m
 Month as digits; no leading zero for single-digit months.
-- mm  
+- mm
 Month as digits; leading zero for single-digit months.
-- mmm  
+- mmm
 Month as a three-letter abbreviation.
-- mmmm  
+- mmmm
 Month as its full name.
-- yy  
+- yy
 Year as last two digits; leading zero for years less than 10.
-- yyyy  
+- yyyy
 Year as 4 digits.
-- h  
+- h
 Hours; no leading zero for single-digit hours (12-hour clock).
-- hh  
+- hh
 Hours; leading zero for single-digit hours (12-hour clock).
-- hx  
+- hx
 Hours; no limit; x = number of digits ~ use as h2, h3, ...
--H  
+-H
 Hours; no leading zero for single-digit hours (24-hour clock).
-- HH  
+- HH
 Hours; leading zero for single-digit hours (24-hour clock).
-- Hx  
+- Hx
 Hours; no limit; x = number of digits ~ use as H2, H3, ...
-- M  
+- M
 Minutes; no leading zero for single-digit minutes. Uppercase M unlike CF timeFormat's m to avoid conflict with months.
-- MM  
+- MM
 Minutes; leading zero for single-digit minutes. Uppercase MM unlike CF timeFormat's mm to avoid conflict with months.
-- s  
+- s
 Seconds; no leading zero for single-digit seconds.
-- ss  
+- ss
 Seconds; leading zero for single-digit seconds.
-- l  
+- l
 Milliseconds. 3 digits.
-- L  
+- L
 Milliseconds. 2 digits.
-- t  
+- t
 Lowercase, single-character time marker string: a or p.
-- tt  
+- tt
 Two-character time marker string: am or pm.
-- T  
+- T
 Single-character time marker string: A or P.
-- TT  
+- TT
 Two-character time marker string: AM or PM.
-- Z  
+- Z
 US timezone abbreviation, e.g. EST or MDT. With non-US timezones or in the Opera browser, the GMT/UTC offset is returned, e.g. GMT-0500
-- o  
+- o
 GMT/UTC timezone offset, e.g. -0500 or +0230.
-- S  
+- S
 The date's ordinal suffix (st, nd, rd, or th). Works well with d.
 
 ### Optional parts
@@ -96,8 +96,8 @@ Unmasking format
 
 ### min
 
-Minimum value.  
-This needs to be in the same format as the inputformat.  
+Minimum value.
+This needs to be in the same format as the inputformat.
 
 ### max
 
@@ -106,8 +106,8 @@ This needs to be in the same format as the inputformat.
 
 ### prefillYear
 
-Enable/disable prefilling of the year.  
+Enable/disable prefilling of the year.
 Default: true
 
-Although you can just over type the proposed value without deleting, many seems to see a problem with the year prediction.  
+Although you can just over type the proposed value without deleting, many seems to see a problem with the year prediction.
 This options is to disable this feature.

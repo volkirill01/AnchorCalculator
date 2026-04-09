@@ -1,14 +1,13 @@
 ﻿using NLog;
-using ILogger = NLog.ILogger;
 
-namespace UI.AnchorCalculator.Extensions
+namespace UI.AnchorCalculator.Extensions;
+
+public class LoggerManager
 {
-    public class LoggerManager
-    {
-        private static ILogger logger = LogManager.GetCurrentClassLogger();
-        public void LogDebug(string message) => logger.Debug(message);
-        public void LogError(string message) => logger.Error(message);
-        public void LogInfo(string message) => logger.Info(message);
-        public void LogWarn(string message) => logger.Warn(message);
-    }
+	private static NLog.ILogger m_Logger = LogManager.GetCurrentClassLogger();
+
+	public void LogDebug(string message) => m_Logger.Debug(message);
+	public void LogError(string message) => m_Logger.Error(message);
+	public void LogInfo(string message) => m_Logger.Info(message);
+	public void LogWarn(string message) => m_Logger.Warn(message);
 }

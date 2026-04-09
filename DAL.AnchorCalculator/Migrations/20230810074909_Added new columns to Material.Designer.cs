@@ -82,7 +82,7 @@ namespace DAL.AnchorCalculator.Migrations
                     b.Property<double>("PriceMaterial")
                         .HasColumnType("double");
 
-                    b.Property<double>("PricePerMetr")
+                    b.Property<double>("PricePerMeter")
                         .HasColumnType("double");
 
                     b.Property<int>("Production")
@@ -106,7 +106,7 @@ namespace DAL.AnchorCalculator.Migrations
                     b.Property<int>("ThreadLength")
                         .HasColumnType("int");
 
-                    b.Property<int>("ThreadLengthSecond")
+                    b.Property<int>("ThreadSecondLengthMillimeters")
                         .HasColumnType("int");
 
                     b.Property<float>("ThreadStep")
@@ -143,7 +143,7 @@ namespace DAL.AnchorCalculator.Migrations
                     b.Property<DateTime>("DateUpdate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<double>("LengthBladeBandSaw")
+                    b.Property<double>("BandSawBladeLengthMeters")
                         .HasColumnType("double");
 
                     b.Property<string>("Name")
@@ -152,19 +152,19 @@ namespace DAL.AnchorCalculator.Migrations
                     b.Property<double>("Plashka")
                         .HasColumnType("double");
 
-                    b.Property<double>("PricePerMetr")
+                    b.Property<double>("PricePerMeter")
                         .HasColumnType("double");
 
                     b.Property<double>("Size")
                         .HasColumnType("double");
 
-                    b.Property<double>("TimeBandSaw")
+                    b.Property<double>("BandSawHours")
                         .HasColumnType("double");
 
-                    b.Property<double>("TimeThreadCutting")
+                    b.Property<double>("ThreadCuttingHours")
                         .HasColumnType("double");
 
-                    b.Property<double>("TimeThreadRolling")
+                    b.Property<double>("ThreadRollingHours")
                         .HasColumnType("double");
 
                     b.Property<int>("Type")

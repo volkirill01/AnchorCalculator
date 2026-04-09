@@ -23,7 +23,7 @@ describe("Typing Specifications", function() {
 			
 			it("should have correct caret position",function(){
 				var caret=input.caret();
-				expect(caret.begin).toEqual(1);            
+				expect(caret.begin).toEqual(1);
 				expect(caret.end).toEqual(1);
 			});
 		});
@@ -50,7 +50,7 @@ describe("Typing Specifications", function() {
 			
 			it("should have correct caret position",function(){
 				var caret=input.caret();
-				expect(caret.begin).toEqual(1);            
+				expect(caret.begin).toEqual(1);
 				expect(caret.end).toEqual(1);
 			});
 		});		

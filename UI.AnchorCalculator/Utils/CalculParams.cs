@@ -1,37 +1,45 @@
 ﻿using Core.AnchorCalculator.Entities;
 using Core.AnchorCalculator.Entities.Enums;
 
-namespace UI.AnchorCalculator.Utils
+namespace UI.AnchorCalculator.Utils;
+
+static class CalculParams
 {
-    static class CalculParams
-    {
-        public static double GetLengthBillet(Anchor? anchor = null)
-        {
-            anchor ??= new Anchor();
-            double lengthBillet;
-            double kFactor = 1 / (Math.Log(1 + (double)anchor.Diameter / anchor.BendRadius)) - anchor.BendRadius / anchor.Diameter; // K-factor
-            anchor.LengthPathRoller = Math.PI * anchor.BendRadius * 1 / 2;
+	public static double GetLengthBillet(Anchor? anchor = null)
+	{
+		anchor ??= new Anchor();
 
-            if (anchor.Kind != Kind.Straight)
-                anchor.LengthBeforeEndPathRoller = anchor.Length - anchor.BendRadius + anchor.LengthPathRoller;
-            else
-                anchor.LengthBeforeEndPathRoller = 0;
+		double lengthBillet;
+		double kFactor = 1 / (Math.Log(1 + (double)anchor.DiameterMillimeters / anchor.BendRadiusMillimeters)) - anchor.BendRadiusMillimeters / anchor.DiameterMillimeters;
+		anchor.RollerPathLengthMillimeters = Math.PI * anchor.BendRadiusMillimeters * 1 / 2;
 
-            if (anchor.Kind == Kind.Bend)
-            {
-                lengthBillet = anchor.Length - anchor.BendRadius - anchor.Diameter
-                    + ((Math.PI * (anchor.BendRadius + kFactor * anchor.Diameter) * 1 / 2)
-                    + (anchor.BendLength - (anchor.Diameter + anchor.BendRadius)));
-            }
-            else if (anchor.Kind == Kind.BendDouble)
-            {
-                lengthBillet = anchor.Length + anchor.LengthSecond
-                    - 2 * (anchor.BendRadius + anchor.Diameter - (Math.PI * (anchor.BendRadius + kFactor * anchor.Diameter) * 1 / 2))
-                    + anchor.BendLength - 2 * (anchor.Diameter + anchor.BendRadius);
-            }
-            else
-                lengthBillet = anchor.Length;
-            return lengthBillet;
-        }
-    }
+		if (anchor.Kind == AnchorKind.Straight)
+			anchor.RollerPathLengthMillimetersBeforeEnd = 0;
+		else
+			anchor.RollerPathLengthMillimetersBeforeEnd = anchor.LengthMillimeters - anchor.BendRadiusMillimeters + anchor.RollerPathLengthMillimeters;
+
+		switch (anchor.Kind)
+		{
+			case AnchorKind.SingleBend:
+			{
+				lengthBillet = anchor.LengthMillimeters - anchor.BendRadiusMillimeters - anchor.DiameterMillimeters
+					+ ((Math.PI * (anchor.BendRadiusMillimeters + kFactor * anchor.DiameterMillimeters) * 1 / 2)
+					+ (anchor.BendLengthMillimeters - (anchor.DiameterMillimeters + anchor.BendRadiusMillimeters)));
+				break;
+			}
+			case AnchorKind.DoubleBend:
+			{
+				lengthBillet = anchor.LengthMillimeters + anchor.SecondLengthMillimeters
+					- 2 * (anchor.BendRadiusMillimeters + anchor.DiameterMillimeters - (Math.PI * (anchor.BendRadiusMillimeters + kFactor * anchor.DiameterMillimeters) * 1 / 2))
+					+ anchor.BendLengthMillimeters - 2 * (anchor.DiameterMillimeters + anchor.BendRadiusMillimeters);
+				break;
+			}
+			default:
+			{
+				lengthBillet = anchor.LengthMillimeters;
+				break;
+			}
+		}
+		return lengthBillet;
+	}
 }

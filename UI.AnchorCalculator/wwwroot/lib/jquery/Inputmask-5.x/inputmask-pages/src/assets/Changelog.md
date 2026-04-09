@@ -92,9 +92,9 @@
 - Fix caret shift with negative numbers in numeric aliases
 - enhance alternation logic
 - update datetime alias
-- datetime prefillYear option  
-    Enable/disable prefilling of the year.  
-    Although you can just over type the proposed value without deleting, many seems to see a problem with the year prediction.  
+- datetime prefillYear option
+    Enable/disable prefilling of the year.
+    Although you can just over type the proposed value without deleting, many seems to see a problem with the year prediction.
     This options is to disable this feature.
 - better handle maxLength
 
@@ -212,23 +212,23 @@ HOT FIX: jqlite dependency error
 
 ### Updates
 
-- **postValidation**  
-  - add inputchar to arguments  
-  - also validate when the result is false**  
+- **postValidation**
+  - add inputchar to arguments
+  - also validate when the result is false**
 - **change behavior of keepStatic option**
-  - multiple masks => default true  
+  - multiple masks => default true
   - all other masks => default false
-- add more tokens for datetime format  
+- add more tokens for datetime format
 - refactor inputfallbackevent
 - **drop colormask support**
-- **drop disablePredictiveText option (was hack via colorMask)**  
+- **drop disablePredictiveText option (was hack via colorMask)**
 - ignore generated statics in revalidateMask
 - fix mask curruption when alternating and using jitmasking
-- Casing option will also allow case insensitive entry for static symbols  
+- Casing option will also allow case insensitive entry for static symbols
 - **refactor numeric alias**
 - package & bundling
 - enhance regex alternations. ex: [01][0-9]|2[0-3] => ([01][0-9]|2[0-3])
-- extend command object  
+- extend command object
   - rewritePosition
 - revert insert-mode caret as selection instead of colored caret
   - make delete/backspace behave like normal

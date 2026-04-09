@@ -4,29 +4,19 @@ using UI.AnchorCalculator.Models;
 
 namespace UI.AnchorCalculator.Controllers
 {
-    public class HomeController : Controller
-    {
-        public readonly ILogger<HomeController> _logger;
+	public class HomeController : Controller
+	{
+		public readonly ILogger<HomeController> m_Logger;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+		public HomeController(ILogger<HomeController> logger)
+		{
+			m_Logger = logger;
+		}
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+		public IActionResult Index() => View();
+		public IActionResult Privacy() => View();
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		public IActionResult Error() => View(new ErrorViewModel{ RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+	}
 }

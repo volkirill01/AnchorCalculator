@@ -9,484 +9,484 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.AnchorCalculator.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
-    {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
+	[DbContext(typeof(ApplicationDbContext))]
+	partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+	{
+		protected override void BuildModel(ModelBuilder modelBuilder)
+		{
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.15")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+			modelBuilder
+				.HasAnnotation("ProductVersion", "6.0.15")
+				.HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Core.AnchorCalculator.Entities.Anchor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+			modelBuilder.Entity("Core.AnchorCalculator.Entities.Anchor", b =>
+			{
+				b.Property<int>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("int");
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("double");
+				b.Property<double>("Amount")
+					.HasColumnType("double");
 
-                    b.Property<double>("BatchPriceMaterial")
-                        .HasColumnType("double");
+				b.Property<double>("BatchPriceMaterial")
+					.HasColumnType("double");
 
-                    b.Property<double>("BatchPriceProductionBandSaw")
-                        .HasColumnType("double");
+				b.Property<double>("BatchPriceProductionBandSaw")
+					.HasColumnType("double");
 
-                    b.Property<double>("BatchPriceProductionBend")
-                        .HasColumnType("double");
+				b.Property<double>("BatchPriceProductionBend")
+					.HasColumnType("double");
 
-                    b.Property<double>("BatchPriceProductionThread")
-                        .HasColumnType("double");
+				b.Property<double>("BatchPriceProductionThread")
+					.HasColumnType("double");
 
-                    b.Property<double>("BatchSebes")
-                        .HasColumnType("double");
+				b.Property<double>("BatchSebes")
+					.HasColumnType("double");
 
-                    b.Property<double>("BatchWeight")
-                        .HasColumnType("double");
+				b.Property<double>("BatchWeight")
+					.HasColumnType("double");
 
-                    b.Property<int>("BendLength")
-                        .HasColumnType("int");
+				b.Property<int>("BendLength")
+					.HasColumnType("int");
 
-                    b.Property<int>("BendRadius")
-                        .HasColumnType("int");
+				b.Property<int>("BendRadius")
+					.HasColumnType("int");
 
-                    b.Property<double>("BilletLength")
-                        .HasColumnType("double");
+				b.Property<double>("BilletLength")
+					.HasColumnType("double");
 
-                    b.Property<DateTime>("DateCreate")
-                        .HasColumnType("datetime(6)");
+				b.Property<DateTime>("DateCreate")
+					.HasColumnType("datetime(6)");
 
-                    b.Property<float>("Diameter")
-                        .HasColumnType("float");
+				b.Property<float>("Diameter")
+					.HasColumnType("float");
 
-                    b.Property<int>("Kind")
-                        .HasColumnType("int");
+				b.Property<int>("Kind")
+					.HasColumnType("int");
 
-                    b.Property<int>("KindId")
-                        .HasColumnType("int");
+				b.Property<int>("KindId")
+					.HasColumnType("int");
 
-                    b.Property<int>("Length")
-                        .HasColumnType("int");
+				b.Property<int>("Length")
+					.HasColumnType("int");
 
-                    b.Property<double>("LengthBeforeEndPathRoller")
-                        .HasColumnType("double");
+				b.Property<double>("LengthBeforeEndPathRoller")
+					.HasColumnType("double");
 
-                    b.Property<double>("LengthFull")
-                        .HasColumnType("double");
+				b.Property<double>("LengthFull")
+					.HasColumnType("double");
 
-                    b.Property<double>("LengthPathRoller")
-                        .HasColumnType("double");
+				b.Property<double>("LengthPathRoller")
+					.HasColumnType("double");
 
-                    b.Property<int>("LengthSecond")
-                        .HasColumnType("int");
+				b.Property<int>("SecondLengthMillimeters")
+					.HasColumnType("int");
 
-                    b.Property<int?>("MaterialId")
-                        .HasColumnType("int");
+				b.Property<int?>("MaterialId")
+					.HasColumnType("int");
 
-                    b.Property<string>("MaterialJson")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+				b.Property<string>("MaterialJson")
+					.IsRequired()
+					.HasColumnType("longtext");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("double");
+				b.Property<double>("Price")
+					.HasColumnType("double");
 
-                    b.Property<double>("PricePerMetr")
-                        .HasColumnType("double");
+				b.Property<double>("PricePerMeter")
+					.HasColumnType("double");
 
-                    b.Property<int>("Production")
-                        .HasColumnType("int");
+				b.Property<int>("Production")
+					.HasColumnType("int");
 
-                    b.Property<int>("ProductionId")
-                        .HasColumnType("int");
+				b.Property<int>("ProductionId")
+					.HasColumnType("int");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+				b.Property<int>("Quantity")
+					.HasColumnType("int");
 
-                    b.Property<double>("Sebes")
-                        .HasColumnType("double");
+				b.Property<double>("Sebes")
+					.HasColumnType("double");
 
-                    b.Property<string>("SvgElement")
-                        .HasColumnType("longtext");
+				b.Property<string>("SvgElement")
+					.HasColumnType("longtext");
 
-                    b.Property<int>("ThreadDiameter")
-                        .HasColumnType("int");
+				b.Property<int>("ThreadDiameter")
+					.HasColumnType("int");
 
-                    b.Property<int>("ThreadLength")
-                        .HasColumnType("int");
+				b.Property<int>("ThreadLength")
+					.HasColumnType("int");
 
-                    b.Property<int>("ThreadLengthSecond")
-                        .HasColumnType("int");
+				b.Property<int>("ThreadSecondLengthMillimeters")
+					.HasColumnType("int");
 
-                    b.Property<float>("ThreadStep")
-                        .HasColumnType("float");
+				b.Property<float>("ThreadStep")
+					.HasColumnType("float");
 
-                    b.Property<double>("TimeProductionBandSaw")
-                        .HasColumnType("double");
+				b.Property<double>("TimeProductionBandSaw")
+					.HasColumnType("double");
 
-                    b.Property<double>("TimeProductionBend")
-                        .HasColumnType("double");
+				b.Property<double>("TimeProductionBend")
+					.HasColumnType("double");
 
-                    b.Property<double>("TimeProductionThread")
-                        .HasColumnType("double");
+				b.Property<double>("TimeProductionThread")
+					.HasColumnType("double");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+				b.Property<string>("UserId")
+					.HasColumnType("varchar(255)");
 
-                    b.Property<string>("UserJson")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+				b.Property<string>("UserJson")
+					.IsRequired()
+					.HasColumnType("longtext");
 
-                    b.Property<double>("Weight")
-                        .HasColumnType("double");
+				b.Property<double>("Weight")
+					.HasColumnType("double");
 
-                    b.Property<bool>("WithoutBindThreadDiamMatetial")
-                        .HasColumnType("tinyint(1)");
+				b.Property<bool>("WithoutBindThreadDiamMatetial")
+					.HasColumnType("tinyint(1)");
 
-                    b.HasKey("Id");
+				b.HasKey("Id");
 
-                    b.HasIndex("MaterialId");
+				b.HasIndex("MaterialId");
 
-                    b.HasIndex("UserId");
+				b.HasIndex("UserId");
 
-                    b.ToTable("Anchors");
-                });
+				b.ToTable("Anchors");
+			});
 
-            modelBuilder.Entity("Core.AnchorCalculator.Entities.Material", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+			modelBuilder.Entity("Core.AnchorCalculator.Entities.Material", b =>
+			{
+				b.Property<int>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("int");
 
-                    b.Property<double>("Cutter")
-                        .HasColumnType("double");
+				b.Property<double>("Cutter")
+					.HasColumnType("double");
 
-                    b.Property<DateTime>("DateUpdate")
-                        .HasColumnType("datetime(6)");
+				b.Property<DateTime>("DateUpdate")
+					.HasColumnType("datetime(6)");
 
-                    b.Property<double>("LengthBladeBandSaw")
-                        .HasColumnType("double");
+				b.Property<double>("BandSawBladeLengthMeters")
+					.HasColumnType("double");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext");
+				b.Property<string>("Name")
+					.HasColumnType("longtext");
 
-                    b.Property<double>("Plashka")
-                        .HasColumnType("double");
+				b.Property<double>("Plashka")
+					.HasColumnType("double");
 
-                    b.Property<double>("PricePerMetr")
-                        .HasColumnType("double");
+				b.Property<double>("PricePerMeter")
+					.HasColumnType("double");
 
-                    b.Property<double>("Size")
-                        .HasColumnType("double");
+				b.Property<double>("Size")
+					.HasColumnType("double");
 
-                    b.Property<double>("TimeBandSaw")
-                        .HasColumnType("double");
+				b.Property<double>("BandSawHours")
+					.HasColumnType("double");
 
-                    b.Property<double>("TimeThreadCutting")
-                        .HasColumnType("double");
+				b.Property<double>("ThreadCuttingHours")
+					.HasColumnType("double");
 
-                    b.Property<double>("TimeThreadRolling")
-                        .HasColumnType("double");
+				b.Property<double>("ThreadRollingHours")
+					.HasColumnType("double");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+				b.Property<int>("Type")
+					.HasColumnType("int");
 
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
+				b.Property<int>("TypeId")
+					.HasColumnType("int");
 
-                    b.HasKey("Id");
+				b.HasKey("Id");
 
-                    b.ToTable("Materials");
-                });
+				b.ToTable("Materials");
+			});
 
-            modelBuilder.Entity("Core.AnchorCalculator.Entities.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+			modelBuilder.Entity("Core.AnchorCalculator.Entities.User", b =>
+			{
+				b.Property<string>("Id")
+					.HasColumnType("varchar(255)");
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+				b.Property<int>("AccessFailedCount")
+					.HasColumnType("int");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+				b.Property<string>("ConcurrencyStamp")
+					.IsConcurrencyToken()
+					.HasColumnType("longtext");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+				b.Property<string>("Email")
+					.HasMaxLength(256)
+					.HasColumnType("varchar(256)");
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
+				b.Property<bool>("EmailConfirmed")
+					.HasColumnType("tinyint(1)");
 
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
+				b.Property<bool>("LockoutEnabled")
+					.HasColumnType("tinyint(1)");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
+				b.Property<DateTimeOffset?>("LockoutEnd")
+					.HasColumnType("datetime(6)");
 
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+				b.Property<string>("NormalizedEmail")
+					.HasMaxLength(256)
+					.HasColumnType("varchar(256)");
 
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+				b.Property<string>("NormalizedUserName")
+					.HasMaxLength(256)
+					.HasColumnType("varchar(256)");
 
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
+				b.Property<string>("PasswordHash")
+					.HasColumnType("longtext");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
+				b.Property<string>("PhoneNumber")
+					.HasColumnType("longtext");
 
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
+				b.Property<bool>("PhoneNumberConfirmed")
+					.HasColumnType("tinyint(1)");
 
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
+				b.Property<string>("SecurityStamp")
+					.HasColumnType("longtext");
 
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
+				b.Property<bool>("TwoFactorEnabled")
+					.HasColumnType("tinyint(1)");
 
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+				b.Property<string>("UserName")
+					.HasMaxLength(256)
+					.HasColumnType("varchar(256)");
 
-                    b.HasKey("Id");
+				b.HasKey("Id");
 
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
+				b.HasIndex("NormalizedEmail")
+					.HasDatabaseName("EmailIndex");
 
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
+				b.HasIndex("NormalizedUserName")
+					.IsUnique()
+					.HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
-                });
+				b.ToTable("AspNetUsers", (string)null);
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+			modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
+			{
+				b.Property<int>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("int");
 
-                    b.Property<string>("FriendlyName")
-                        .HasColumnType("longtext");
+				b.Property<string>("FriendlyName")
+					.HasColumnType("longtext");
 
-                    b.Property<string>("Xml")
-                        .HasColumnType("longtext");
+				b.Property<string>("Xml")
+					.HasColumnType("longtext");
 
-                    b.HasKey("Id");
+				b.HasKey("Id");
 
-                    b.ToTable("DataProtectionKeys");
-                });
+				b.ToTable("DataProtectionKeys");
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+			{
+				b.Property<string>("Id")
+					.HasColumnType("varchar(255)");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+				b.Property<string>("ConcurrencyStamp")
+					.IsConcurrencyToken()
+					.HasColumnType("longtext");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+				b.Property<string>("Name")
+					.HasMaxLength(256)
+					.HasColumnType("varchar(256)");
 
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+				b.Property<string>("NormalizedName")
+					.HasMaxLength(256)
+					.HasColumnType("varchar(256)");
 
-                    b.HasKey("Id");
+				b.HasKey("Id");
 
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
+				b.HasIndex("NormalizedName")
+					.IsUnique()
+					.HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles", (string)null);
-                });
+				b.ToTable("AspNetRoles", (string)null);
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+			{
+				b.Property<int>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("int");
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+				b.Property<string>("ClaimType")
+					.HasColumnType("longtext");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+				b.Property<string>("ClaimValue")
+					.HasColumnType("longtext");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+				b.Property<string>("RoleId")
+					.IsRequired()
+					.HasColumnType("varchar(255)");
 
-                    b.HasKey("Id");
+				b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+				b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
+				b.ToTable("AspNetRoleClaims", (string)null);
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+			{
+				b.Property<int>("Id")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("int");
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+				b.Property<string>("ClaimType")
+					.HasColumnType("longtext");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+				b.Property<string>("ClaimValue")
+					.HasColumnType("longtext");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+				b.Property<string>("UserId")
+					.IsRequired()
+					.HasColumnType("varchar(255)");
 
-                    b.HasKey("Id");
+				b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+				b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
+				b.ToTable("AspNetUserClaims", (string)null);
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+			{
+				b.Property<string>("LoginProvider")
+					.HasColumnType("varchar(255)");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(255)");
+				b.Property<string>("ProviderKey")
+					.HasColumnType("varchar(255)");
 
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("longtext");
+				b.Property<string>("ProviderDisplayName")
+					.HasColumnType("longtext");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+				b.Property<string>("UserId")
+					.IsRequired()
+					.HasColumnType("varchar(255)");
 
-                    b.HasKey("LoginProvider", "ProviderKey");
+				b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.HasIndex("UserId");
+				b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
+				b.ToTable("AspNetUserLogins", (string)null);
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+			{
+				b.Property<string>("UserId")
+					.HasColumnType("varchar(255)");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("varchar(255)");
+				b.Property<string>("RoleId")
+					.HasColumnType("varchar(255)");
 
-                    b.HasKey("UserId", "RoleId");
+				b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("RoleId");
+				b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
+				b.ToTable("AspNetUserRoles", (string)null);
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+			{
+				b.Property<string>("UserId")
+					.HasColumnType("varchar(255)");
 
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+				b.Property<string>("LoginProvider")
+					.HasColumnType("varchar(255)");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("varchar(255)");
+				b.Property<string>("Name")
+					.HasColumnType("varchar(255)");
 
-                    b.Property<string>("Value")
-                        .HasColumnType("longtext");
+				b.Property<string>("Value")
+					.HasColumnType("longtext");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+				b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
-                });
+				b.ToTable("AspNetUserTokens", (string)null);
+			});
 
-            modelBuilder.Entity("Core.AnchorCalculator.Entities.Anchor", b =>
-                {
-                    b.HasOne("Core.AnchorCalculator.Entities.Material", "Material")
-                        .WithMany("Anchors")
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.SetNull);
+			modelBuilder.Entity("Core.AnchorCalculator.Entities.Anchor", b =>
+			{
+				b.HasOne("Core.AnchorCalculator.Entities.Material", "Material")
+					.WithMany("Anchors")
+					.HasForeignKey("MaterialId")
+					.OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("Core.AnchorCalculator.Entities.User", "User")
-                        .WithMany("Anchors")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
+				b.HasOne("Core.AnchorCalculator.Entities.User", "User")
+					.WithMany("Anchors")
+					.HasForeignKey("UserId")
+					.OnDelete(DeleteBehavior.SetNull);
 
-                    b.Navigation("Material");
+				b.Navigation("Material");
 
-                    b.Navigation("User");
-                });
+				b.Navigation("User");
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+			{
+				b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+					.WithMany()
+					.HasForeignKey("RoleId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("Core.AnchorCalculator.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+			{
+				b.HasOne("Core.AnchorCalculator.Entities.User", null)
+					.WithMany()
+					.HasForeignKey("UserId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("Core.AnchorCalculator.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+			{
+				b.HasOne("Core.AnchorCalculator.Entities.User", null)
+					.WithMany()
+					.HasForeignKey("UserId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+			{
+				b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+					.WithMany()
+					.HasForeignKey("RoleId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
 
-                    b.HasOne("Core.AnchorCalculator.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+				b.HasOne("Core.AnchorCalculator.Entities.User", null)
+					.WithMany()
+					.HasForeignKey("UserId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.HasOne("Core.AnchorCalculator.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+			modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+			{
+				b.HasOne("Core.AnchorCalculator.Entities.User", null)
+					.WithMany()
+					.HasForeignKey("UserId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
+			});
 
-            modelBuilder.Entity("Core.AnchorCalculator.Entities.Material", b =>
-                {
-                    b.Navigation("Anchors");
-                });
+			modelBuilder.Entity("Core.AnchorCalculator.Entities.Material", b =>
+			{
+				b.Navigation("Anchors");
+			});
 
-            modelBuilder.Entity("Core.AnchorCalculator.Entities.User", b =>
-                {
-                    b.Navigation("Anchors");
-                });
+			modelBuilder.Entity("Core.AnchorCalculator.Entities.User", b =>
+			{
+				b.Navigation("Anchors");
+			});
 #pragma warning restore 612, 618
-        }
-    }
+		}
+	}
 }

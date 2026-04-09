@@ -1,1117 +1,1112 @@
-﻿@using Core.AnchorCalculator.Entities.Enums
-@model UI.AnchorCalculator.ViewModels.AnchorViewModel 
+﻿@using Core.AnchorCalculator.Entities
+@using Core.AnchorCalculator.Entities.Enums
+@model UI.AnchorCalculator.ViewModels.AnchorViewModel
+@{ ViewData["Title"] = "Calculator"; }
 
 <head>
-    <link rel="stylesheet" href="~/css/anchor_page.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/anchor_page.css" asp-append-version="true"/>
 </head>
+
 <div class="row">
-    <div class="col-lg-6">
-        <div class="card mb-3" align="left" style="max-width: 600px; float:left">
-  <div class="row g-0">
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title">Форма для заполнения</h5>
-        <p class="card-text">
-           <form id="CalculateForm">
-             <div class="row mb-3">
-                 <div class="validation" asp-validation-summary="ModelOnly"/>
-               <label asp-for="MaterialId" class="col-sm-4 col-form-label"></label>
-               <div class="col-sm-8">
-                 <select id="selectBox" asp-for="MaterialId" class="form-select" aria-label="Default select example" onchange="changeFuncDiamAnchor();">
-                     <option>Ничего не выбрано</option>
-                     @foreach (var item in Model.Materials)
-                     {
-                         <option id="material_@item.Id" value="@item.Id">@item.FullName</option>
-                     }
-                 </select>                
-               </div>
-             </div>
-             <div class="row mb-3">
-               <label asp-for="Diameter" class="col-sm-4 col-form-label"></label>
-               <div class="col-sm-8">
-                 <input asp-for="Diameter" type="text" class="form-control" id="Diameter" readonly>
-                 <span asp-validation-for="Diameter" class="text-danger"></span>
-               </div>
-             </div> 
-             <div class="row mb-3">
-               <label asp-for="Length" class="col-sm-4 col-form-label"></label>
-               <div class="col-sm-8">
-                 <input asp-for="Length" type="text" class="form-control" id="Length">
-                  <span id="LengthValid" class="text-danger"></span>
-               </div>
-             </div>
-              <div class="row mb-3">
-               <label asp-for="ThreadDiameter" class="col-sm-4 col-form-label"></label>
-               <div class="col-sm-8">
-                 <input asp-for="ThreadDiameter" type="text" readonly class="form-control" id="ThreadDiameter">
-                 <span id="ThreadDiameterValid" class="text-danger"></span>
-               </div>
-             </div> 
-             <div class="row mb-3">
-               <label asp-for="ThreadLength" class="col-sm-4 col-form-label"></label>   
-               <div class="col-sm-8">
-                 <input asp-for="ThreadLength" type="text" class="form-control" id="ThreadLength">
-                 <span id="ThreadLengthValid" class="text-danger"></span>
-               </div>
-             </div> 
-              <div class="row mb-3">
-               <label asp-for="ThreadStep" class="col-sm-4 col-form-label"></label>
-               <div class="col-sm-8">
-                 <input asp-for="ThreadStep" type="text" class="form-control" id="ThreadStep" readonly>
-                 <span asp-validation-for="ThreadStep" class="text-danger"></span>
-               </div>
-             </div> 
-              <div class="row mb-3">
-               <label asp-for="Quantity" class="col-sm-4 col-form-label"></label>
-               <div class="col-sm-8">
-                 <input asp-for="Quantity" type="text" class="form-control" id="Quantity">
-                 <span asp-validation-for="Quantity" class="text-danger"></span>
-               </div>
-             </div>
-             <div class="row mb-3 w-25">
-                 <div class="radios btn-group" role="group" aria-label="Basic radio toggle button group">
-                    <input type="radio" class="btn-check" asp-for="Kind" id="straight" autocomplete="off" checked onclick="showSubForm()" value="@Kind.Straight">
-                    <label class="btn btn-outline-primary" for="straight">|</label>
+	<div class="col-lg-6">
+		<div class="card mb-3" style="max-width: 600px; float:left">
+			<div class="row g-0">
+				<div class="col-md-8">
+					<div class="card-body">
+						<h5 class="card-title">Форма для заполнения</h5>
 
-                    <input type="radio" class="btn-check" asp-for="Kind" id="withBend" autocomplete="off" onclick="showSubForm()" value="@Kind.Bend">
-                    <label class="btn btn-outline-primary" for="withBend">⌊</label>
+						<h6 class="card-text">
+							<form id="CalculateForm">
+								<div class="row mb-3">
+									<div class="validation" asp-validation-summary="ModelOnly"></div>
+									<label asp-for="MaterialId" class="col-sm-4 col-form-label"></label>
 
-                    <input type="radio" class="btn-check" asp-for="Kind" id="withBendDouble" autocomplete="off" onclick="showSubForm()" value="@Kind.BendDouble">
-                    <label class="btn btn-outline-primary" for="withBendDouble">⊔</label>
-                 </div>
-             </div>
-             <div id="subForm" class="row mb-3" style="display:none">               
-                <div class="row mb-3">
-                         <label asp-for="BendLength" class="col-sm-4 col-form-label"></label>
-                    <div class="col-sm-8">
-                         <input asp-for="BendLength" onfocus="this.value=''" type="text" class="form-control" id="BendLength">
-                         <span id="BendLengthValid" class="text-danger"></span>
-                    </div>
-                </div>
-                <div id="LengthSecondDiv" class="row mb-3" hidden>
-                         <label asp-for="LengthSecond" class="col-sm-4 col-form-label"></label>
-                    <div class="col-sm-8">
-                         <input asp-for="LengthSecond" onfocus="this.value=''" type="text" class="form-control" id="LengthSecond">
-                         <span id="LengthSecondValid" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                         <label asp-for="BendRadius" class="col-sm-4 col-form-label"></label>
-                    <div class="col-sm-8">
-                         <input asp-for="BendRadius" type="text" class="form-control" id="BendRadius" readonly>
-                         <span id="BendRadiusValid" class="text-danger"></span>
-                      @*    <span asp-validation-for="BendRadius" class="text-danger"></span> *@
-                    </div>
-                </div>               
-             </div>
-             <div id="hasVariableLengthDiv" class="form-check form-check-inline w-75 mb-3" hidden>
-                 <label class="form-check-label" for="hasVariableLengthDivCheckbox">Концы разной длины</label>
-                 <input class="form-check-input" asp-for="HasVariableLength" type="checkbox" id="hasVariableLengthDivCheckbox" onchange="showtLengthSecondDiv(this)">
-             </div>
-             <div id="hasThreadDiv" class="form-check form-check-inline w-75 mb-3">
-                 <input checked class="form-check-input" asp-for="HasThread" type="checkbox" id="hasThreadDivCheckbox" onchange="unableDisableThreadInput()">
-                 <label class="form-check-label" for="hasThreadDivCheckbox">Есть резьба</label>
-             </div>
-             <div id="withoutBindThreadDiamMatetialDiv" class="form-check form-check-inline w-75 mb-3">
-                 <input class="form-check-input" asp-for="WithoutBindThreadDiamMatetial" type="checkbox" id="withoutBindThreadDiamMatetialDivCheckbox" onchange="onWithoutBindThreadDiamMatetial()">
-                 <label class="form-check-label" for="withoutBindThreadDiamMatetialDivCheckbox">Без привязки резьбы к материалу</label>
-             </div>
-             <div id="withoutBindRadiusBendDiamMatetialDiv" class="form-check form-check-inline w-75 mb-3" style="display:none">
-                 <input class="form-check-input" asp-for="WithoutBindRadiusBendDiamMatetial" type="checkbox" id="withoutBindRadiusBendDiamMatetialDivCheckbox" onchange="onWithoutBindRadiusBendDiamMatetial()">
-                 <label class="form-check-label" for="withoutBindRadiusBendDiamMatetialDivCheckbox">Без привязки радиуса гиба к материалу</label>
-             </div>
-             <div id="hasCuttingThreadDiv" class="form-check form-check-inline w-75 mb-3">
-                 <input class="form-check-input" asp-for="HasCuttingThread" type="checkbox" id="hasCuttingThreadDivCheckbox" onchange="onCheckThreadCutter()">
-                 <label class="form-check-label" for="hasCuttingThreadDivCheckbox">Резьба на токарном станке</label>
-             </div>
-             <div id="threadLengthSecondDiv" class="form-check form-check-inline w-75 mb-3">
-                 <input class="form-check-input" asp-for="HasThreadSecond" type="checkbox" id="threadLengthSecondDivCheckbox" onchange="showthreadLengthSecondDivInp()">
-                 <label class="form-check-label" for="threadLengthSecondDivCheckbox">Резьба на втором конце</label>
-             </div>
-             <div class="row mb-3" id="threadLengthSecondDivInp" style="display:none">
-                 <div class="row mb-3">
-                    <label asp-for="ThreadLengthSecond" class="col-sm-4 col-form-label"></label>
-                    <div class="col-sm-8">
-                        <input asp-for="ThreadLengthSecond" type="text" class="form-control" id="ThreadLengthSecond">
-                        <span id="ThreadLengthSecondValid" class="text-danger"></span>
-                    </div>
-                 </div>
-             </div>
-             <button type="submit" class="btn btn-dark mt-2">Расчитать</button>
-           </form>
-        </p>
-      </div>
-    </div>
-    <div class="col-md-4">
-            <img src="~/images/anchor.png" class="d-block mx-auto mt-5" alt="...">
-        </div>
-  </div>
-</div>
-    </div>
-        <div class="col-lg-6" id="descriptAnchor" style="display:none" >
-        <div id="card_descript" class="card mb-3"  style="min-width: 600px;">
-            <div id="row_descript" class="row g-0">
-                <div class="col-md-5">
-                  <div class="card-body" id="PriceWeight">
-                    <h5 class="card-title">Результаты расчёта</h5>
-                    <p class="card-text"></p>
-                  </div>
-                </div>
-                <div class="col-md-7" id="containSvg">
-                </div>
-            </div>
-            </div>
-        </div>
+									<div class="col-sm-8">
+										<select id="selectBox" asp-for="MaterialId" class="form-select" aria-label="Default select example" onchange="changeFuncDiamAnchor();">
+											<option>Ничего не выбрано</option>
+											@foreach (Material item in Model.Materials!)
+											{
+												<option id="material_@item.Id" value="@item.Id">@item.FullName</option>
+											}
+										</select>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label asp-for="DiameterMillimeters" class="col-sm-4 col-form-label"></label>
+
+									<div class="col-sm-8">
+										<input asp-for="DiameterMillimeters" type="text" class="form-control" id="diameterMillimeters" readonly>
+										<span asp-validation-for="DiameterMillimeters" class="text-danger"></span>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label asp-for="LengthMillimeters" class="col-sm-4 col-form-label"></label>
+
+									<div class="col-sm-8">
+										<input asp-for="LengthMillimeters" type="text" class="form-control" id="lengthMillimeters">
+										<span id="lengthMillimetersValid" class="text-danger"></span>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label asp-for="ThreadDiameterMillimeters" class="col-sm-4 col-form-label"></label>
+
+									<div class="col-sm-8">
+										<input asp-for="ThreadDiameterMillimeters" type="text" readonly class="form-control" id="threadDiameterMillimeters">
+										<span id="threadDiameterMillimetersValid" class="text-danger"></span>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label asp-for="ThreadLengthMillimeters" class="col-sm-4 col-form-label"></label>
+
+									<div class="col-sm-8">
+										<input asp-for="ThreadLengthMillimeters" type="text" class="form-control" id="threadLengthMillimeters">
+										<span id="threadLengthMillimetersValid" class="text-danger"></span>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label asp-for="ThreadStepMillimeters" class="col-sm-4 col-form-label"></label>
+
+									<div class="col-sm-8">
+										<input asp-for="ThreadStepMillimeters" type="text" class="form-control" id="threadStepMillimeters" readonly/>
+										<span asp-validation-for="ThreadStepMillimeters" class="text-danger"></span>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label asp-for="Quantity" class="col-sm-4 col-form-label"></label>
+
+									<div class="col-sm-8">
+										<input asp-for="Quantity" type="text" class="form-control" id="Quantity">
+										<span asp-validation-for="Quantity" class="text-danger"></span>
+									</div>
+								</div>
+
+								<div class="row mb-3 w-25">
+									<div class="radios btn-group" role="group" aria-label="Basic radio toggle button group">
+										<input type="radio" class="btn-check" asp-for="Kind" id="straightAnchor" autocomplete="off" checked onclick="showSubForm()" value="@AnchorKind.Straight">
+										<label class="btn btn-outline-primary" for="straightAnchor">|</label>
+
+										<input type="radio" class="btn-check" asp-for="Kind" id="singleBend" autocomplete="off" onclick="showSubForm()" value="@AnchorKind.SingleBend">
+										<label class="btn btn-outline-primary" for="singleBend">⌊</label>
+
+										<input type="radio" class="btn-check" asp-for="Kind" id="doubleBend" autocomplete="off" onclick="showSubForm()" value="@AnchorKind.DoubleBend">
+										<label class="btn btn-outline-primary" for="doubleBend">⊔</label>
+									</div>
+								</div>
+
+								<div id="subForm" class="row mb-3" style="display:none">
+									<div class="row mb-3">
+										<label asp-for="BendLengthMillimeters" class="col-sm-4 col-form-label"></label>
+
+										<div class="col-sm-8">
+											<input asp-for="BendLengthMillimeters" onfocus="this.value=''" type="text" class="form-control" id="BendLengthMillimeters">
+											<span id="bendLengthMillimetersValid" class="text-danger"></span>
+										</div>
+									</div>
+
+									<div id="SecondLengthMillimetersDiv" class="row mb-3" hidden>
+										<label asp-for="SecondLengthMillimeters" class="col-sm-4 col-form-label"></label>
+
+										<div class="col-sm-8">
+											<input asp-for="SecondLengthMillimeters" onfocus="this.value=''" type="text" class="form-control" id="SecondLengthMillimeters">
+											<span id="secondLengthMillimetersValid" class="text-danger"></span>
+										</div>
+									</div>
+
+									<div class="row mb-3">
+										<label asp-for="BendRadiusMillimeters" class="col-sm-4 col-form-label"></label>
+
+										<div class="col-sm-8">
+											<input asp-for="BendRadiusMillimeters" type="text" class="form-control" id="bendRadiusMillimeters" readonly>
+											<span id="bendRadiusMillimetersValid" class="text-danger"></span>
+											@* <span asp-validation-for="bendRadiusMillimeters" class="text-danger"></span> *@
+										</div>
+									</div>
+								</div>
+
+								<div id="hasVariableLengthDiv" class="form-check form-check-inline w-75 mb-3" hidden>
+									<label class="form-check-label" for="hasVariableLengthDivCheckbox">Концы разной длины</label>
+
+									<input class="form-check-input" asp-for="HasVariableLength" type="checkbox" id="hasVariableLengthDivCheckbox" onchange="showtSecondLengthMillimetersDiv(this)">
+								</div>
+
+								<div id="hasThreadDiv" class="form-check form-check-inline w-75 mb-3">
+									<input checked class="form-check-input" asp-for="HasThread" type="checkbox" id="hasThreadDivCheckbox" onchange="unableDisableThreadInput()">
+
+									<label class="form-check-label" for="hasThreadDivCheckbox">Есть резьба</label>
+								</div>
+
+								<div id="withoutBindThreadDiamMaterialDiv" class="form-check form-check-inline w-75 mb-3">
+									<input class="form-check-input" asp-for="WithoutBindThreadDiamMaterial" type="checkbox" id="withoutBindThreadDiamMaterialDivCheckbox" onchange="onWithoutBindThreadDiamMaterial()">
+
+									<label class="form-check-label" for="withoutBindThreadDiamMaterialDivCheckbox">Без привязки резьбы к материалу</label>
+								</div>
+
+								<div id="withoutBindRadiusBendDiamMaterialDiv" class="form-check form-check-inline w-75 mb-3" style="display:none">
+									<input class="form-check-input" asp-for="WithoutBindRadiusBendDiamMaterial" type="checkbox" id="withoutBindRadiusBendDiamMaterialDivCheckbox" onchange="onWithoutBindRadiusBendDiamMaterial()">
+
+									<label class="form-check-label" for="withoutBindRadiusBendDiamMaterialDivCheckbox">Без привязки радиуса гиба к материалу</label>
+								</div>
+
+								<div id="hasCuttingThreadDiv" class="form-check form-check-inline w-75 mb-3">
+									<input class="form-check-input" asp-for="HasCuttingThread" type="checkbox" id="hasCuttingThreadDivCheckbox" onchange="onCheckThreadCutter()">
+
+									<label class="form-check-label" for="hasCuttingThreadDivCheckbox">Резьба на токарном станке</label>
+								</div>
+
+								<div id="threadSecondLengthMillimetersDiv" class="form-check form-check-inline w-75 mb-3">
+									<input class="form-check-input" asp-for="HasSecondThread" type="checkbox" id="threadSecondLengthMillimetersDivCheckbox" onchange="showthreadSecondLengthMillimetersDivInp()">
+
+									<label class="form-check-label" for="threadSecondLengthMillimetersDivCheckbox">Резьба на втором конце</label>
+								</div>
+
+								<div class="row mb-3" id="threadSecondLengthMillimetersDivInp" style="display:none">
+									<div class="row mb-3">
+										<label asp-for="ThreadSecondLengthMillimeters" class="col-sm-4 col-form-label"></label>
+
+										<div class="col-sm-8">
+											<input asp-for="ThreadSecondLengthMillimeters" type="text" class="form-control" id="threadSecondLengthMillimeters">
+											<span id="threadSecondLengthMillimetersValid" class="text-danger"></span>
+										</div>
+									</div>
+								</div>
+
+								<button type="submit" class="btn btn-dark mt-2">Расчитать</button>
+							</form>
+						</h6>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<img src="~/images/anchor.png" class="d-block mx-auto mt-5" alt="...">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-6" id="descriptAnchor" style="display:none">
+		<div id="card_descript" class="card mb-3"  style="min-width: 600px;">
+			<div id="row_descript" class="row g-0">
+				<div class="col-md-5">
+					<div class="card-body" id="priceWeight">
+						<h5 class="card-title">Результаты расчёта</h5>
+						<p class="card-text"></p>
+					</div>
+				</div>
+
+				<div class="col-md-7" id="containSvg"></div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-      <strong class="me-auto">Калькулятор анкеров</strong>
-      <small>Только что</small>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-      Анкер успешно сохранён!
-    </div>
-  </div>
+	<div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+		<div class="toast-header">
+			<strong class="me-auto">Калькулятор анкеров</strong>
+			<small>Только что</small>
+
+			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		</div>
+
+		<div class="toast-body">
+			Анкер успешно сохранён!
+		</div>
+	</div>
 </div>
 
 <div id="drawing_pdf" class="card mb-3" style="display:none">
-  <div id="svg_pdf" class="card-img-top"></div>
-  <div id="notes_pdf" class="card-body"></div>
-  <div id="stamp_pdf" class="card-body"></div>
+	<div id="svg_pdf" class="card-img-top"></div>
+	<div id="notes_pdf" class="card-body"></div>
+	<div id="stamp_pdf" class="card-body"></div>
 </div>
 
 <div id="blank_pdf" class="card mb-3" style="display:none">
-    <div class="row g-0">
-        <div class="col-md-4">
-            <div id="svg_blank_pdf" class="card-img"></div>
-        </div>
-        <div class="col-md-8 card-img-overlay">
-            <div id="listBlank" class="card-body"></div>
-        </div>
-    </div>
+	<div class="row g-0">
+		<div class="col-md-4">
+			<div id="svg_blank_pdf" class="card-img"></div>
+		</div>
+
+		<div class="col-md-8 card-img-overlay">
+			<div id="listBlank" class="card-body"></div>
+		</div>
+	</div>
 </div>
 
-@section Scripts{
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-
-    <script>
-
-        let hasCuttingThreadDivCheckbox = document.getElementById("hasCuttingThreadDivCheckbox");
-        let withoutBindThreadDiamMatetialDivCheckbox = document.getElementById("withoutBindThreadDiamMatetialDivCheckbox");
-        let threadDiameterInput = document.getElementById("ThreadDiameter");
-        let withoutBindRadiusBendDiamMatetialDivCheckbox = document.getElementById("withoutBindRadiusBendDiamMatetialDivCheckbox");
-        let bendRadiusInput = document.getElementById("BendRadius");
-        let hasThreadDivCheckbox = document.getElementById("hasThreadDivCheckbox");
-        let DiametrInput = document.getElementById("Diameter");
-
-        function onWithoutBindThreadDiamMatetial() {
-            if (withoutBindThreadDiamMatetialDivCheckbox.checked) {
-                threadDiameterInput.readOnly = false;
-            }
-            else {
-                threadDiameterInput.readOnly = true;
-                setThreadDiameter(getMaterialJsonResult)
-            }
-            }
-
-        function onWithoutBindRadiusBendDiamMatetial() {
-            if (withoutBindRadiusBendDiamMatetialDivCheckbox.checked) {
-                bendRadiusInput.readOnly = false;
-            }
-            else {
-                bendRadiusInput.readOnly = true;
-                setBenRadius(getMaterialJsonResult);
-            }
-        }
-
-        function unableDisableThreadInput() {
-            changeFuncDiamAnchor();
-            var threadLengthSecondDivCheckbox = document.getElementById("threadLengthSecondDivCheckbox");
-            var threadLengthSecondDiv = document.getElementById("threadLengthSecondDiv");
-            var straight = document.getElementById("straight");
-            var withBend = document.getElementById("withBend");
-            var withBendDouble = document.getElementById("withBendDouble");
-            var threadLength = document.getElementById("ThreadLength");
-            var hasCuttingThreadDiv = document.getElementById("hasCuttingThreadDiv");
-            var withoutBindThreadDiamMatetialDiv = document.getElementById("withoutBindThreadDiamMatetialDiv");
-            if (hasThreadDivCheckbox.checked) {
-                threadLength.disabled = false;
-                threadLength.value = '';
-                hasCuttingThreadDiv.style.display = "block";
-                withoutBindThreadDiamMatetialDiv.style.display = "block";
-                if (straight.checked) { 
-                    threadLengthSecondDiv.style.display = "block";  
-                }
-            } else { 
-                threadLengthSecondDiv.style.display = "none";                
-                threadLengthSecondDivCheckbox.checked = false;
-                threadLength.disabled = true;
-                threadLength.value = 0;
-                showthreadLengthSecondDivInp();
-                hasCuttingThreadDiv.style.display = "none";
-                hasCuttingThreadDivCheckbox.checked = false;
-                withoutBindThreadDiamMatetialDiv.style.display = "none";
-                withoutBindThreadDiamMatetialDivCheckbox.checked = false;
-                threadDiameterInput.readOnly = true;
-            }
-        }
-
-        let Descript_to_blank;
-        var calculateForm = document.getElementById("CalculateForm");
-
-        calculateForm.addEventListener("submit", function formSubmit(event){
-            event.preventDefault();    
-            var addButton = document.getElementById("liveToastBtn");
-            if(addButton !== null){
-                addButton.disabled = false;
-            }
-            var formData = new FormData(calculateForm)
-            var xhrGetAnchorJsonResult = $.ajax(
-            {
-                url: '@Url.Action("GetAnchorJsonResult", "Anchor")',
-                type: 'POST',
-                contentType: false,
-                processData: false,
-                data: formData,          
-                success: function (response)
-                {
-                    if(response.success)
-                    {   
-                        ThreadDiameterValid.innerHTML = "";
-                        BendLengthValid.innerHTML = "";
-                        ThreadLengthValid.innerHTML = "";
-                        ThreadLengthSecondValid.innerHTML = "";
-                        LengthValid.innerHTML = "";
-                        BendRadiusValid.innerHTML = "";
-                        LengthSecondValid.innerHTML = "";                       
-                        console.log('ThreadDiameterValid.innerHTML' + ThreadDiameterValid.innerHTML +'')
-                        console.log('BendLengthValid.innerHTML' + BendLengthValid.innerHTML + '')
-                        document.getElementById("containSvg").innerHTML = response.anchorJS.svgElement;
-                        document.getElementById("svg_pdf").innerHTML = response.anchorJS.svgElement;
-                        document.getElementById("svg_blank_pdf").innerHTML = response.anchorJS.svgElement;
-                        document.getElementById("descriptAnchor").style.display = "flex";
-                        let PriceWeight = document.getElementById("PriceWeight");
-                        let UserName = "@User.Identity.Name".replace(new RegExp('"', 'g'), '');
-                        var curDate = Date.now();
-                        var uptDate = new Date(response.anchorJS.material.dateUpdate);
-                        const milliseconds = 86400000;
-                        var dif = Math.ceil((curDate - uptDate.getTime()) / milliseconds);
-                        var warn_Update = '';
-                        var warn_Production = '';
-                        var time_Production = '';
-                        var price_Production = '';
-                        if (dif > 14){
-                                warn_Update = 'Стоимость материала не обновлялась ' + dif + ' дней!';
-                        }
-                        if (response.anchorJS.productionId == 0)
-                        {
-                                warn_Production = 'Анкер изгототавливается на токарном станке';
-                        }
-                                if(response.isAuthen){
-                                    price_Production = '<p class="card-text">Цена накатки/нарезки резьбы: ' + Math.round(response.anchorJS.batchPriceProductionThread) + ' сом</p>' +
-                                                                     '<p class="card-text">Цена гибки: ' + Math.round(response.anchorJS.batchPriceProductionBend) + ' сом</p>' +
-                                                                     '<p class="card-text">Цена лентопила: ' + Math.round(response.anchorJS.batchPriceProductionBandSaw) + ' сом</p>';
-                                        time_Production = '<p class="card-text">Время накатки/нарезки резьбы: ' + response.anchorJS.timeProductionThread.toFixed(2) + ' ч</p>' +
-                                            '<p class="card-text">Время гибки: ' + response.anchorJS.timeProductionBend.toFixed(2) + ' ч</p>' +
-                                            '<p class="card-text">Время лентопила: ' + response.anchorJS.timeProductionBandSaw.toFixed(2) + ' ч</p>';                                    
-                                Descript_to_blank = '<div id="Descript_to_blank"><h5 class="card-title">Результаты расчёта</h5><p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
-                                    '<p class="card-text">Цена: ' + Math.round(response.anchorJS.price) + ' сом</p>' +
-                                    '<p class="card-text">Общая стоимость: ' + Math.round(response.anchorJS.amount) + ' сом</p>' +
-                                    '<p class="card-text">Длина заготовки: ' + Math.round(response.anchorJS.billetLength) + ' мм</p>' +
-                                    '<p class="card-text">Цена мат-ла на 1 шт: ' + Math.round(response.anchorJS.priceMaterial) + ' сом</p>' +
-                                    '<p class="card-text">Цена мат-ла на ' + response.anchorJS.quantity + ' шт: ' + Math.round(response.anchorJS.batchPriceMaterial) + ' сом</p>' +
-                                    '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weight.toFixed(2) + ' кг</p>' +
-                                    '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.batchWeight.toFixed(1) + ' кг</p>' +
-                                    '<p class="card-text">Материал: ' + response.anchorJS.material.fullName + '</p>' +
-                                    '<p class="card-text">Исполнитель: @User.Identity.Name</p>' + price_Production + time_Production +
-                                    '<p class="card-text">Общая длина: ' + response.anchorJS.lengthFull.toFixed(1) + ' м</p>' +
-                                    '<p class="card-text text-danger">' + warn_Update + '</p></div>' +
-                                    '<p class="card-text text-success">' + warn_Production + '</p></div>';
-                                document.getElementById("listBlank").innerHTML = Descript_to_blank;
-                                    
-                                                                                              PriceWeight.innerHTML = Descript_to_blank +
-                                                                                              '<input id="materialIdtoDB" type="hidden" value="'+ response.anchorJS.materialId +'">' + 
-                                                                                              '<input id="diametertoDB" type="hidden" value="'+ response.anchorJS.diameter +'">' +
-                                                                                              '<input id="lengthtoDB" type="hidden" value="'+ response.anchorJS.length +'">' +
-                                                                                              '<input id="lengthSecondtoDB" type="hidden" value="'+ response.anchorJS.lengthSecond +'">' +
-                                                                                              '<input id="threadDiametertoDB" type="hidden" value="'+ response.anchorJS.threadDiameter +'">' +
-                                                                                              '<input id="threadLengthtoDB" type="hidden" value="'+ response.anchorJS.threadLength +'">' +
-                                                                                              '<input id="threadLengthSecondtoDB" type="hidden" value="' + response.anchorJS.threadLengthSecond + '">' +
-                                                                                              '<input id="threadSteptoDB" type="hidden" value="'+ response.anchorJS.threadStep +'">' +
-                                                                                              '<input id="quantitytoDB" type="hidden" value="'+ response.anchorJS.quantity +'">' +
-                                                                                              '<input id="bendLengthtoDB" type="hidden" value="'+ response.anchorJS.bendLength +'">' +
-                                                                                              '<input id="bendRadiustoDB" type="hidden" value="'+ response.anchorJS.bendRadius +'">' + 
-                                                                                              '<input id="sebestoDB" type="hidden" value="'+ response.anchorJS.sebes +'">' +
-                                                                                              '<input id="batchSebestoDB" type="hidden" value="'+ response.anchorJS.batchSebes +'">' +
-                                                                                              '<input id="pricetoDB" type="hidden" value="'+ response.anchorJS.price +'">' +
-                                                                                              '<input id="amounttoDB" type="hidden" value="'+ response.anchorJS.amount +'">' +
-                                                                                              '<input id="billetLengthtoDB" type="hidden" value="'+ response.anchorJS.billetLength +'">' +
-                                                                                              '<input id="weighttoDB" type="hidden" value="'+ response.anchorJS.weight +'">' +
-                                                                                              '<input id="batchWeighttoDB" type="hidden" value="'+ response.anchorJS.batchWeight +'">' +
-                                                                                              '<input id="kindToDB" type="hidden" value="'+ response.anchorJS.kind +'">' +
-                                                                                              '<input id="batchPriceProductionThreadToDB" type="hidden" value="' + response.anchorJS.batchPriceProductionThread + '">' +
-                                                                                              '<input id="batchPriceProductionBendToDB" type="hidden" value="' + response.anchorJS.batchPriceProductionBend + '">' +
-                                                                                              '<input id="batchPriceProductionBandSawToDB" type="hidden" value="' + response.anchorJS.batchPriceProductionBandSaw + '">' +
-                                                                                              '<input id="batchPriceMaterialToDB" type="hidden" value="' + response.anchorJS.batchPriceMaterial + '">' +
-                                                                                              '<input id="lengthPathRollerToDB" type="hidden" value="' + response.anchorJS.lengthPathRoller.toFixed(1) + '">' +
-                                                                                              '<input id="lengthBeforeEndPathRollerToDB" type="hidden" value="' + response.anchorJS.lengthBeforeEndPathRoller.toFixed(1) + '">' +
-                                                                                              '<input id="productionIdToDB" type="hidden" value="' + response.anchorJS.productionId + '">' +
-                                                                                              '<input id="timeProductionThreadToDB" type="hidden" value="' + response.anchorJS.timeProductionThread + '">' +
-                                                                                              '<input id="timeProductionBendToDB" type="hidden" value="' + response.anchorJS.timeProductionBend + '">' +
-                                                                                              '<input id="timeProductionBandSawToDB" type="hidden" value="' + response.anchorJS.timeProductionBandSaw + '">' +
-                                                                                              '<input id="lengthFullToDB" type="hidden" value="' + response.anchorJS.lengthFull + '">' +
-                                                                                              '<input id="hasCuttingThreadToDB" type="hidden" value="' + response.anchorJS.hasCuttingThread + '">' +
-                                                                                              '<input id="withoutBindThreadDiamMatetialToDB" type="hidden" value="' + response.anchorJS.withoutBindThreadDiamMatetial + '">' +
-                                                                                              '<div class="btn-group mt-2" role="group" aria-label="Basic mixed styles example">' +
-                                                                                              '<button type="button" id="liveToastBtn" class="btn btn-dark" onclick="Add();">Сохранить</button>' +
-                                                                                              '<button type="button" id="btn_drawing_pdf" class="btn btn-secondary" disabled>Чертеж</button>' +
-                                                                                              '<button type="button" id="btn_blank_pdf" class="btn btn-secondary" disabled onclick="PrintBlank();">Рез-ты</button>' +
-                                                                                              '</div>'; 
-
-                        }
-                        else{
-                                Descript_to_blank = '<h5 class="card-title">Результаты расчёта</h5><p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
-                                    '<p class="card-text">Цена: ' + Math.round(response.anchorJS.price) + ' сом</p>' +
-                                    '<p class="card-text">Общая стоимость: ' + Math.round(response.anchorJS.amount) + ' сом</p>' +
-                                    '<p class="card-text">Длина заготовки: ' + Math.round(response.anchorJS.billetLength) + ' мм</p>' +
-                                    '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weight.toFixed(2) + ' кг</p>' +
-                                    '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.batchWeight.toFixed(1) + ' кг</p>' +
-                                    '<p class="card-text">Материал: ' + response.anchorJS.material.fullName + '</p>';
-                                document.getElementById("listBlank").innerHTML = Descript_to_blank;
-                                PriceWeight.innerHTML = Descript_to_blank + '<button type="button" id="btn_blank_pdf" class="btn btn-secondary" onclick="PrintBlank();">Распечатать</button>';
-                        }
-                        
-                    } else {
-                            document.getElementById("descriptAnchor").style.display = "none";                            
-                        if (typeof response.errorMessageThreadDiam !== "undefined") {
-                            if (response.errorMessageThreadDiam == "The value '' is invalid.") {
-                                ThreadDiameterValid.innerHTML = "Поле обязательно для заполнения";
-                            }
-                            else {
-                                ThreadDiameterValid.innerHTML = response.errorMessageThreadDiam
-                            }
-                        }
-                        else {
-                            ThreadDiameterValid.innerHTML = "";
-                        };
-
-                        if (typeof response.errorMessageBendLen !== "undefined") {  
-                           if (response.errorMessageBendLen == "The value '' is invalid.") {
-                             BendLengthValid.innerHTML = "Поле обязательно для заполнения";
-                           }
-                           else{
-                             BendLengthValid.innerHTML = response.errorMessageBendLen
-                           }                         
-                        }
-                        else {
-                           BendLengthValid.innerHTML = "";
-                        };
-
-                        if (typeof response.errorMessageThreadLen !== "undefined") {
-                            if (response.errorMessageThreadLen == "The value '' is invalid.") {
-                                ThreadLengthValid.innerHTML = "Поле обязательно для заполнения";
-                            }
-                        else {
-                                ThreadLengthValid.innerHTML = response.errorMessageThreadLen;
-                             }
-                        }
-                        else {
-                            ThreadLengthValid.innerHTML = "";
-                        };
-
-                        if (typeof response.errorMessageThreadSecondLen !== "undefined") {
-                            if (response.errorMessageThreadSecondLen == "The value '' is invalid.") {
-                                ThreadLengthSecondValid.innerHTML = "Поле обязательно для заполнения";
-                            }
-                        else {
-                                ThreadLengthSecondValid.innerHTML = response.errorMessageThreadSecondLen;
-                             }
-                        }
-                        else {
-                            ThreadLengthSecondValid.innerHTML = "";
-                        };
-
-                        if (typeof response.errorMessageLen !== "undefined") {
-                            if (response.errorMessageLen == "The value '' is invalid.") {
-                                LengthValid.innerHTML = "Поле обязательно для заполнения";
-                            }
-                            else {
-                                LengthValid.innerHTML = response.errorMessageLen;
-                            }
-                        }
-                        else {
-                            LengthValid.innerHTML = "";
-                        };
-
-                        if (typeof response.errorMessageRad !== "undefined") {
-                            if (response.errorMessageRad == "The value '' is invalid.") {
-                                BendRadiusValid.innerHTML = "Поле обязательно для заполнения";
-                            }
-                            else {
-                                BendRadiusValid.innerHTML = response.errorMessageRad;
-                            }
-                        }
-                        else {
-                            BendRadiusValid.innerHTML = "";
-                        };
-
-                        if (typeof response.errorMessageLenSecond !== "undefined") {
-                            if (response.errorMessageLenSecond == "The value '' is invalid.") {
-                                LengthSecondValid.innerHTML = "Поле обязательно для заполнения";
-                            }
-                            else {
-                                LengthSecondValid.innerHTML = response.errorMessageLenSecond;
-                            }
-                        }
-                        else {
-                            LengthSecondValid.innerHTML = "";
-                        };
-                    }                  
-                }
-            }
-            )
-            var xhrGetAnchorJsonResultJS = JSON.stringify(xhrGetAnchorJsonResult);
-        }        
-        )
-
-        function inputMask(input, maxCharacters, maxValue, minValue) {
-            let inputValue = input.value;
-            // Character limit
-            if (inputValue.length > maxCharacters) {
-                inputValue = inputValue.slice(0, maxCharacters);
-                input.value = inputValue;
-            }
-            // Integer value constraints
-            inputValue = inputValue.trim();
-            if (/^[0-9]*$/.test(inputValue)) {
-                const intValue = parseInt(inputValue);
-                if (intValue < minValue) {
-                    input.value = minValue.toString();
-                } else if (intValue > maxValue) {
-                    input.value = maxValue.toString();
-                }
-            } else {
-                input.value = '';
-            }
-        }
-
-        let inputThreadLength = document.getElementById('ThreadLength');
-        let inputThreadLengthValue;
-
-        inputThreadLength.addEventListener('input', (event) => {
-            inputMask(inputThreadLength, 4, 9999, 0);           
-            inputThreadLengthValue = event.target.value;
-        });
-
-        let inputThreadLengthSecond = document.getElementById('ThreadLengthSecond');
-        let inputThreadLengthSecondValue;
-
-        inputThreadLengthSecond.addEventListener('input', (event) => {
-            inputMask(inputThreadLengthSecond, 4, 9999, 0);
-            inputThreadLengthSecondValue = event.target.value;
-            if (inputThreadLengthSecondValue > 0)
-            {
-                console.log(inputThreadLengthSecondValue)
-            }            
-        });
-
-        let threadDiameterValue;
-        threadDiameterInput.addEventListener('input', (event) => {
-            if (!threadDiameterInput.readOnly) {
-                inputMask(threadDiameterInput, 2, 99, 0);
-                threadDiameterValue = event.target.value;
-                changeFuncThreadStep(threadDiameterValue);
-            }
-        });
-
-        let bendRadiusValue;
-        bendRadiusInput.addEventListener('input', (event) => {
-            if (!bendRadiusInput.readOnly) {
-                inputMask(bendRadiusInput, 2, 99, 0);
-                bendRadiusValue = event.target.value;
-            }
-        });
-
-        function getMaterialJsonResult(callback){
-            var selectBox = document.getElementById("selectBox");
-            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-            $.ajax(
-                {
-                    url: '@Url.Action("GetMaterialJsonResult", "Material")',
-                    type: 'GET',
-                    data: { 'id': selectedValue },
-                    success: function (response) {
-                        if (response.success) {
-                            callback(response.materialJS);
-                    } else {
-                            callback(null);
-                    }
-                }})}
-
-        function changeFuncDiamAnchor() {
-             getMaterialJsonResult(function (materialJs) {
-                console.log(materialJs)
-                var diameterMaterial
-                 if (materialJs != null) {
-                     diameterMaterial = materialJs.size;
-                     if (diameterMaterial >= 8 && diameterMaterial < 16){ 
-                          hasCuttingThreadDivCheckbox.checked = true;
-                     }
-                 }
-                 else { 
-                     console.log("Материал не выбран"); 
-                 }
-             })
-            setBendAndThread()
-           }
-        
-        function setBendAndThread() {
-            setThreadDiameter(getMaterialJsonResult)
-            setBenRadius(getMaterialJsonResult);
-        }
-
-        function setBenRadius(callBack) {
-            callBack(function (materialJs) { 
-                if (materialJs != null) {
-                    var diameterMaterial = materialJs.size;
-                    var typeMaterial = materialJs.type;
-                    var BendRadius = document.getElementById("BendRadius");
-                    if (diameterMaterial > 0 && diameterMaterial <= 12) {
-                        BendRadius.value = 12;
-                    } else if (diameterMaterial > 12 && diameterMaterial <= 16) {
-                        BendRadius.value = 16;
-                    } else if (diameterMaterial > 16 && diameterMaterial <= 20) {
-                        BendRadius.value = 20;
-                    } else if (diameterMaterial > 20 && diameterMaterial <= 24) {
-                        BendRadius.value = 24;
-                    } else if (diameterMaterial > 24 && diameterMaterial <= 30) {
-                        BendRadius.value = 30;
-                    } else if (diameterMaterial > 30 && diameterMaterial <= 36) {
-                        BendRadius.value = 36;
-                    } else if (diameterMaterial > 36 && diameterMaterial <= 42) {
-                        BendRadius.value = 42;
-                    } else if (diameterMaterial > 42 && diameterMaterial <= 48) {
-                        BendRadius.value = 48;
-                    }
-                    else if (diameterMaterial == 56) {
-                        BendRadius.value = 75;
-                    } else {
-                        BendRadius.value = 0;
-                    }
-                    if (diameterMaterial == 16 && typeMaterial == 1) {
-                        BendRadius.value = 20;
-                    }
-                    if (diameterMaterial == 20 && typeMaterial == 1) {
-                        BendRadius.value = 24;
-                    }
-                    if (diameterMaterial == 28 && typeMaterial == 1) {
-                        BendRadius.value = 36;
-                    }
-                    if (diameterMaterial == 36 && typeMaterial == 1) {
-                        BendRadius.value = 42;
-                    }
-                } else { 
-                    console.log("Материал не выбран");
-                }
-                }
-            )
-        };
-
-        function setThreadDiameter(callBack) {
-             var ThreadDiameterInt;
-             callBack(function (materialJs) {
-                if (materialJs != null) {
-                    var diameterMaterial = materialJs.size;
-                    var typeMaterial = materialJs.type;
-                    var ThreadDiameterInt;
-                    if (diameterMaterial == 0) {
-                        DiametrInput.value = '';
-                    } else {
-                        console.log(diameterMaterial)
-                        DiametrInput.value = diameterMaterial;
-                    }
-                    if (!hasThreadDivCheckbox.checked) {
-                        ThreadDiameterInt = 0
-                    } else {
-                        if (hasCuttingThreadDivCheckbox.checked) {
-                            console.log(diameterMaterial)
-                            if (diameterMaterial >= 6 && diameterMaterial < 8) {
-                                if (typeMaterial == 0) {
-                                    ThreadDiameterInt = 6;
-                                } else {
-                                    ThreadDiameterInt = 5;
-                                }
-                            }
-                            else if (diameterMaterial >= 8 && diameterMaterial < 10) {
-                                if (typeMaterial == 0) {
-                                    ThreadDiameterInt = 8;
-                                }
-                                else {
-                                    ThreadDiameterInt = 8;
-                                }
-                            }
-                            else if (diameterMaterial >= 10 && diameterMaterial < 12) {
-                                if (typeMaterial == 0) {
-                                    ThreadDiameterInt = 10;
-                                }
-                                else {
-                                    ThreadDiameterInt = 6;
-                                }
-                            }
-                            else if (diameterMaterial >= 12 && diameterMaterial < 14) {
-                                if (typeMaterial == 0) {
-                                    ThreadDiameterInt = 12;
-                                }
-                                else {
-                                    ThreadDiameterInt = 8;
-                                }
-                            }
-                            else if (diameterMaterial >= 14 && diameterMaterial < 16) {
-                                if (typeMaterial == 0) {
-                                    ThreadDiameterInt = 14;
-                                }
-                                else {
-                                    ThreadDiameterInt = 10;
-                                }
-                            }
-                            else if (diameterMaterial >= 16 && diameterMaterial < 18) {
-                                if (typeMaterial == 0) {
-                                    ThreadDiameterInt = 16;
-                                }
-                                else {
-                                    ThreadDiameterInt = 12;
-                                }
-                            }
-                            else if (diameterMaterial >= 18 && diameterMaterial < 20) {
-                                if (typeMaterial == 0) {
-                                    ThreadDiameterInt = 18;
-                                }
-                                else {
-                                    ThreadDiameterInt = 14;
-                                }
-                            }
-                            else if (diameterMaterial >= 20 && diameterMaterial < 22) {
-                                if (typeMaterial == 0) {
-                                    ThreadDiameterInt = 20;
-                                }
-                                else {
-                                    ThreadDiameterInt = 16;
-                                }
-                            }
-                            else if (diameterMaterial >= 22 && diameterMaterial < 32) {
-                                if (typeMaterial == 0) {
-                                    if (diameterMaterial >= 22 && diameterMaterial < 24) {
-                                        ThreadDiameterInt = 22;
-                                    }
-                                    else if (diameterMaterial >= 24 && diameterMaterial < 27) {
-                                        ThreadDiameterInt = 24;
-                                    }
-                                    else if (diameterMaterial >= 27 && diameterMaterial < 30) {
-                                        ThreadDiameterInt = 27;
-                                    }
-                                    else if (diameterMaterial >= 30 && diameterMaterial < 32) {
-                                        ThreadDiameterInt = 30;
-                                    }
-                                }
-                                else {
-                                    if (diameterMaterial >= 22 && diameterMaterial < 25) {
-                                        ThreadDiameterInt = 18;
-                                    }
-                                    else if (diameterMaterial >= 25 && diameterMaterial < 28) {
-                                        ThreadDiameterInt = 22;
-                                    }
-                                    else if (diameterMaterial >= 28 && diameterMaterial < 32) {
-                                        ThreadDiameterInt = 24;
-                                    }
-                                }
-                            }
-                            else if (diameterMaterial >= 32 && diameterMaterial < 36) {
-                                if (typeMaterial == 0) {
-                                    ThreadDiameterInt = 30;
-                                }
-                                else {
-                                    ThreadDiameterInt = 27;
-                                }
-                            }
-                            else if (diameterMaterial >= 36 && diameterMaterial < 42) {
-                                if (typeMaterial == 0) {
-                                    ThreadDiameterInt = 36;
-                                }
-                                else {
-                                    if (diameterMaterial >= 36 && diameterMaterial < 40) {
-                                        ThreadDiameterInt = 30;
-                                    }
-                                    else if (diameterMaterial >= 40 && diameterMaterial < 42) {
-                                        ThreadDiameterInt = 36;
-                                    }
-                                }
-                            }
-                            else if (diameterMaterial >= 42 && diameterMaterial < 48) {
-                                ThreadDiameterInt = 42;
-                            }
-                            else if (diameterMaterial == 48) {
-                                ThreadDiameterInt = 48;
-                            }
-                            else {
-                                ThreadDiameterInt = Math.trunc(diameterMaterial);
-                            }
-                        }
-                        else {
-                            console.log(diameterMaterial)
-                            if (diameterMaterial >= 6 && diameterMaterial < 8) {
-                                ThreadDiameterInt = 6;
-                            }
-                            else if (diameterMaterial >= 8 && diameterMaterial < 10) {
-                                ThreadDiameterInt = 8;
-                            }
-                            else if (diameterMaterial >= 10 && diameterMaterial < 12) {
-                                ThreadDiameterInt = 10;
-                            }
-                            else if (diameterMaterial >= 12 && diameterMaterial < 14) {
-                                ThreadDiameterInt = 12;
-                            }
-                            else if (diameterMaterial >= 14 && diameterMaterial < 16) {
-                                ThreadDiameterInt = 14;
-                            }
-                            else if (diameterMaterial >= 16 && diameterMaterial < 18) {
-                                ThreadDiameterInt = 16;
-                            }
-                            else if (diameterMaterial >= 18 && diameterMaterial < 20) {
-                                ThreadDiameterInt = 18;
-                            }
-                            else if (diameterMaterial >= 20 && diameterMaterial < 22) {
-                                ThreadDiameterInt = 20;
-                            }
-                            else if (diameterMaterial >= 22 && diameterMaterial < 42) {
-                                if (typeMaterial == 0) {
-                                    if (diameterMaterial >= 22 && diameterMaterial < 24) {
-                                        ThreadDiameterInt = 22;
-                                    }
-                                    else if (diameterMaterial >= 24 && diameterMaterial < 27) {
-                                        ThreadDiameterInt = 24;
-                                    }
-                                    else if (diameterMaterial >= 27 && diameterMaterial < 30) {
-                                        ThreadDiameterInt = 27;
-                                    }
-                                    else if (diameterMaterial >= 30 && diameterMaterial < 32) {
-                                        ThreadDiameterInt = 30;
-                                    }
-                                    else if (diameterMaterial >= 32 && diameterMaterial < 36) {
-                                        ThreadDiameterInt = 30;
-                                    }
-                                    else if (diameterMaterial >= 36 && diameterMaterial < 42) {
-                                        ThreadDiameterInt = 36;
-                                    }
-                                }
-                                else {
-                                    if (diameterMaterial >= 22 && diameterMaterial < 25) {
-                                        ThreadDiameterInt = 22;
-                                    }
-                                    else if (diameterMaterial >= 25 && diameterMaterial < 28) {
-                                        ThreadDiameterInt = 24;
-                                    }
-                                    else if (diameterMaterial >= 28 && diameterMaterial < 32) {
-                                        ThreadDiameterInt = 27;
-                                    }
-                                    else if (diameterMaterial >= 32 && diameterMaterial <= 36) {
-                                        ThreadDiameterInt = 30;
-                                    }
-                                    else if (diameterMaterial > 36 && diameterMaterial <= 42) {
-                                        ThreadDiameterInt = 36;
-                                    }
-                                }
-                            }
-                            else if (diameterMaterial >= 42 && diameterMaterial < 48) {
-                                ThreadDiameterInt = 42;
-                            }
-                            else if (diameterMaterial == 48) {
-                                ThreadDiameterInt = 48;
-                            }
-                            else {
-                                ThreadDiameterInt = Math.trunc(diameterMaterial);
-                            }
-                        }
-                    }
-                } else {
-                    console.log("Материал не выбран");
-                    ThreadDiameterInt = 0;
-                }
-                console.log(ThreadDiameterInt)
-                changeFuncThreadStep(ThreadDiameterInt)
-                threadDiameterInput.value = ThreadDiameterInt
-            })
-        };
-
-               document.addEventListener("DOMContentLoaded", function(event) {
-                   $(':text').val('');
-                   $("#BendLength").val('0');
-                   $("#ThreadLengthSecond").val('0');
-                   $("#BendLength").inputmask("9999999", {"placeholder": ""});
-                   $("#Quantity").inputmask("9999", {"placeholder": ""});
-                   $("#Length").inputmask("9999999", {"placeholder": ""});
-                   $("#LengthSecond").val('0');
-                     });
-       
-
-            function showSubForm() {
-                 var straight = document.getElementById("straight");
-                 var withBend = document.getElementById("withBend");
-                 var withBendDouble = document.getElementById("withBendDouble");
-                 var subForm = document.getElementById("subForm");
-                 var threadLengthSecondDiv = document.getElementById("threadLengthSecondDiv");                
-                 var threadLengthSecondDivCheckbox = document.getElementById("threadLengthSecondDivCheckbox");
-                 var threadLengthSecondDivInp = document.getElementById("threadLengthSecondDivInp");
-                 var ThreadLengthSecond = document.getElementById("ThreadLengthSecond");
-                 var hasThreadDivCheckbox = document.getElementById("hasThreadDivCheckbox");
-                 var withoutBindRadiusBendDiamMatetialDiv = document.getElementById("withoutBindRadiusBendDiamMatetialDiv");
-                 var withoutBindRadiusBendDiamMatetialDivCheckbox = document.getElementById("withoutBindRadiusBendDiamMatetialDivCheckbox");
-                 var hasVariableLengthDiv = document.getElementById("hasVariableLengthDiv");
-                 if (withBend.checked || withBendDouble.checked) {
-                   if (withBendDouble.checked) {
-                    hasVariableLengthDiv.hidden = false;
-                   } else {
-                    hasVariableLengthDiv.hidden = true;
-                   }
-                   subForm.style.display = "block";
-                   threadLengthSecondDiv.style.display = "none"
-                   threadLengthSecondDivCheckbox.checked = false
-                   threadLengthSecondDivInp.style.display = "none"
-                   ThreadLengthSecond.value = 0
-                   withoutBindRadiusBendDiamMatetialDiv.style.display = "block"
-                if (!withoutBindRadiusBendDiamMatetialDivCheckbox.checked) {
-                      setBenRadius(getMaterialJsonResult);
-                   }
-                 }
-                 else {
-                     subForm.style.display = "none";
-                     document.getElementById("BendLength").value = 0;
-                     if (!hasThreadDivCheckbox.checked) {
-                         threadLengthSecondDiv.style.display = "none"
-                         threadLengthSecondDivCheckbox.checked = false
-                     } else {                                                  
-                         threadLengthSecondDiv.style.display = "block"
-                     }
-                     withoutBindRadiusBendDiamMatetialDiv.style.display = "none"
-                     withoutBindRadiusBendDiamMatetialDivCheckbox.checked = false
-                     bendRadiusInput.readOnly = true;
-                 }
-               }
-
-
-        function showthreadLengthSecondDivInp() {
-            var threadLengthSecondDivCheckbox = document.getElementById("threadLengthSecondDivCheckbox");
-            var straight = document.getElementById("straight");
-            var threadLengthSecondDivInp = document.getElementById("threadLengthSecondDivInp");
-            var ThreadLengthSecond = document.getElementById("ThreadLengthSecond");
-            if (straight.checked) {
-                if (threadLengthSecondDivCheckbox.checked) {
-                 threadLengthSecondDivInp.style.display = "block";
-                } else {
-                 threadLengthSecondDivInp.style.display = "none";
-                 ThreadLengthSecond.value = 0;
-                }               
-            }
-        }
-
-        function showtLengthSecondDiv(checkbox) {          
-            var withBendDouble = document.getElementById("withBendDouble");            
-            if (checkbox.checked) {
-                LengthSecondDiv.hidden = false;                      
-            } else {
-                LengthSecondDiv.hidden = true;
-            }
-            $("#LengthSecond").val('0');
-        }
-
-        function changeFuncThreadStep(Diameter) {
-            var inputThreadStep = document.getElementById("ThreadStep");
-            var valueThreadStep;
-            if (Diameter > 0 && Diameter <= 6) {
-                         valueThreadStep =  "1";
-            }
-            else if (Diameter > 6 && Diameter <= 8) {
-                         valueThreadStep =  "1.25";
-            }
-            else if (Diameter > 8 && Diameter <= 10) {
-                         valueThreadStep =  "1.5";
-            }
-            else if (Diameter > 10 && Diameter <= 12) {
-                         valueThreadStep =  "1.75";
-            }
-            else if (Diameter > 12 && Diameter <= 16) {
-                         valueThreadStep =  "2";
-            }
-                         else if(Diameter > 16 && Diameter <= 22)
-            {
-                         valueThreadStep =  "2.5";
-            }
-                          else if(Diameter > 22 && Diameter <= 27)
-            {
-                         valueThreadStep =  "3";
-            }
-                          else if(Diameter > 27 && Diameter <= 30)
-            {
-                         valueThreadStep =  "3.5";
-            }
-            else if (Diameter > 30 && Diameter <= 36) {
-                         valueThreadStep =  "4";
-            }
-                          else if(Diameter > 36 && Diameter <= 42)
-            {
-                         valueThreadStep =  "4.5";
-            }
-            else if (Diameter > 42 && Diameter <= 48) {
-                         valueThreadStep =  "5";
-            }
-            else if (Diameter == 56) {
-                valueThreadStep = "5.5";
-            }
-            else
-            {
-               valueThreadStep = "0";
-            }
-            inputThreadStep.value = valueThreadStep
-            }
-
-
-        function Add(){
-             var materialIdtoDB = document.getElementById("materialIdtoDB").value;
-
-             var diametertoDB = document.getElementById("diametertoDB").value;
-
-             var lengthtoDB = document.getElementById("lengthtoDB").value;
-
-             var threadDiametertoDB = document.getElementById("threadDiametertoDB").value;
-
-             var threadLengthtoDB = document.getElementById("threadLengthtoDB").value;
-
-             var threadLengthSecondtoDB = document.getElementById("threadLengthSecondtoDB").value;
-
-             var threadSteptoDB = document.getElementById("threadSteptoDB").value;
-
-             var quantitytoDB = document.getElementById("quantitytoDB").value
-
-             var bendLengthtoDB = document.getElementById("bendLengthtoDB").value
-
-             var bendRadiustoDB = document.getElementById("bendRadiustoDB").value
-
-             var pricetoDB = document.getElementById("pricetoDB").value;
-
-             var amounttoDB = document.getElementById("amounttoDB").value;
-
-             var billetLengthtoDB = document.getElementById("billetLengthtoDB").value
-
-             var weighttoDB = document.getElementById("weighttoDB").value
-
-             var batchWeighttoDB = document.getElementById("batchWeighttoDB").value
-
-             var sebestoDB = document.getElementById("sebestoDB").value
-
-             var batchSebestoDB = document.getElementById("batchSebestoDB").value
-
-             var svgtoDB = document.getElementById("containSvg").innerHTML;
-
-             var kindToDB = document.getElementById("kindToDB").value;
-
-             var batchPriceMaterialToDB = document.getElementById("batchPriceMaterialToDB").value
-
-             var batchPriceProductionThreadToDB = document.getElementById("batchPriceProductionThreadToDB").value
-
-             var batchPriceProductionBendToDB = document.getElementById("batchPriceProductionBendToDB").value
-
-             var batchPriceProductionBandSawToDB = document.getElementById("batchPriceProductionBandSawToDB").value
-
-             var lengthPathRollerToDB = document.getElementById("lengthPathRollerToDB").value
-
-             var lengthBeforeEndPathRollerToDB = document.getElementById("lengthBeforeEndPathRollerToDB").value
-
-             var productionIdToDB = document.getElementById("productionIdToDB").value
-
-             var timeProductionThreadToDB = document.getElementById("timeProductionThreadToDB").value
-
-             var timeProductionBendToDB = document.getElementById("timeProductionBendToDB").value
-
-             var timeProductionBandSawToDB = document.getElementById("timeProductionBandSawToDB").value
-
-             var lengthFullToDB = document.getElementById("lengthFullToDB").value
-
-             var hasCuttingThreadToDB = document.getElementById("hasCuttingThreadToDB").value
-
-             var withoutBindThreadDiamMatetialToDB = document.getElementById("withoutBindThreadDiamMatetialToDB").value
-
-             var lengthSecondtoDB = document.getElementById("lengthSecondtoDB").value
-            $.ajax(
-                    {
-                        url: '@Url.Action("Add","Anchor")',
-                        type: 'POST',
-                        conntenttype: 'json',
-                        data: {
-                        'materialId': materialIdtoDB,
-                        'diameter': diametertoDB,
-                        'length': lengthtoDB,
-                        'threadDiameter': threadDiametertoDB,
-                        'threadLength': threadLengthtoDB,
-                        'threadLengthSecond': threadLengthSecondtoDB,
-                        'threadStep': threadSteptoDB,
-                        'quantity': quantitytoDB,
-                        'bendLength': bendLengthtoDB,
-                        'bendRadius': bendRadiustoDB,
-                        'price': pricetoDB,
-                        'amount': amounttoDB,
-                        'billetLength': billetLengthtoDB,
-                        'weight': weighttoDB,
-                        'batchWeight': batchWeighttoDB,
-                        'svgElement' : svgtoDB,
-                        'sebes': sebestoDB,
-                        'batchSebes': batchSebestoDB,
-                        'kind' : kindToDB,
-                        'batchPriceProductionThread' : batchPriceProductionThreadToDB,
-                        'batchPriceProductionBend' : batchPriceProductionBendToDB,
-                        'batchPriceProductionBandSaw' : batchPriceProductionBandSawToDB,
-                        'batchPriceMaterial': batchPriceMaterialToDB,
-                        'lengthPathRoller': lengthPathRollerToDB,
-                        'lengthBeforeEndPathRoller': lengthBeforeEndPathRollerToDB,
-                        'productionId': productionIdToDB,
-                        'timeProductionThread': timeProductionThreadToDB,
-                        'timeProductionBend': timeProductionBendToDB,
-                        'timeProductionBandSaw': timeProductionBandSawToDB,
-                        'lengthFull': lengthFullToDB,
-                        'hasCuttingThread': hasCuttingThreadToDB,
-                        'withoutBindThreadDiamMatetial': withoutBindThreadDiamMatetialToDB,
-                        'lengthSecond': lengthSecondtoDB
-                        },
-                        success: function(response)
-                        {
-                            if(response.success)
-                            {
-                                var btn_drawing_pdf = document.getElementById("btn_drawing_pdf");
-                                btn_drawing_pdf.className = 'btn btn-dark';                     
-                                btn_drawing_pdf.disabled = false;
-                                btn_drawing_pdf.setAttribute('onclick', 'PrintDraw(' + response.id + ')')
-
-                                var btn_blank_pdf = document.getElementById("btn_blank_pdf");
-                                btn_blank_pdf.className = 'btn btn-dark';
-                                btn_blank_pdf.disabled = false;
-                                btn_blank_pdf.setAttribute('onclick', 'PrintBlank(' + response.id + ')')
-
-                                document.getElementById("liveToastBtn").disabled = true;
-                                var toastTrigger = document.getElementById('liveToastBtn')
-                                var toastLiveExample = document.getElementById('liveToast')
-                                if (toastTrigger) {
-                                    var toast = new bootstrap.Toast(toastLiveExample)
-                                    toast.show()
-                                }
-                            }
-                        }
-                    }
-            )
-             }       
-    </script>
-    <script type="text/javascript" src="~/js/print.js"></script>
-    <script src="~/lib/jquery/jasonday-printThis-23be1f8/printThis.js"></script>
-    <script type="text/javascript" src="~/js/printDrawBlank.js"></script>
+@section Scripts
+{
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+	<script>
+		let hasCuttingThreadDivCheckbox = document.getElementById("hasCuttingThreadDivCheckbox");
+		let withoutBindThreadDiamMaterialDivCheckbox = document.getElementById("withoutBindThreadDiamMaterialDivCheckbox");
+		let threadDiameterInput = document.getElementById("threadDiameterMillimeters");
+		let withoutBindRadiusBendDiamMaterialDivCheckbox = document.getElementById("withoutBindRadiusBendDiamMaterialDivCheckbox");
+		let bendRadiusInput = document.getElementById("bendRadiusMillimeters");
+		let hasThreadDivCheckbox = document.getElementById("hasThreadDivCheckbox");
+		let diameterInput = document.getElementById("diameterMillimeters");
+
+		function onWithoutBindThreadDiamMaterial()
+		{
+			if (withoutBindThreadDiamMaterialDivCheckbox.checked)
+				threadDiameterInput.readOnly = false;
+			else
+			{
+				threadDiameterInput.readOnly = true;
+				setThreadDiameter(getMaterialJsonResult)
+			}
+		}
+
+		function onWithoutBindRadiusBendDiamMaterial()
+		{
+			if (withoutBindRadiusBendDiamMaterialDivCheckbox.checked)
+				bendRadiusInput.readOnly = false;
+			else
+			{
+				bendRadiusInput.readOnly = true;
+				setBendRadius(getMaterialJsonResult);
+			}
+		}
+
+		function onCheckThreadCutter()
+		{
+		}
+
+		function unableDisableThreadInput()
+		{
+			changeFuncDiamAnchor();
+
+			let threadSecondLengthMillimetersDivCheckbox = document.getElementById("threadSecondLengthMillimetersDivCheckbox");
+			let threadSecondLengthMillimetersDiv = document.getElementById("threadSecondLengthMillimetersDiv");
+			let straightAnchor = document.getElementById("straightAnchor");
+			let threadLengthMillimeters = document.getElementById("threadLengthMillimeters");
+			let hasCuttingThreadDiv = document.getElementById("hasCuttingThreadDiv");
+			let withoutBindThreadDiamMaterialDiv = document.getElementById("withoutBindThreadDiamMaterialDiv");
+
+			if (hasThreadDivCheckbox.checked)
+			{
+				threadLengthMillimeters.disabled = false;
+				threadLengthMillimeters.value = '';
+				hasCuttingThreadDiv.style.display = "block";
+				withoutBindThreadDiamMaterialDiv.style.display = "block";
+
+				if (straightAnchor.checked)
+					threadSecondLengthMillimetersDiv.style.display = "block";
+			}
+			else
+			{
+				threadSecondLengthMillimetersDiv.style.display = "none";
+				threadSecondLengthMillimetersDivCheckbox.checked = false;
+				threadLengthMillimeters.disabled = true;
+				threadLengthMillimeters.value = 0;
+				showthreadSecondLengthMillimetersDivInp();
+				hasCuttingThreadDiv.style.display = "none";
+				hasCuttingThreadDivCheckbox.checked = false;
+				withoutBindThreadDiamMaterialDiv.style.display = "none";
+				withoutBindThreadDiamMaterialDivCheckbox.checked = false;
+				threadDiameterInput.readOnly = true;
+			}
+		}
+
+		let Descript_to_blank;
+		let calculateForm = document.getElementById("CalculateForm");
+
+		calculateForm.addEventListener("submit", function formSubmit(event)
+		{
+			event.preventDefault();
+
+			let addButton = document.getElementById("liveToastBtn");
+			if (addButton !== null)
+				addButton.disabled = false;
+
+			let formData = new FormData(calculateForm);
+			$.ajax(
+			{
+				url: '@Url.Action("GetAnchorJsonResult", "Anchor")',
+				type: 'POST',
+				contentType: false,
+				processData: false,
+				data: formData,
+				success: function (response)
+				{
+					if (response.success)
+					{
+						document.getElementById("threadDiameterMillimetersValid").innerHTML = "";
+						document.getElementById("bendLengthMillimetersValid").innerHTML = "";
+						document.getElementById("threadLengthMillimetersValid").innerHTML = "";
+						document.getElementById("threadSecondLengthMillimetersValid").innerHTML = "";
+						document.getElementById("lengthMillimetersValid").innerHTML = "";
+						document.getElementById("bendRadiusMillimetersValid").innerHTML = "";
+						document.getElementById("secondLengthMillimetersValid").innerHTML = "";
+
+						console.log('threadDiameterMillimetersValid.innerHTML' + document.getElementById("threadDiameterMillimetersValid").innerHTML + '');
+						console.log('bendLengthMillimetersValid.innerHTML' + document.getElementById("bendLengthMillimetersValid").innerHTML + '');
+
+						document.getElementById("containSvg").innerHTML = response.anchorJS.svgElement;
+						document.getElementById("svg_pdf").innerHTML = response.anchorJS.svgElement;
+						document.getElementById("svg_blank_pdf").innerHTML = response.anchorJS.svgElement;
+						document.getElementById("descriptAnchor").style.display = "flex";
+
+						let curDate = Date.now();
+						let uptDate = new Date(response.anchorJS.material.dateUpdate);
+						const milliseconds = 86400000;
+						let dif = Math.ceil((curDate - uptDate.getTime()) / milliseconds);
+						let warn_Update = '';
+						let warn_Production = '';
+						let time_Production = '';
+						let price_Production = '';
+						if (dif > 14)
+							warn_Update = 'Стоимость материала не обновлялась ' + dif + ' дней!';
+
+						if (response.anchorJS.productionId === 0)
+							warn_Production = 'Анкер изгототавливается на токарном станке';
+
+						if (response.isAuthen)
+						{
+							price_Production = '<p class="card-text">Цена накатки/нарезки резьбы: ' + response.anchorJS.batchPriceProductionThread + ' сом</p>' +
+							                   '<p class="card-text">Цена гибки: ' + response.anchorJS.batchPriceProductionBend + ' сом</p>' +
+							                   '<p class="card-text">Цена лентопила: ' + response.anchorJS.batchPriceProductionBandSaw + ' сом</p>';
+
+							time_Production = '<p class="card-text">Время накатки/нарезки резьбы: ' + response.anchorJS.productionThreadHours + ' ч</p>' +
+							                  '<p class="card-text">Время гибки: ' + response.anchorJS.productionBendHours + ' ч</p>' +
+							                  '<p class="card-text">Время лентопила: ' + response.anchorJS.productionBandSawHours + ' ч</p>';
+
+							Descript_to_blank = '<div id="Descript_to_blank">' +
+							                        '<h5 class="card-title">Результаты расчёта</h5>' +
+							                        '<p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
+							                        '<p class="card-text">Цена: ' + response.anchorJS.price + ' сом</p>' +
+							                        '<p class="card-text">Общая стоимость: ' + response.anchorJS.totalCost + ' сом</p>' +
+							                        '<p class="card-text">Длина заготовки: ' + response.anchorJS.billetLengthMillimeters + ' мм</p>' +
+							                        '<p class="card-text">Цена мат-ла на 1 шт: ' + response.anchorJS.priceMaterial + ' сом</p>' +
+							                        '<p class="card-text">Цена мат-ла на ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.batchPriceMaterial + ' сом</p>' +
+							                        '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weightKg + ' кг</p>' +
+							                        '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.batchWeightKg + ' кг</p>' +
+							                        '<p class="card-text">Материал: ' + response.anchorJS.material.fullName + '</p>' +
+							                        '<p class="card-text">Исполнитель: @User.Identity!.Name</p>' + price_Production + time_Production +
+							                        '<p class="card-text">Общая длина: ' + response.anchorJS.fullLengthMeters + ' м</p>' +
+							                        '<p class="card-text text-danger">' + warn_Update + '</p></div>' +
+							                        '<p class="card-text text-success">' + warn_Production + '</p>' +
+							                    '</div>';
+
+							document.getElementById("listBlank").innerHTML = Descript_to_blank;
+
+							document.getElementById("priceWeight").innerHTML = Descript_to_blank +
+							                        '<input id="materialIdToDB" type="hidden" value="'+ response.anchorJS.materialId +'">' +
+							                        '<input id="diameterMillimetersToDB" type="hidden" value="'+ response.anchorJS.diameterMillimeters +'">' +
+							                        '<input id="lengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.lengthMillimeters +'">' +
+							                        '<input id="secondLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.secondLengthMillimeters +'">' +
+							                        '<input id="threadDiameterMillimetersToDB" type="hidden" value="'+ response.anchorJS.threadDiameterMillimeters +'">' +
+							                        '<input id="threadLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.threadLengthMillimeters +'">' +
+							                        '<input id="threadSecondLengthMillimetersToDB" type="hidden" value="' + response.anchorJS.threadSecondLengthMillimeters + '">' +
+							                        '<input id="threadStepMillimetersToDB" type="hidden" value="'+ response.anchorJS.threadStepMillimeters +'">' +
+							                        '<input id="quantityToDB" type="hidden" value="'+ response.anchorJS.quantity +'">' +
+							                        '<input id="bendLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.bendLengthMillimeters +'">' +
+							                        '<input id="bendRadiusMillimetersToDB" type="hidden" value="'+ response.anchorJS.bendRadiusMillimeters +'">' +
+							                        '<input id="sebesToDB" type="hidden" value="'+ response.anchorJS.sebes +'">' +
+							                        '<input id="batchSebesToDB" type="hidden" value="'+ response.anchorJS.batchSebes +'">' +
+							                        '<input id="priceToDB" type="hidden" value="'+ response.anchorJS.price +'">' +
+							                        '<input id="totalCostToDB" type="hidden" value="'+ response.anchorJS.totalCost +'">' +
+							                        '<input id="billetLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.billetLengthMillimeters +'">' +
+							                        '<input id="weightKgToDB" type="hidden" value="'+ response.anchorJS.weightKg +'">' +
+							                        '<input id="batchWeightKgToDB" type="hidden" value="'+ response.anchorJS.batchWeightKg +'">' +
+							                        '<input id="kindToDB" type="hidden" value="'+ response.anchorJS.kind +'">' +
+							                        '<input id="batchPriceProductionThreadToDB" type="hidden" value="' + response.anchorJS.batchPriceProductionThread + '">' +
+							                        '<input id="batchPriceProductionBendToDB" type="hidden" value="' + response.anchorJS.batchPriceProductionBend + '">' +
+							                        '<input id="batchPriceProductionBandSawToDB" type="hidden" value="' + response.anchorJS.batchPriceProductionBandSaw + '">' +
+							                        '<input id="batchPriceMaterialToDB" type="hidden" value="' + response.anchorJS.batchPriceMaterial + '">' +
+							                        '<input id="pathRollerLengthMillimetersToDB" type="hidden" value="' + response.anchorJS.pathRollerLengthMillimeters + '">' +
+							                        '<input id="pathRollerLengthMillimetersBeforeEndToDB" type="hidden" value="' + response.anchorJS.pathRollerLengthMillimetersBeforeEnd + '">' +
+							                        '<input id="productionIdToDB" type="hidden" value="' + response.anchorJS.productionId + '">' +
+							                        '<input id="productionThreadHoursToDB" type="hidden" value="' + response.anchorJS.productionThreadHours + '">' +
+							                        '<input id="productionBendHoursToDB" type="hidden" value="' + response.anchorJS.productionBendHours + '">' +
+							                        '<input id="productionBandSawHoursToDB" type="hidden" value="' + response.anchorJS.productionBandSawHours + '">' +
+							                        '<input id="fullLengthMetersToDB" type="hidden" value="' + response.anchorJS.fullLengthMeters + '">' +
+							                        '<input id="hasCuttingThreadToDB" type="hidden" value="' + response.anchorJS.hasCuttingThread + '">' +
+							                        '<input id="withoutBindThreadDiamMaterialToDB" type="hidden" value="' + response.anchorJS.withoutBindThreadDiamMaterial + '">' +
+							                        '<div class="btn-group mt-2" role="group" aria-label="Basic mixed styles example">' +
+							                            '<button type="button" id="liveToastBtn" class="btn btn-dark" onclick="Add();">Сохранить</button>' +
+							                            '<button type="button" id="btn_drawing_pdf" class="btn btn-secondary" disabled>Чертеж</button>' +
+							                            '<button type="button" id="btn_blank_pdf" class="btn btn-secondary" disabled onclick="PrintBlank();">Рез-ты</button>' +
+							                        '</div>';
+
+						}
+						else
+						{
+							Descript_to_blank = '<h5 class="card-title">Результаты расчёта</h5>' +
+							    '<p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
+							    '<p class="card-text">Цена: ' + response.anchorJS.price + ' сом</p>' +
+							    '<p class="card-text">Общая стоимость: ' + response.anchorJS.totalCost + ' сом</p>' +
+							    '<p class="card-text">Длина заготовки: ' + response.anchorJS.billetLengthMillimeters + ' мм</p>' +
+							    '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weightKg + ' кг</p>' +
+							    '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.batchWeightKg + ' кг</p>' +
+							    '<p class="card-text">Материал: ' + response.anchorJS.material.fullName + '</p>';
+
+							document.getElementById("listBlank").innerHTML = Descript_to_blank;
+							document.getElementById("priceWeight").innerHTML = Descript_to_blank + '<button type="button" id="btn_blank_pdf" class="btn btn-secondary" onclick="PrintBlank();">Распечатать</button>';
+						}
+					}
+					else
+					{
+						document.getElementById("descriptAnchor").style.display = "none";
+
+						if (typeof response.errorMessageThreadDiam !== "undefined")
+						{
+							if (response.errorMessageThreadDiam === "The value '' is invalid.")
+								threadDiameterMillimetersValid.innerHTML = "Поле обязательно для заполнения";
+							else
+								threadDiameterMillimetersValid.innerHTML = response.errorMessageThreadDiam
+						}
+						else
+							threadDiameterMillimetersValid.innerHTML = "";
+
+						if (typeof response.errorMessageBendLen !== "undefined")
+						{
+							if (response.errorMessageBendLen === "The value '' is invalid.")
+								bendLengthMillimetersValid.innerHTML = "Поле обязательно для заполнения";
+							else
+								bendLengthMillimetersValid.innerHTML = response.errorMessageBendLen
+						}
+						else
+							bendLengthMillimetersValid.innerHTML = "";
+
+						if (typeof response.errorMessageThreadLen !== "undefined")
+						{
+							if (response.errorMessageThreadLen === "The value '' is invalid.")
+								threadLengthMillimetersValid.innerHTML = "Поле обязательно для заполнения";
+							else
+								threadLengthMillimetersValid.innerHTML = response.errorMessageThreadLen;
+						}
+						else
+							threadLengthMillimetersValid.innerHTML = "";
+
+						if (typeof response.errorMessageThreadSecondLen !== "undefined")
+						{
+							if (response.errorMessageThreadSecondLen === "The value '' is invalid.")
+								threadSecondLengthMillimetersValid.innerHTML = "Поле обязательно для заполнения";
+							else
+								threadSecondLengthMillimetersValid.innerHTML = response.errorMessageThreadSecondLen;
+						}
+						else
+							threadSecondLengthMillimetersValid.innerHTML = "";
+
+						if (typeof response.errorMessageLen !== "undefined")
+						{
+							if (response.errorMessageLen === "The value '' is invalid.")
+								lengthMillimetersValid.innerHTML = "Поле обязательно для заполнения";
+							else
+								lengthMillimetersValid.innerHTML = response.errorMessageLen;
+						}
+						else
+							lengthMillimetersValid.innerHTML = "";
+
+						if (typeof response.errorMessageRad !== "undefined")
+						{
+							if (response.errorMessageRad === "The value '' is invalid.")
+								bendRadiusMillimetersValid.innerHTML = "Поле обязательно для заполнения";
+							else
+								bendRadiusMillimetersValid.innerHTML = response.errorMessageRad;
+						}
+						else
+							bendRadiusMillimetersValid.innerHTML = "";
+
+						if (typeof response.errorMessageLenSecond !== "undefined")
+						{
+							if (response.errorMessageLenSecond === "The value '' is invalid.")
+								secondLengthMillimetersValid.innerHTML = "Поле обязательно для заполнения";
+							else
+								secondLengthMillimetersValid.innerHTML = response.errorMessageLenSecond;
+						}
+						else
+							secondLengthMillimetersValid.innerHTML = "";
+					}
+				}
+			});
+		});
+
+		function inputMask(input, maxCharacters, maxValue, minValue)
+		{
+			let inputValue = input.value;
+
+			// Character limit
+			if (inputValue.length > maxCharacters)
+			{
+				inputValue = inputValue.slice(0, maxCharacters);
+				input.value = inputValue;
+			}
+
+			// Integer value constraints
+			inputValue = inputValue.trim();
+			if (/^[0-9]*$/.test(inputValue))
+			{
+				const intValue = parseInt(inputValue);
+
+				if (intValue < minValue)
+					input.value = minValue.toString();
+				else if (intValue > maxValue)
+					input.value = maxValue.toString();
+			}
+			else
+				input.value = '';
+		}
+
+		let inputThreadLength = document.getElementById('threadLengthMillimeters');
+		let inputThreadLengthValue;
+
+		inputThreadLength.addEventListener('input', (event) =>
+		{
+			inputMask(inputThreadLength, 4, 9999, 0);
+			inputThreadLengthValue = event.target.value;
+		});
+
+		let inputThreadSecondLengthMillimeters = document.getElementById('threadSecondLengthMillimeters');
+		let inputThreadSecondLengthMillimetersValue;
+
+		inputThreadSecondLengthMillimeters.addEventListener('input', (event) =>
+		{
+			inputMask(inputThreadSecondLengthMillimeters, 4, 9999, 0);
+			inputThreadSecondLengthMillimetersValue = event.target.value;
+
+			if (inputThreadSecondLengthMillimetersValue > 0)
+				console.log(inputThreadSecondLengthMillimetersValue)
+		});
+
+		let threadDiameterValue;
+		threadDiameterInput.addEventListener('input', (event) =>
+		{
+			if (!threadDiameterInput.readOnly)
+			{
+				inputMask(threadDiameterInput, 2, 99, 0);
+				threadDiameterValue = event.target.value;
+				changeFuncThreadStep(threadDiameterValue);
+			}
+		});
+
+		let bendRadiusValue;
+		bendRadiusInput.addEventListener('input', (event) =>
+		{
+			if (!bendRadiusInput.readOnly)
+			{
+				inputMask(bendRadiusInput, 2, 99, 0);
+				bendRadiusValue = event.target.value;
+			}
+		});
+
+		function getMaterialJsonResult(callback)
+		{
+			let selectBox = document.getElementById("selectBox");
+			let selectedValue = selectBox.options[selectBox.selectedIndex].value;
+			$.ajax(
+			{
+				url: '@Url.Action("GetMaterialJsonResult", "Material")',
+				type: 'GET',
+				data: { 'id': selectedValue },
+				success: function (response)
+				{
+					if (response.success)
+						callback(response.materialJS);
+					else
+						callback(null);
+				}
+			});
+		}
+
+		function changeFuncDiamAnchor()
+		{
+			getMaterialJsonResult(function (materialJs)
+			{
+				console.log(materialJs);
+				let diameterMaterial;
+				if (materialJs != null)
+				{
+					diameterMaterial = materialJs.size;
+
+					if (diameterMaterial >= 8 && diameterMaterial < 16)
+						hasCuttingThreadDivCheckbox.checked = true;
+				}
+				else
+					console.log("Материал не выбран");
+			});
+			setBendAndThread()
+		}
+
+		function setBendAndThread()
+		{
+			setThreadDiameter(getMaterialJsonResult)
+			setBendRadius(getMaterialJsonResult);
+		}
+
+		function setBendRadius(callback)
+		{
+			// TODO: Rewrite this horoble abominations mess
+			callback(function (materialJs)
+			{
+				if (materialJs != null)
+				{
+					let diameterMaterial = materialJs.size;
+					let typeMaterial = materialJs.type;
+					let bendRadiusMillimeters = document.getElementById("bendRadiusMillimeters");
+
+					if (diameterMaterial > 0 && diameterMaterial <= 12)
+						bendRadiusMillimeters.value = 12;
+					else if (diameterMaterial > 12 && diameterMaterial <= 16)
+						bendRadiusMillimeters.value = 16;
+					else if (diameterMaterial > 16 && diameterMaterial <= 20)
+						bendRadiusMillimeters.value = 20;
+					else if (diameterMaterial > 20 && diameterMaterial <= 24)
+						bendRadiusMillimeters.value = 24;
+					else if (diameterMaterial > 24 && diameterMaterial <= 30)
+						bendRadiusMillimeters.value = 30;
+					else if (diameterMaterial > 30 && diameterMaterial <= 36)
+						bendRadiusMillimeters.value = 36;
+					else if (diameterMaterial > 36 && diameterMaterial <= 42)
+						bendRadiusMillimeters.value = 42;
+					else if (diameterMaterial > 42 && diameterMaterial <= 48)
+						bendRadiusMillimeters.value = 48;
+					else if (diameterMaterial === 56)
+						bendRadiusMillimeters.value = 75;
+					else
+						bendRadiusMillimeters.value = 0;
+
+					if (diameterMaterial === 16 && typeMaterial === 1)
+						bendRadiusMillimeters.value = 20;
+					if (diameterMaterial === 20 && typeMaterial === 1)
+						bendRadiusMillimeters.value = 24;
+					if (diameterMaterial === 28 && typeMaterial === 1)
+						bendRadiusMillimeters.value = 36;
+					if (diameterMaterial === 36 && typeMaterial === 1)
+						bendRadiusMillimeters.value = 42;
+				}
+				else
+					console.log("Материал не выбран");
+			});
+		}
+
+		function setThreadDiameter(callback)
+		{
+			// TODO: Rewrite this horoble abominations mess
+			callback(function (materialJs)
+			{
+				let threadDiameterInt = 0;
+				
+				if (materialJs != null)
+				{
+					let diameterMaterial = materialJs.size;
+					let typeMaterial = materialJs.type;
+
+					if (diameterMaterial === 0)
+						diameterInput.value = '';
+					else
+						diameterInput.value = diameterMaterial;
+
+					if (!hasThreadDivCheckbox.checked)
+						threadDiameterInt = 0;
+					else
+					{
+						if (hasCuttingThreadDivCheckbox.checked)
+						{
+							if (diameterMaterial >= 6 && diameterMaterial < 8)
+							{
+								if (typeMaterial === 0)
+									threadDiameterInt = 6;
+								else
+									threadDiameterInt = 5;
+							}
+							else if (diameterMaterial >= 8 && diameterMaterial < 10)
+							{
+								if (typeMaterial === 0)
+									threadDiameterInt = 8;
+								else
+									threadDiameterInt = 8;
+							}
+							else if (diameterMaterial >= 10 && diameterMaterial < 12)
+							{
+								if (typeMaterial === 0)
+									threadDiameterInt = 10;
+								else
+									threadDiameterInt = 6;
+							}
+							else if (diameterMaterial >= 12 && diameterMaterial < 14)
+							{
+								if (typeMaterial === 0)
+									threadDiameterInt = 12;
+								else
+									threadDiameterInt = 8;
+							}
+							else if (diameterMaterial >= 14 && diameterMaterial < 16)
+							{
+								if (typeMaterial === 0)
+									threadDiameterInt = 14;
+								else
+									threadDiameterInt = 10;
+							}
+							else if (diameterMaterial >= 16 && diameterMaterial < 18)
+							{
+								if (typeMaterial === 0)
+									threadDiameterInt = 16;
+								else
+									threadDiameterInt = 12;
+							}
+							else if (diameterMaterial >= 18 && diameterMaterial < 20)
+							{
+								if (typeMaterial === 0)
+									threadDiameterInt = 18;
+								else
+									threadDiameterInt = 14;
+							}
+							else if (diameterMaterial >= 20 && diameterMaterial < 22)
+							{
+								if (typeMaterial === 0)
+									threadDiameterInt = 20;
+								else
+									threadDiameterInt = 16;
+							}
+							else if (diameterMaterial >= 22 && diameterMaterial < 32)
+							{
+								if (typeMaterial === 0)
+								{
+									if (diameterMaterial >= 22 && diameterMaterial < 24)
+										threadDiameterInt = 22;
+									else if (diameterMaterial >= 24 && diameterMaterial < 27)
+										threadDiameterInt = 24;
+									else if (diameterMaterial >= 27 && diameterMaterial < 30)
+										threadDiameterInt = 27;
+									else if (diameterMaterial >= 30 && diameterMaterial < 32)
+										threadDiameterInt = 30;
+								}
+								else
+								{
+									if (diameterMaterial >= 22 && diameterMaterial < 25)
+										threadDiameterInt = 18;
+									else if (diameterMaterial >= 25 && diameterMaterial < 28)
+										threadDiameterInt = 22;
+									else if (diameterMaterial >= 28 && diameterMaterial < 32)
+										threadDiameterInt = 24;
+								}
+							}
+							else if (diameterMaterial >= 32 && diameterMaterial < 36)
+							{
+								if (typeMaterial === 0)
+									threadDiameterInt = 30;
+								else
+									threadDiameterInt = 27;
+							}
+							else if (diameterMaterial >= 36 && diameterMaterial < 42)
+							{
+								if (typeMaterial === 0)
+									threadDiameterInt = 36;
+								else
+								{
+									if (diameterMaterial >= 36 && diameterMaterial < 40)
+										threadDiameterInt = 30;
+									else if (diameterMaterial >= 40 && diameterMaterial < 42)
+										threadDiameterInt = 36;
+								}
+							}
+							else if (diameterMaterial >= 42 && diameterMaterial < 48)
+								threadDiameterInt = 42;
+							else if (diameterMaterial === 48)
+								threadDiameterInt = 48;
+							else
+								threadDiameterInt = Math.trunc(diameterMaterial);
+						}
+						else
+						{
+							if (diameterMaterial >= 6 && diameterMaterial < 8)
+								threadDiameterInt = 6;
+							else if (diameterMaterial >= 8 && diameterMaterial < 10)
+								threadDiameterInt = 8;
+							else if (diameterMaterial >= 10 && diameterMaterial < 12)
+								threadDiameterInt = 10;
+							else if (diameterMaterial >= 12 && diameterMaterial < 14)
+								threadDiameterInt = 12;
+							else if (diameterMaterial >= 14 && diameterMaterial < 16)
+								threadDiameterInt = 14;
+							else if (diameterMaterial >= 16 && diameterMaterial < 18)
+								threadDiameterInt = 16;
+							else if (diameterMaterial >= 18 && diameterMaterial < 20)
+								threadDiameterInt = 18;
+							else if (diameterMaterial >= 20 && diameterMaterial < 22)
+								threadDiameterInt = 20;
+							else if (diameterMaterial >= 22 && diameterMaterial < 42)
+							{
+								if (typeMaterial === 0)
+								{
+									if (diameterMaterial >= 22 && diameterMaterial < 24)
+										threadDiameterInt = 22;
+									else if (diameterMaterial >= 24 && diameterMaterial < 27)
+										threadDiameterInt = 24;
+									else if (diameterMaterial >= 27 && diameterMaterial < 30)
+										threadDiameterInt = 27;
+									else if (diameterMaterial >= 30 && diameterMaterial < 32)
+										threadDiameterInt = 30;
+									else if (diameterMaterial >= 32 && diameterMaterial < 36)
+										threadDiameterInt = 30;
+									else if (diameterMaterial >= 36 && diameterMaterial < 42)
+										threadDiameterInt = 36;
+								}
+								else
+								{
+									if (diameterMaterial >= 22 && diameterMaterial < 25)
+										threadDiameterInt = 22;
+									else if (diameterMaterial >= 25 && diameterMaterial < 28)
+										threadDiameterInt = 24;
+									else if (diameterMaterial >= 28 && diameterMaterial < 32)
+										threadDiameterInt = 27;
+									else if (diameterMaterial >= 32 && diameterMaterial <= 36)
+										threadDiameterInt = 30;
+									else if (diameterMaterial > 36 && diameterMaterial <= 42)
+										threadDiameterInt = 36;
+								}
+							}
+							else if (diameterMaterial >= 42 && diameterMaterial < 48)
+								threadDiameterInt = 42;
+							else if (diameterMaterial === 48)
+								threadDiameterInt = 48;
+							else
+								threadDiameterInt = Math.trunc(diameterMaterial);
+						}
+					}
+				}
+				else
+				{
+					console.log("Материал не выбран");
+					threadDiameterInt = 0;
+				}
+
+				changeFuncThreadStep(threadDiameterInt);
+				threadDiameterInput.value = threadDiameterInt;
+			})
+		}
+
+		document.addEventListener("DOMContentLoaded", function ()
+		{
+			$(':text').val('');
+			$("#ThreadSecondLengthMillimeters").val('0');
+			$("#BendLengthMillimeters").val('0').inputmask("9999999", {"placeholder": ""});
+			$("#Quantity").inputmask("9999", {"placeholder": ""});
+			$("#LengthMillimeters").inputmask("9999999", {"placeholder": ""});
+			$("#SecondLengthMillimeters").val('0');
+		});
+
+
+		function showSubForm()
+		{
+			let singleBend = document.getElementById("singleBend");
+			let doubleBend = document.getElementById("doubleBend");
+			let subForm = document.getElementById("subForm");
+			let threadSecondLengthMillimetersDiv = document.getElementById("threadSecondLengthMillimetersDiv");
+			let threadSecondLengthMillimetersDivCheckbox = document.getElementById("threadSecondLengthMillimetersDivCheckbox");
+			let threadSecondLengthMillimetersDivInp = document.getElementById("threadSecondLengthMillimetersDivInp");
+			let threadSecondLengthMillimeters = document.getElementById("threadSecondLengthMillimeters");
+			let hasThreadDivCheckbox = document.getElementById("hasThreadDivCheckbox");
+			let withoutBindRadiusBendDiamMaterialDiv = document.getElementById("withoutBindRadiusBendDiamMaterialDiv");
+			let withoutBindRadiusBendDiamMaterialDivCheckbox = document.getElementById("withoutBindRadiusBendDiamMaterialDivCheckbox");
+			let hasVariableLengthDiv = document.getElementById("hasVariableLengthDiv");
+
+			if (singleBend.checked || doubleBend.checked)
+			{
+				hasVariableLengthDiv.hidden = !doubleBend.checked;
+
+				subForm.style.display = "block";
+				threadSecondLengthMillimetersDiv.style.display = "none";
+				threadSecondLengthMillimetersDivCheckbox.checked = false;
+				threadSecondLengthMillimetersDivInp.style.display = "none";
+				threadSecondLengthMillimeters.value = 0;
+				withoutBindRadiusBendDiamMaterialDiv.style.display = "block";
+				if (!withoutBindRadiusBendDiamMaterialDivCheckbox.checked)
+					setBendRadius(getMaterialJsonResult);
+			}
+			else
+			{
+				subForm.style.display = "none";
+				document.getElementById("bendLengthMillimeters").value = 0;
+				if (!hasThreadDivCheckbox.checked)
+				{
+					threadSecondLengthMillimetersDiv.style.display = "none";
+					threadSecondLengthMillimetersDivCheckbox.checked = false;
+				}
+				else
+					threadSecondLengthMillimetersDiv.style.display = "block";
+
+				withoutBindRadiusBendDiamMaterialDiv.style.display = "none";
+				withoutBindRadiusBendDiamMaterialDivCheckbox.checked = false;
+				bendRadiusInput.readOnly = true;
+			}
+		}
+
+		function showthreadSecondLengthMillimetersDivInp()
+		{
+			let threadSecondLengthMillimetersDivCheckbox = document.getElementById("threadSecondLengthMillimetersDivCheckbox");
+			let straightAnchor = document.getElementById("straightAnchor");
+			let threadSecondLengthMillimetersDivInp = document.getElementById("threadSecondLengthMillimetersDivInp");
+			let threadSecondLengthMillimeters = document.getElementById("threadSecondLengthMillimeters");
+
+			if (straightAnchor.checked)
+			{
+				if (threadSecondLengthMillimetersDivCheckbox.checked)
+					threadSecondLengthMillimetersDivInp.style.display = "block";
+				else
+				{
+					threadSecondLengthMillimetersDivInp.style.display = "none";
+					threadSecondLengthMillimeters.value = 0;
+				}
+			}
+		}
+
+		function showtSecondLengthMillimetersDiv(checkbox)
+		{
+			SecondLengthMillimetersDiv.hidden = !checkbox.checked;
+
+			$("#SecondLengthMillimeters").val('0');
+		}
+
+		function changeFuncThreadStep(diameterMillimeters)
+		{
+			// TODO: Rewrite this horoble abominations mess
+			let inputThreadStep = document.getElementById("threadStepMillimeters");
+			let valueThreadStep;
+
+			if (diameterMillimeters > 0 && diameterMillimeters <= 6)
+				valueThreadStep =  "1";
+			else if (diameterMillimeters > 6 && diameterMillimeters <= 8)
+				valueThreadStep =  "1.25";
+			else if (diameterMillimeters > 8 && diameterMillimeters <= 10)
+				valueThreadStep =  "1.5";
+			else if (diameterMillimeters > 10 && diameterMillimeters <= 12)
+				valueThreadStep =  "1.75";
+			else if (diameterMillimeters > 12 && diameterMillimeters <= 16)
+				valueThreadStep =  "2";
+			else if(diameterMillimeters > 16 && diameterMillimeters <= 22)
+				valueThreadStep =  "2.5";
+			else if(diameterMillimeters > 22 && diameterMillimeters <= 27)
+				valueThreadStep =  "3";
+			else if(diameterMillimeters > 27 && diameterMillimeters <= 30)
+				valueThreadStep =  "3.5";
+			else if (diameterMillimeters > 30 && diameterMillimeters <= 36)
+				valueThreadStep =  "4";
+			else if(diameterMillimeters > 36 && diameterMillimeters <= 42)
+				valueThreadStep =  "4.5";
+			else if (diameterMillimeters > 42 && diameterMillimeters <= 48)
+				valueThreadStep =  "5";
+			else if (diameterMillimeters === 56)
+				valueThreadStep = "5.5";
+			else
+				valueThreadStep = "0";
+
+			inputThreadStep.value = valueThreadStep;
+		}
+
+		function Add()
+		{
+			let materialIdToDB = document.getElementById("materialIdToDB").value;
+			let diameterMillimetersToDB = document.getElementById("diameterMillimetersToDB").value;
+			let lengthMillimetersToDB = document.getElementById("lengthMillimetersToDB").value;
+			let threadDiameterMillimetersToDB = document.getElementById("threadDiameterMillimetersToDB").value;
+			let threadLengthMillimetersToDB = document.getElementById("threadLengthMillimetersToDB").value;
+			let threadSecondLengthMillimetersToDB = document.getElementById("threadSecondLengthMillimetersToDB").value;
+			let threadStepMillimetersToDB = document.getElementById("threadStepMillimetersToDB").value;
+			let quantityToDB = document.getElementById("quantityToDB").value;
+			let bendLengthMillimetersToDB = document.getElementById("bendLengthMillimetersToDB").value;
+			let bendRadiusMillimetersToDB = document.getElementById("bendRadiusMillimetersToDB").value;
+			let priceToDB = document.getElementById("priceToDB").value;
+			let totalCostToDB = document.getElementById("totalCostToDB").value;
+			let billetLengthMillimetersToDB = document.getElementById("billetLengthMillimetersToDB").value;
+			let weightKgToDB = document.getElementById("weightKgToDB").value;
+			let batchWeightKgToDB = document.getElementById("batchWeightKgToDB").value;
+			let sebesToDB = document.getElementById("sebesToDB").value;
+			let batchSebesToDB = document.getElementById("batchSebesToDB").value;
+			let svgToDB = document.getElementById("containSvg").innerHTML;
+			let kindToDB = document.getElementById("kindToDB").value;
+			let batchPriceMaterialToDB = document.getElementById("batchPriceMaterialToDB").value;
+			let batchPriceProductionThreadToDB = document.getElementById("batchPriceProductionThreadToDB").value;
+			let batchPriceProductionBendToDB = document.getElementById("batchPriceProductionBendToDB").value;
+			let batchPriceProductionBandSawToDB = document.getElementById("batchPriceProductionBandSawToDB").value;
+			let pathRollerLengthMillimetersToDB = document.getElementById("pathRollerLengthMillimetersToDB").value;
+			let pathRollerLengthMillimetersBeforeEndToDB = document.getElementById("pathRollerLengthMillimetersBeforeEndToDB").value;
+			let productionIdToDB = document.getElementById("productionIdToDB").value;
+			let productionThreadHoursToDB = document.getElementById("productionThreadHoursToDB").value;
+			let productionBendHoursToDB = document.getElementById("productionBendHoursToDB").value;
+			let productionBandSawHoursToDB = document.getElementById("productionBandSawHoursToDB").value;
+			let fullLengthMetersToDB = document.getElementById("fullLengthMetersToDB").value;
+			let hasCuttingThreadToDB = document.getElementById("hasCuttingThreadToDB").value;
+			let withoutBindThreadDiamMaterialToDB = document.getElementById("withoutBindThreadDiamMaterialToDB").value;
+			let secondLengthMillimetersToDB = document.getElementById("secondLengthMillimetersToDB").value;
+			
+			$.ajax(
+			{
+				url: '@Url.Action("Add","Anchor")',
+				type: 'POST',
+				conntenttype: 'json',
+				data:
+				{
+					'materialId': materialIdToDB,
+					'diameterMillimeters': diameterMillimetersToDB,
+					'lengthMillimeters': lengthMillimetersToDB,
+					'threadDiameterMillimeters': threadDiameterMillimetersToDB,
+					'threadLengthMillimeters': threadLengthMillimetersToDB,
+					'threadSecondLengthMillimeters': threadSecondLengthMillimetersToDB,
+					'threadStepMillimeters': threadStepMillimetersToDB,
+					'quantity': quantityToDB,
+					'bendLengthMillimeters': bendLengthMillimetersToDB,
+					'bendRadiusMillimeters': bendRadiusMillimetersToDB,
+					'price': priceToDB,
+					'totalCost': totalCostToDB,
+					'billetLengthMillimeters': billetLengthMillimetersToDB,
+					'weightKg': weightKgToDB,
+					'batchWeightKg': batchWeightKgToDB,
+					'svgElement' : svgToDB,
+					'sebes': sebesToDB,
+					'batchSebes': batchSebesToDB,
+					'kind' : kindToDB,
+					'batchPriceProductionThread' : batchPriceProductionThreadToDB,
+					'batchPriceProductionBend' : batchPriceProductionBendToDB,
+					'batchPriceProductionBandSaw' : batchPriceProductionBandSawToDB,
+					'batchPriceMaterial': batchPriceMaterialToDB,
+					'pathRollerLengthMillimeters': pathRollerLengthMillimetersToDB,
+					'pathRollerLengthMillimetersBeforeEnd': pathRollerLengthMillimetersBeforeEndToDB,
+					'productionId': productionIdToDB,
+					'productionThreadHours': productionThreadHoursToDB,
+					'productionBendHours': productionBendHoursToDB,
+					'productionBandSawHours': productionBandSawHoursToDB,
+					'fullLengthMeters': fullLengthMetersToDB,
+					'hasCuttingThread': hasCuttingThreadToDB,
+					'withoutBindThreadDiamMaterial': withoutBindThreadDiamMaterialToDB,
+					'secondLengthMillimeters': secondLengthMillimetersToDB
+				},
+				success: function (response)
+				{
+					if (response.success)
+					{
+						let btn_drawing_pdf = document.getElementById("btn_drawing_pdf");
+						btn_drawing_pdf.className = 'btn btn-dark';
+						btn_drawing_pdf.disabled = false;
+						btn_drawing_pdf.onclick = () => PrintDraw(response.id);
+
+						let btn_blank_pdf = document.getElementById("btn_blank_pdf");
+						btn_blank_pdf.className = 'btn btn-dark';
+						btn_blank_pdf.disabled = false;
+						btn_blank_pdf.onclick = () => PrintBlank(response.id);
+
+						document.getElementById("liveToastBtn").disabled = true;
+						let toastTrigger = document.getElementById('liveToastBtn')
+						let toastLiveExample = document.getElementById('liveToast')
+						if (toastTrigger)
+						{
+							let toast = new bootstrap.Toast(toastLiveExample)
+							toast.show()
+						}
+					}
+				}
+			});
+		}
+	</script>
+
+	<script type="text/javascript" src="~/js/print.js"></script>
+	<script src="~/lib/jquery/jasonday-printThis-23be1f8/printThis.js"></script>
+	<script type="text/javascript" src="~/js/printDrawBlank.js"></script>
 }
-

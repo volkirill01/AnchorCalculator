@@ -1,19 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.AnchorCalculator.Entities
+namespace Core.AnchorCalculator.Entities;
+
+public class User : IdentityUser
 {
-    public class User : IdentityUser
-    {
-        public ICollection<Anchor>? Anchors { get; set; }
+	public HashSet<Anchor>? Anchors { get; private set; }
 
-        public User()
-        {
-            Anchors = new HashSet<Anchor>();
-        }
-    }
+	public User()
+	{
+		Anchors = new();
+	}
 }

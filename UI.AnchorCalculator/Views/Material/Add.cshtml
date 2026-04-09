@@ -1,93 +1,115 @@
 ﻿@model UI.AnchorCalculator.ViewModels.MaterialViewModel
 
 <form method="post" asp-controller="Material" asp-action="Add">
-  <div class="row mb-3">
-    <label asp-for="Name" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-10">
-      <select asp-for="Name" class="form-select" aria-label="Default select example">
-          @foreach (var item in Model.Names)
-          {
-              <option value="@item">@item</option>
-          }
-      </select>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label asp-for="Size" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-10">
-            <input asp-for="Size" type="text" class="form-control" id="size" step="0.5">
-      <span asp-validation-for="Size" class="text-danger"></span>
-    </div>
-  </div> 
-  <div class="row mb-3">
-    <label asp-for="TypeId" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-10">
-      <select asp-for="TypeId" class="form-select" aria-label="Default select example">
-          @foreach (var item in Model.Types)
-          {
-              <option value="@Array.IndexOf(Model.Types, item)">@item</option>
-          }
-      </select>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <label asp-for="PricePerMetr" class="col-sm-2 col-form-label"></label>
-    <div class="col-sm-10">
-            <input asp-for="PricePerMetr" type="text" class="form-control" id="price">
-      <span asp-validation-for="PricePerMetr" class="text-danger"></span>
-    </div>
-  </div>
-  <div class="row mb-3">
-      <label asp-for="TimeThreadRolling" class="col-sm-2 col-form-label"></label>
-      <div class="col-sm-10">
-            <input asp-for="TimeThreadRolling" type="text" class="form-control" id="TimeThreadRolling">
-            <span asp-validation-for="TimeThreadRolling" class="text-danger"></span>
-      </div>
-  </div>
-  <div class="row mb-3">
-      <label asp-for="TimeThreadCutting" class="col-sm-2 col-form-label"></label>
-      <div class="col-sm-10">
-             <input asp-for="TimeThreadCutting" type="text" class="form-control" id="TimeThreadCutting">
-             <span asp-validation-for="TimeThreadCutting" class="text-danger"></span>
-      </div>
-  </div>
-  <div class="row mb-3">
-        <label asp-for="TimeBandSaw" class="col-sm-2 col-form-label"></label>
-      <div class="col-sm-10">
-            <input asp-for="TimeBandSaw" type="text" class="form-control" id="timeBandSaw">
-            <span asp-validation-for="TimeBandSaw" class="text-danger"></span>
-      </div>
-  </div>
-  <div class="row mb-3">
-       <label asp-for="LengthBladeBandSaw" class="col-sm-2 col-form-label"></label>
-     <div class="col-sm-10">
-            <input asp-for="LengthBladeBandSaw" type="text" class="form-control" id="lengthBladeBandSaw">
-           <span asp-validation-for="LengthBladeBandSaw" class="text-danger"></span>
-     </div>
-  </div>
-  <div class="row mb-3">
-      <label asp-for="Plashka" class="col-sm-2 col-form-label"></label>
-      <div class="col-sm-10">
-          <input asp-for="Plashka" type="text" class="form-control" id="Plashka">
-          <span asp-validation-for="Plashka" class="text-danger"></span>
-      </div>
-  </div>
-  <div class="row mb-3">
-      <label asp-for="Cutter" class="col-sm-2 col-form-label"></label>
-      <div class="col-sm-10">
-            <input asp-for="Cutter" type="text" class="form-control" id="Cutter">
-          <span asp-validation-for="Cutter" class="text-danger"></span>
-      </div>
-  </div>
-  <button type="submit" class="btn btn-dark">Добавить</button>
+	<div class="row mb-3">
+		<label asp-for="Name" class="col-sm-2 col-form-label"></label>
+
+		<div class="col-sm-10">
+			<select asp-for="Name" class="form-select" aria-label="Default select example">
+				@foreach (var item in Model.Names)
+				{
+					<option value="@item">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label asp-for="Size" class="col-sm-2 col-form-label"></label>
+
+		<div class="col-sm-10">
+				<input asp-for="Size" type="text" class="form-control" id="size" step="0.5">
+			<span asp-validation-for="Size" class="text-danger"></span>
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label asp-for="TypeId" class="col-sm-2 col-form-label"></label>
+
+		<div class="col-sm-10">
+			<select asp-for="TypeId" class="form-select" aria-label="Default select example">
+				@foreach (var item in Model.Types)
+				{
+					<option value="@Array.IndexOf(Model.Types, item)">@item</option>
+				}
+			</select>
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label asp-for="PricePerMeter" class="col-sm-2 col-form-label"></label>
+
+		<div class="col-sm-10">
+				<input asp-for="PricePerMeter" type="text" class="form-control" id="price">
+			<span asp-validation-for="PricePerMeter" class="text-danger"></span>
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label asp-for="ThreadRollingHours" class="col-sm-2 col-form-label"></label>
+
+		<div class="col-sm-10">
+			<input asp-for="ThreadRollingHours" type="text" class="form-control" id="ThreadRollingHours">
+			<span asp-validation-for="ThreadRollingHours" class="text-danger"></span>
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label asp-for="ThreadCuttingHours" class="col-sm-2 col-form-label"></label>
+
+		<div class="col-sm-10">
+				<input asp-for="ThreadCuttingHours" type="text" class="form-control" id="ThreadCuttingHours">
+				<span asp-validation-for="ThreadCuttingHours" class="text-danger"></span>
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label asp-for="BandSawHours" class="col-sm-2 col-form-label"></label>
+
+		<div class="col-sm-10">
+			<input asp-for="BandSawHours" type="text" class="form-control" id="BandSawHours">
+			<span asp-validation-for="BandSawHours" class="text-danger"></span>
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label asp-for="BandSawBladeLengthMeters" class="col-sm-2 col-form-label"></label>
+
+		<div class="col-sm-10">
+			<input asp-for="BandSawBladeLengthMeters" type="text" class="form-control" id="BandSawBladeLengthMeters">
+			<span asp-validation-for="BandSawBladeLengthMeters" class="text-danger"></span>
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label asp-for="PlashkaCount" class="col-sm-2 col-form-label"></label>
+
+		<div class="col-sm-10">
+			<input asp-for="PlashkaCount" type="text" class="form-control" id="PlashkaCount">
+			<span asp-validation-for="PlashkaCount" class="text-danger"></span>
+		</div>
+	</div>
+
+	<div class="row mb-3">
+		<label asp-for="CutterCount" class="col-sm-2 col-form-label"></label>
+
+		<div class="col-sm-10">
+			<input asp-for="CutterCount" type="text" class="form-control" id="CutterCount">
+			<span asp-validation-for="CutterCount" class="text-danger"></span>
+		</div>
+	</div>
+
+	<button type="submit" class="btn btn-dark">Добавить</button>
 </form>
 
+@section Scripts
+{
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
-@section Scripts{
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    <script>
-        document.addEventListener("DOMContentLoaded", function (event) {
-            $(':text').val('');
-        });
-    </script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function (event)
+		{
+			$(':text').val('');
+		});
+	</script>
 }

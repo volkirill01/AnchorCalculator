@@ -4,7 +4,7 @@
  * This theme does away with the default boxey look. The resulting report
  * is a lot less "busy" thus making it easy to focus on your specs.
  */
- 
+
 /* jasmine-reporter style overrides for */
 .jasmine_reporter a { text-decoration:none; }
 
@@ -26,8 +26,8 @@
 .suite {
     border: none;
     padding-left: 0.5em; }
-    .suite.failed, 
-    .suite.passed, 
+    .suite.failed,
+    .suite.passed,
     .suite.skipped {
         background: transparent; }
     .suite.passed > a {
@@ -47,8 +47,8 @@
     padding-left: 0.5em;
     margin-left: 0.5em;
     margin-top: 0.2em; }
-    .spec.failed, 
-    .spec.passed, 
+    .spec.failed,
+    .spec.passed,
     .spec.skipped {
         background: transparent;
         border: none;
@@ -97,10 +97,10 @@
     .header h1 {
         font-size: 1.3em; }
     .header ul.menu {
-        margin: 0 0 0.5em 0; 
+        margin: 0 0 0.5em 0;
         padding: 0.3em;
         background-color: #eee; }
     .header ul.menu li {
-        display: inline; 
-        list-style-type: none; 
+        display: inline;
+        list-style-type: none;
         margin-right: 1em; }

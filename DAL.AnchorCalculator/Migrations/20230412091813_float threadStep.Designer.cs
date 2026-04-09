@@ -70,7 +70,7 @@ namespace DAL.AnchorCalculator.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("double");
 
-                    b.Property<double>("PricePerMetr")
+                    b.Property<double>("PricePerMeter")
                         .HasColumnType("double");
 
                     b.Property<int>("Quantity")
@@ -122,7 +122,7 @@ namespace DAL.AnchorCalculator.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<double>("PricePerMetr")
+                    b.Property<double>("PricePerMeter")
                         .HasColumnType("double");
 
                     b.Property<double>("Size")

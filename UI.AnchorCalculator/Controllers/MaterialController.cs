@@ -1,116 +1,97 @@
 ﻿using Core.AnchorCalculator.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using UI.AnchorCalculator.Extensions;
 using UI.AnchorCalculator.Services;
 using UI.AnchorCalculator.ViewModels;
 
-namespace UI.AnchorCalculator.Controllers
+namespace UI.AnchorCalculator.Controllers;
+
+public class MaterialController : Controller
 {
-    public class MaterialController : Controller
-    {
-        private readonly MaterialService _MService;
+	private readonly MaterialService m_MaterialService;
 
-        public MaterialController(MaterialService mService)
-        {
-            _MService = mService;
-        }
+	public MaterialController(MaterialService materialService)
+	{
+		m_MaterialService = materialService;
+	}
 
+	[HttpGet] // MaterialController
+	public async Task<ActionResult> Index()
+	{
+		MaterialsAndWorkCostViewModel materialsAndCost = await m_MaterialService.GetMaterialsAndWorkCostViewModel();
+		return View(materialsAndCost);
+	}
 
+	[HttpGet] // MaterialController/Details/5
+	public ActionResult Details(int id) => View();
 
-        // GET: MaterialController
-        public async Task<ActionResult> Index()
-        {
-            MaterialsAndCostWorkViewModel materialsAndCost = await _MService.GetMaterialsAndCostWorkViewModel();
-            return View(materialsAndCost);
-        }
+	[HttpGet] // MaterialController/Add
+	public ActionResult Add()
+	{
+		MaterialViewModel materialViewModel = m_MaterialService.GetMaterialViewModel();
+		return View(materialViewModel);
+	}
 
-        // GET: MaterialController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+	[HttpPost] // MaterialController/Add
+	public async Task<ActionResult> Add(MaterialViewModel viewModel)
+	{
+		if (!ModelState.IsValid)
+			return View(viewModel);
 
-        // GET: MaterialController/Add
-        public ActionResult Add()
-        {
-            MaterialViewModel materialViewModel = _MService.GetMaterialViewModel();
-            return View(materialViewModel);
-        }
+		await m_MaterialService.AddMaterial(viewModel);
+		return RedirectToAction("Index");
+	}
 
-        // POST: MaterialController/Add
-        [HttpPost]
-        public async Task<ActionResult> Add(MaterialViewModel viewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                await _MService.AddMaterial(viewModel);
-                return RedirectToAction("Index");
-            }
-            else
-                return View(viewModel);          
-        }   
+	[HttpGet] // MaterialController/Edit/5
+	public ActionResult Edit(int id)
+	{
+		MaterialViewModelForEdit modelForEdit = m_MaterialService.GetMaterialViewModelForEdit(id);
+		return View(modelForEdit);
+	}
 
-        // GET: MaterialController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            MaterialViewModelForEdit modelForEdit = _MService.GetMaterialViewModelForEdit(id);
-            return View(modelForEdit);
-        }
+	[HttpPost] // MaterialController/Edit
+	[ValidateAntiForgeryToken]
+	public async Task<ActionResult> Edit(MaterialViewModelForEdit modelForEdit)
+	{
+		if (!ModelState.IsValid)
+			return View(modelForEdit);
 
-        // POST: MaterialController/Edit
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(MaterialViewModelForEdit modelForEdit)
-        { 
-            if (ModelState.IsValid)
-            {
-                await _MService.EditMaterial(modelForEdit);
-                return RedirectToAction(nameof(Index));
-            }
-            else
-                return View(modelForEdit);
-        }
+		await m_MaterialService.EditMaterial(modelForEdit);
+		return RedirectToAction(nameof(Index));
+	}
 
-        // POST: MaterialController/Edit
-        [HttpPost]
-        public async Task<JsonResult> EditCostWork(MaterialsAndCostWorkViewModel materialsAndCost)
-        {            
-            if (ModelState.IsValid)
-            {
-                await _MService.EditCostWork(materialsAndCost);
-                return Json(new { success = true });
-            }
-            else
-                return Json(new { success = false });
-        }
+	[HttpPost] // MaterialController/Edit
+	public async Task<JsonResult> EditWorkCost(MaterialsAndWorkCostViewModel materialsAndCost)
+	{
+		if (!ModelState.IsValid)
+			return Json(new { success = false });
 
-        // POST: MaterialController/Delete/5
-        [HttpPost]
-        public async Task<IActionResult> Delete(int id)
-        {
-            try
-            {
-                await _MService.DeleteById(id);
-                return Json(new { success = true });
-            }
-            catch
-            {
-                return Json(new { success = false });
-            }
-        }
+		await m_MaterialService.EditWorkCost(materialsAndCost);
+		return Json(new { success = true });
+	}
 
-        //Get material by Id
-        [HttpGet]
-        public async Task<JsonResult> GetMaterialJsonResult(int id)
-        {
-            Material material = new();
-            if (id > 0)
-                material = await _MService.GetMaterialById(id);                
-            else
-                material.Size = 0;
-            return Json(new { success = true, materialJS = material });
-        }
-    }
+	[HttpPost] // MaterialController/Delete/5
+	public async Task<IActionResult> Delete(int id)
+	{
+		try
+		{
+			await m_MaterialService.DeleteById(id);
+			return Json(new { success = true });
+		}
+		catch
+		{
+			return Json(new { success = false });
+		}
+	}
+
+	[HttpGet]
+	public async Task<JsonResult> GetMaterialJsonResult(int id)
+	{
+		Material material = new();
+		if (id > 0)
+			material = await m_MaterialService.GetMaterialById(id);
+		else
+			material.Size = 0;
+
+		return Json(new { success = true, materialJS = material });
+	}
 }

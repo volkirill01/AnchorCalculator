@@ -50,35 +50,35 @@ Default: ""
 
 ### allowMinus
 
-Allow to enter -.  
+Allow to enter -.
 Default: true
 
 ### negationSymbol
 
-Define your negationSymbol.  
-Default: {  
- front: "-", //"("  
- back: "" //")"  
+Define your negationSymbol.
+Default: {
+ front: "-", //"("
+ back: "" //")"
 }
 
 ### prefix
 
-Define a prefix.  
+Define a prefix.
 Default: ""
 
 ### suffix
 
-Define a suffix.  
+Define a suffix.
 Default: ""
 
 ### min
 
-Minimum value  
+Minimum value
 Default: undefined
 
 ### max
 
-Maximum value  
+Maximum value
 Default: undefined
 
 ### SetMaxOnOverflow
@@ -89,7 +89,7 @@ Default: false
 
 ### step
 
-Define the step the ctrl-up & ctrl-down must take.  
+Define the step the ctrl-up & ctrl-down must take.
 Default: 1
 
 ### inputType
@@ -98,12 +98,12 @@ Specify that values which are set are in textform (radix point is same as in the
 
 Default: "text"
 
-text: radixpoint should be the same as in the options  
+text: radixpoint should be the same as in the options
 number: radixpoint should be a . as the default for a number in js
 
 ### unmaskAsNumber
 
-Make unmasking returning a number instead of a string.  
+Make unmasking returning a number instead of a string.
 Default: false
 
 Be warned that using the unmaskAsNumber option together with jQuery.serialize will fail as serialize expects a string. (See issue [#1288])
@@ -112,7 +112,7 @@ Be warned that using the unmaskAsNumber option together with jQuery.serialize wi
 
 ### roundingFN
 
-Set the fn for rounding the values when set.  
+Set the fn for rounding the values when set.
 Default: Math.round
 
 Other examples:

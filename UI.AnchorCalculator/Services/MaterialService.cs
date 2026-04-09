@@ -1,157 +1,148 @@
-﻿using Core.AnchorCalculator;
-using Core.AnchorCalculator.Entities;
+﻿using Core.AnchorCalculator.Entities;
 using DAL.AnchorCalculator;
 using Microsoft.EntityFrameworkCore;
-using System.IO;
 using UI.AnchorCalculator.Extensions;
 using UI.AnchorCalculator.ViewModels;
 
-namespace UI.AnchorCalculator.Services
+namespace UI.AnchorCalculator.Services;
+
+public class MaterialService
 {
-    public class MaterialService
-    {
-        private readonly ApplicationDbContext _applicationDbContext;
-        private readonly IWebHostEnvironment environment;
-        private readonly LoggerManager _logger;
-        public MaterialService(ApplicationDbContext applicationDbContext, IWebHostEnvironment environment, LoggerManager logger)
-        {
-            _applicationDbContext = applicationDbContext;
-            this.environment = environment;
-            _logger = logger;
-        }
+	private readonly ApplicationDbContext m_ApplicationDbContext;
+	private readonly IWebHostEnvironment m_Environment;
+	private readonly LoggerManager m_Logger;
 
-        //Method for adding new Material to the database
-        public async Task AddMaterial(MaterialViewModel viewModel)
-        {
-            Material material = new()
-            {
-                Name = viewModel.Name,
-                Size = viewModel.Size,
-                TypeId = viewModel.TypeId,
-                PricePerMetr = viewModel.PricePerMetr,
-                DateUpdate = DateTime.UtcNow,
-                TimeThreadRolling = viewModel.TimeThreadRolling,
-                TimeThreadCutting = viewModel.TimeThreadCutting,
-                TimeBandSaw = viewModel.TimeBandSaw,
-                LengthBladeBandSaw = viewModel.LengthBladeBandSaw,
-                Plashka = viewModel.Plashka,
-                Cutter = viewModel.Cutter
-            };
-            await _applicationDbContext.Materials.AddAsync(material);
-            await _applicationDbContext.SaveChangesAsync();
-        }
+	public MaterialService(ApplicationDbContext applicationDbContext, IWebHostEnvironment environment, LoggerManager logger)
+	{
+		m_ApplicationDbContext = applicationDbContext;
+		m_Environment = environment;
+		m_Logger = logger;
+	}
 
-        //Method for editing existing Material in the database
-        public async Task EditMaterial(MaterialViewModelForEdit viewModel)
-        {
-            Material material = _applicationDbContext.Materials.Find(viewModel.Id);
-            material.TypeId = viewModel.TypeId;
-            material.Name = viewModel.Name;
-            material.Size = viewModel.Size;
-            material.PricePerMetr = viewModel.PricePerMetr;
-            material.DateUpdate = DateTime.UtcNow;
-            material.TimeThreadRolling = viewModel.TimeTheradRolling;
-            material.TimeThreadCutting = viewModel.TimeThreadCutting;
-            material.TimeBandSaw = viewModel.TimeBandSaw;
-            material.LengthBladeBandSaw = viewModel.LengthBladeBandSaw;
-            material.Plashka = viewModel.Plashka;
-            material.Cutter = viewModel.Cutter;
-            _applicationDbContext.Materials.Update(material);
-            await _applicationDbContext.SaveChangesAsync();
-        }
+	public async Task AddMaterial(MaterialViewModel viewModel)
+	{
+		Material material = new()
+		{
+			Name = viewModel.Name,
+			Size = viewModel.Size,
+			TypeId = viewModel.TypeId,
+			PricePerMeter = viewModel.PricePerMeter,
+			DateUpdate = DateTime.UtcNow,
+			ThreadRollingHours = viewModel.ThreadRollingHours,
+			ThreadCuttingHours = viewModel.ThreadCuttingHours,
+			BandSawHours = viewModel.BandSawHours,
+			BandSawBladeLengthMeters = viewModel.BandSawBladeLengthMeters,
+			PlashkaCount = viewModel.PlashkaCount,
+			CutterCount = viewModel.CutterCount
+		};
+		await m_ApplicationDbContext.Materials.AddAsync(material);
+		await m_ApplicationDbContext.SaveChangesAsync();
+	}
 
-        //Method for getting MaterialViewModel
-        public MaterialViewModel GetMaterialViewModel()
-        {
-            MaterialViewModel materialViewModel = new()
-            {
-                Types = Enum.GetValues(typeof(Core.AnchorCalculator.Entities.Enums.Type)),
-                Names = new string[] { "Арматура", "Круг", "Катанка" }
-            };
-            return materialViewModel;
-        }
+	public async Task EditMaterial(MaterialViewModelForEdit viewModel)
+	{
+		Material material = m_ApplicationDbContext.Materials.Find(viewModel.Id);
+		material.TypeId = viewModel.TypeId;
+		material.Name = viewModel.Name;
+		material.Size = viewModel.Size;
+		material.PricePerMeter = viewModel.PricePerMeter;
+		material.DateUpdate = DateTime.UtcNow;
+		material.ThreadRollingHours = viewModel.TheradRollingHours;
+		material.ThreadCuttingHours = viewModel.ThreadCuttingHours;
+		material.BandSawHours = viewModel.BandSawHours;
+		material.BandSawBladeLengthMeters = viewModel.BandSawBladeLengthMeters;
+		material.PlashkaCount = viewModel.PlashkaCount;
+		material.CutterCount = viewModel.CutterCount;
 
-        //Method for getting MaterialsAndCostWorkViewModel
-        public async Task<MaterialsAndCostWorkViewModel> GetMaterialsAndCostWorkViewModel()
-        {
-            CostWork costWork = new();
-            MaterialsAndCostWorkViewModel materialsAndCostWorkViewModel = new()
-            {
-                Materials = await _applicationDbContext.Materials.OrderBy(x => x.Name).ThenBy(x => x.Size).ToListAsync(),
-            };
-            try
-            {
-                materialsAndCostWorkViewModel.CostWork = await costWork.GetCostWork(environment);
-            }
-            catch (Exception ex)
-            {
-                string exception = $"Error:{ex.Message}";
-                _logger.LogDebug(exception);
-                throw;
-            }
-            return materialsAndCostWorkViewModel;
-        }
+		m_ApplicationDbContext.Materials.Update(material);
+		await m_ApplicationDbContext.SaveChangesAsync();
+	}
 
-        //Method for getting all Materials 
-        public async Task<List<Material>> GetAllMaterials() => await _applicationDbContext.Materials.ToListAsync();
+	public MaterialViewModel GetMaterialViewModel()
+	{
+		MaterialViewModel materialViewModel = new()
+		{
+			Types = Enum.GetValues(typeof(Core.AnchorCalculator.Entities.Enums.Type)),
+			Names = new string[]{ "Арматура", "Круг", "Катанка" }
+		};
+		return materialViewModel;
+	}
 
-        //Method for getting material by id
-        public async Task<Material> GetMaterialById(int id) => await _applicationDbContext.Materials.FindAsync(id);
+	public async Task<MaterialsAndWorkCostViewModel> GetMaterialsAndWorkCostViewModel()
+	{
+		WorkCost workCost = new();
+		MaterialsAndWorkCostViewModel materialsAndWorkCostViewModel = new()
+		{
+			Materials = await m_ApplicationDbContext.Materials.OrderBy(x => x.Name).ThenBy(x => x.Size).ToListAsync(),
+		};
 
-        //Method for getting MaterialViewModelForEdit
-        public MaterialViewModelForEdit GetMaterialViewModelForEdit(int id)
-        {
-            Material material = _applicationDbContext.Materials.Find(id);
-            MaterialViewModel materialViewModel = GetMaterialViewModel();
-            MaterialViewModelForEdit viewModelForEdit = new()
-            {
-                Id = material.Id,
-                Name = material.Name,
-                Size = material.Size,
-                TypeId = material.TypeId,
-                PricePerMetr = material.PricePerMetr,
-                Types = materialViewModel.Types,
-                Names = materialViewModel.Names.Where(e => e != material.Name).ToArray(),
-                Type = material.Type,
-                TimeTheradRolling = material.TimeThreadRolling,
-                TimeThreadCutting = material.TimeThreadCutting,
-                TimeBandSaw = material.TimeBandSaw,
-                LengthBladeBandSaw = material.LengthBladeBandSaw,
-                Plashka = material.Plashka,
-                Cutter = material.Cutter,
-            };
-            return viewModelForEdit;
-        }
+		try
+		{
+			materialsAndWorkCostViewModel.WorkCost = await workCost.GetWorkCost(m_Environment);
+		}
+		catch (Exception ex)
+		{
+			string exception = $"Error:{ex.Message}";
+			m_Logger.LogDebug(exception);
+			throw;
+		}
+		return materialsAndWorkCostViewModel;
+	}
 
-        //Method for delete 1 Material by id
-        public async Task DeleteById(int id)
-        {
-            Material material = _applicationDbContext.Materials.Find(id);
-            _applicationDbContext.Remove(material);
-            await _applicationDbContext.SaveChangesAsync();
-        }
+	public async Task<List<Material>> GetAllMaterials() => await m_ApplicationDbContext.Materials.ToListAsync();
 
-        //Method for edit CostWork
-        public async Task EditCostWork(MaterialsAndCostWorkViewModel materialsAndCostWorkViewModel)
-        {
-            CostWork costWork = new()
-            {
-                ExchangeDollar = materialsAndCostWorkViewModel.CostWork.ExchangeDollar,
-                PnrRollingThread = materialsAndCostWorkViewModel.CostWork.PnrRollingThread,
-                PnrBendingAnchor = materialsAndCostWorkViewModel.CostWork.PnrBendingAnchor,
-                PnrBandSaw = materialsAndCostWorkViewModel.CostWork.PnrBandSaw,
-                LengthEffective = materialsAndCostWorkViewModel.CostWork.LengthEffective,
-                PriceBandSaw = materialsAndCostWorkViewModel.CostWork.PriceBandSaw,
-                TimeSetThreadRolling = materialsAndCostWorkViewModel.CostWork.TimeSetThreadRolling,
-                TimeBend = materialsAndCostWorkViewModel.CostWork.TimeBend,
-                TimeSetBend = materialsAndCostWorkViewModel.CostWork.TimeSetBend,
-                Margin = materialsAndCostWorkViewModel.CostWork.Margin,
-                MarginFB = materialsAndCostWorkViewModel.CostWork.MarginFB,
-                AreaLockSmith = materialsAndCostWorkViewModel.CostWork.AreaLockSmith,
-                PricePlashka = materialsAndCostWorkViewModel.CostWork.PricePlashka,
-                PriceCutter = materialsAndCostWorkViewModel.CostWork.PriceCutter
-            };
-            await costWork.AddCostWork(costWork,environment);
-        }
-    }
+	public async Task<Material> GetMaterialById(int id) => await m_ApplicationDbContext.Materials.FindAsync(id);
+
+	public MaterialViewModelForEdit GetMaterialViewModelForEdit(int id)
+	{
+		Material material = m_ApplicationDbContext.Materials.Find(id);
+		MaterialViewModel materialViewModel = GetMaterialViewModel();
+		MaterialViewModelForEdit viewModelForEdit = new()
+		{
+			Id = material.Id,
+			Name = material.Name,
+			Size = material.Size,
+			TypeId = material.TypeId,
+			PricePerMeter = material.PricePerMeter,
+			Types = materialViewModel.Types,
+			Names = materialViewModel.Names.Where(e => e != material.Name).ToArray(),
+			Type = material.Type,
+			TheradRollingHours = material.ThreadRollingHours,
+			ThreadCuttingHours = material.ThreadCuttingHours,
+			BandSawHours = material.BandSawHours,
+			BandSawBladeLengthMeters = material.BandSawBladeLengthMeters,
+			PlashkaCount = material.PlashkaCount,
+			CutterCount = material.CutterCount,
+		};
+		return viewModelForEdit;
+	}
+
+	public async Task DeleteById(int id)
+	{
+		Material material = m_ApplicationDbContext.Materials.Find(id);
+		m_ApplicationDbContext.Remove(material);
+		await m_ApplicationDbContext.SaveChangesAsync();
+	}
+
+	public async Task EditWorkCost(MaterialsAndWorkCostViewModel materialsAndWorkCostViewModel)
+	{
+		WorkCost workCost = new()
+		{
+			ExchangeDollar = materialsAndWorkCostViewModel.WorkCost.ExchangeDollar,
+			PnrRollingThreadDollars = materialsAndWorkCostViewModel.WorkCost.PnrRollingThreadDollars,
+			PnrBendingAnchorDollars = materialsAndWorkCostViewModel.WorkCost.PnrBendingAnchorDollars,
+			PnrBandSawDollars = materialsAndWorkCostViewModel.WorkCost.PnrBandSawDollars,
+			EffectiveLengthMillimeters = materialsAndWorkCostViewModel.WorkCost.EffectiveLengthMillimeters,
+			BandSawPriceDollars = materialsAndWorkCostViewModel.WorkCost.BandSawPriceDollars,
+			SetThreadRollingHours = materialsAndWorkCostViewModel.WorkCost.SetThreadRollingHours,
+			BendHours = materialsAndWorkCostViewModel.WorkCost.BendHours,
+			SetBendHours = materialsAndWorkCostViewModel.WorkCost.SetBendHours,
+			MarginPercent = materialsAndWorkCostViewModel.WorkCost.MarginPercent,
+			MarginFBPercent = materialsAndWorkCostViewModel.WorkCost.MarginFBPercent,
+			AreaLockSmithDollars = materialsAndWorkCostViewModel.WorkCost.AreaLockSmithDollars,
+			PlashkaPriceDollars = materialsAndWorkCostViewModel.WorkCost.PlashkaPriceDollars,
+			CutterPriceDollars = materialsAndWorkCostViewModel.WorkCost.CutterPriceDollars
+		};
+		await workCost.AddWorkCost(workCost, m_Environment);
+	}
 }

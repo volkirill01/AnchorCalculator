@@ -269,7 +269,7 @@ The alternator syntax is like an **OR** statement.  The mask can be one of the 3
 To define an alternator use the |.
 ex: "a|9" => a or 9
 "(aaa)|(999)" => aaa or 999
-"(aaa|999|9AA)" => aaa or 999 or 9AA  
+"(aaa|999|9AA)" => aaa or 999 or 9AA
 "aaaa|9999" => aaa a or 9 999
 
 **Also make sure to read about the [keepStatic](#keepstatic) option.**
@@ -339,13 +339,13 @@ The return value of a validator can be true,  false, or a command object.
 - insert : position(s) to add :
   - { pos : position to insert, c : character to insert, fromIsValid : true/false, strict : true/false }
   - [{ pos : position to insert, c : character to insert, fromIsValid : true/false, strict : true/false }, { ...}, ... ]
-  
+
   fromIsValid & strict defaults to true.
 
 - refreshFromBuffer :
   - true => refresh validPositions from the complete buffer
   - { start: , end: } => refresh from start to end
-- rewritePosition: rewrite the maskPos within the isvalid function  
+- rewritePosition: rewrite the maskPos within the isvalid function
   See [preValidation option](#prevalidation)
 
 ### definitionSymbol
@@ -400,7 +400,7 @@ Mark the definition as static
 
 ### casing (definition option)
 
-Specify casing options.  
+Specify casing options.
 The options are the same as the [Casing option](#casing)
 
 ### generated
@@ -1045,7 +1045,7 @@ ex. $(selector).inputmask({ mask: ["+55-99-9999-9999", "+55-99-99999-9999", ], k
 
 typing 1212345123 => should result in +55-12-1234-5123 type extra 4 => switch to +55-12-12345-1234
 
-**When the option is not set, it will default to false.**  
+**When the option is not set, it will default to false.**
 **Except:**
 
 - for multiple masks it will default to true
@@ -1100,7 +1100,7 @@ Hook to postValidate the result from isValid.  Usefull for validating the entry 
 Hook to preValidate the input.  Useful for validating regardless of the definition. Args => buffer, pos, char, isSelection, opts, maskset, caretPos, strict => return true/false/command object
 When returning true, the normal validation kicks in, otherwise, it is skipped.
 
-When returning a command object the actions are executed and further validation is stopped.  
+When returning a command object the actions are executed and further validation is stopped.
 If you want to continue further validation, you need to add the rewritePosition action.
 
 ### staticDefinitionSymbol
@@ -1162,8 +1162,8 @@ Default: null
 
 ### inputmode
 
-Default: "text"  
-The inputmode hints at the type of data that might be entered by the user while editing the element or its contents.  
+Default: "text"
+The inputmode hints at the type of data that might be entered by the user while editing the element or its contents.
 
 <https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode>
 
@@ -1179,7 +1179,7 @@ Default: true
 
 Alter the behavior of the char shifting on entry or deletion.
 
-In some cases shifting the mask entries or deletion should be more restrictive.  
+In some cases shifting the mask entries or deletion should be more restrictive.
 Ex. date masks.  Shifting month to day makes no sense
 
 Default: true
@@ -1189,7 +1189,7 @@ false = shift on the "nativeDef" match
 
 ### usePrototypeDefinitions
 
-Use the default defined definitions from the prototype.  
+Use the default defined definitions from the prototype.
 
 Default: true
 
@@ -1332,7 +1332,7 @@ $(document).ready(function(){
 
 ## jQuery.clone
 
-When cloning a inputmask, the inputmask reactivates on the first event (mouseenter, focus, ...) that happens to the input. If you want to set a value on the cloned inputmask and you want to directly reactivate the masking you have to use $(input).inputmask("setvalue", value)  
+When cloning a inputmask, the inputmask reactivates on the first event (mouseenter, focus, ...) that happens to the input. If you want to set a value on the cloned inputmask and you want to directly reactivate the masking you have to use $(input).inputmask("setvalue", value)
 
 Be sure to pass true in the jQuery.clone fn to clone with data and events and use jQuery as dependencyLib
 (<https://api.jquery.com/clone/>)

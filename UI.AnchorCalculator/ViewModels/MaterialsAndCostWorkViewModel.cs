@@ -1,13 +1,23 @@
 ﻿using Core.AnchorCalculator.Entities;
 using UI.AnchorCalculator.Extensions;
 
-namespace UI.AnchorCalculator.ViewModels
+namespace UI.AnchorCalculator.ViewModels;
+
+public class MaterialsAndWorkCostViewModel
 {
-    public class MaterialsAndCostWorkViewModel
-    {
-        public List<Material>? Materials { get; set; }
-        public CostWork? CostWork { get; set; }
-        public double MarginPercent { get { return CostWork.Margin * 100; } set { CostWork.Margin = value / 100; } }
-        public double MarginFBPercent { get { return CostWork.MarginFB * 100; } set { CostWork.MarginFB = value / 100; } }
-    }
+	public List<Material>? Materials { get; set; }
+
+	public WorkCost? WorkCost { get; set; }
+
+	public double MarginPercent
+	{
+		get => WorkCost.MarginPercent * 100;
+		set => WorkCost.MarginPercent = value / 100;
+	}
+
+	public double MarginFBPercent
+	{
+		get => WorkCost.MarginFBPercent * 100;
+		set => WorkCost.MarginFBPercent = value / 100;
+	}
 }

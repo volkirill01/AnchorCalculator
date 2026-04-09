@@ -2,15 +2,14 @@
 @model User
 
 <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Информация</h5>
-    <p class="card-text">Email: @Model.Email</p>
-    <p class="card-text">Логин: @Model.UserName</p>
-        @if (!User.IsInRole("admin"))
-        {
-            <a class="btn btn-sm btn-dark mt-2" asp-action="ChangePassword" asp-route-id="@Model.Id">Сменить пароль</a>
-        } 
-  </div>
+	<div class="card-body">
+	<h5 class="card-title">Информация</h5>
+
+	<p class="card-text">Email: @Model.Email</p>
+	<p class="card-text">Логин: @Model.UserName</p>
+		@if (!User.IsInRole("admin"))
+		{
+			<a class="btn btn-sm btn-dark mt-2" asp-action="ChangePassword" asp-route-id="@Model.Id">Сменить пароль</a>
+		}
+	</div>
 </div>
-
-

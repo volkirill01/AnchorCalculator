@@ -1,253 +1,286 @@
 ﻿@using UI.AnchorCalculator.ViewModels
 @model AnchorsViewModel
 @addTagHelper *, UI.AnchorCalculator
+@{ ViewData["Title"] = "Anchors"; }
 
 <style>
- .pagination {
-     margin-top: 2rem;
-        padding-top: 2rem;
- }
+	.pagination {
+		margin-top: 2rem;
+		padding-top: 2rem;
+	}
 
-.pagination>li>a{
-  border: 1px solid black;
-  color: black;
-}
-.pagination>li>a:hover{
-  border: 1px solid black;
-  color: black;
-  text-decoration: none;
-}
-.pagination>li.chosen.page-item>a {
-  background: black;
-  color: #fff;
-}
+	.pagination > li > a {
+		border: 1px solid black;
+		color: black;
+	}
 
- svg {
-     max-width: 500px;
-     max-height: 500px;
- }
+	.pagination > li > a:hover {
+		border: 1px solid black;
+		color: black;
+		text-decoration: none;
+	}
+
+	.pagination > li.chosen.page-item > a {
+		background: black;
+		color: #fff;
+	}
+
+	svg {
+		max-width: 500px;
+		max-height: 500px;
+	}
 </style>
 
-
 <h2>Каталог анкеров</h2>
+
 <form method="get" class="row gx-3 gy-2 align-items-center mb-4 w-150">
-  <div class="col-lg-2">
-    <label class="colFormLabel" for="SelectedUserName">Логин автора:</label>
-    <input type="text" id="SelectedUserName" name="SelectedUserName" value="@Model.FilterView.SelectedUserName" class="form-control">
-  </div>
-  <div class="col-lg-2">
-    <label class="colFormLabel" for="DateTimeFrom">Дата от:</label>
-    <input type="datetime-local" id="DateTimeFrom" name="DateTimeFrom" value="@Model.FilterView.DateTimeFrom" class="form-control">
-  </div>
-    <div class="col-lg-2">
-    <label class="colFormLabel" for="DateTimeTill">Дата до:</label>
-    <input type="datetime-local" id="DateTimeTill" name="DateTimeTill" value="@Model.FilterView.DateTimeTill" class="form-control">
-  </div>
-  <div class="col-lg-1">
-    <label class="colFormLabel" for="PriceFrom">Цена от:</label>
-    <input type="number" id="PriceFrom" name="PriceFrom" value="@Model.FilterView.PriceFrom" class="form-control" step="0.1" min="0">
-  </div>
-  <div class="col-lg-1">
-    <label class="colFormLabel" for="PriceTill">Цена до:</label>
-    <input type="number" id="PriceTill" name="PriceTill" value="@Model.FilterView.PriceTill" class="form-control" step="0.1" min="0">
-  </div>
-  <div class="col-lg-2">
-    <label class="colFormLabel" for="specificSizeSelect">Материал:</label>
-     <select id="selectBox" name="SelectedMaterial" class="form-select" aria-label="Default select example">
-                     <option value="">Ничего не выбрано</option>
-                     @foreach (var item in Model.FilterView.Materials)
-                     {
-                         <option id="material_@item.Id" value="@item.FullName">
-                             @item.FullName</option>
-                     }
-     </select>  
-  </div>
-  <input type="hidden" name="PageSize" value="@Model.PageViewModelAnchors.PageSize">
-  <div class="col-lg-2 pt-3">
-      <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="submit" class="btn btn-dark">Фильтр</button>
-            <button class="btn btn-secondary" onclick="refreshFilters()">Сбросить</button>
-      </div> 
-   </div>
+	<div class="col-lg-2">
+		<label class="colFormLabel" for="SelectedUserName">Логин автора:</label>
+
+		<input type="text" id="SelectedUserName" name="SelectedUserName" value="@Model.FilterView.SelectedUserName" class="form-control">
+	</div>
+
+	<div class="col-lg-2">
+		<label class="colFormLabel" for="DateTimeFrom">Дата от:</label>
+
+		<input type="datetime-local" id="DateTimeFrom" name="DateTimeFrom" value="@Model.FilterView.DateTimeFrom" class="form-control">
+	</div>
+
+	<div class="col-lg-2">
+		<label class="colFormLabel" for="DateTimeTill">Дата до:</label>
+
+		<input type="datetime-local" id="DateTimeTill" name="DateTimeTill" value="@Model.FilterView.DateTimeTill" class="form-control">
+	</div>
+
+	<div class="col-lg-1">
+		<label class="colFormLabel" for="PriceFrom">Цена от:</label>
+
+		<input type="number" id="PriceFrom" name="PriceFrom" value="@Model.FilterView.PriceFrom" class="form-control" step="0.1" min="0">
+	</div>
+
+	<div class="col-lg-1">
+		<label class="colFormLabel" for="PriceTill">Цена до:</label>
+
+		<input type="number" id="PriceTill" name="PriceTill" value="@Model.FilterView.PriceTill" class="form-control" step="0.1" min="0">
+	</div>
+
+	<div class="col-lg-2">
+		<label class="colFormLabel" for="specificSizeSelect">Материал:</label>
+
+		<select id="selectBox" name="SelectedMaterial" class="form-select" aria-label="Default select example">
+			<option value="">Ничего не выбрано</option>
+
+			@foreach (var item in Model.FilterView.MaterialList)
+			{
+				<option id="material_@item.Id" value="@item.FullName">@item.FullName</option>
+			}
+		</select>
+	</div>
+
+	<input type="hidden" name="PageSize" value="@Model.PageViewModelAnchors.PageSize">
+
+	<div class="col-lg-2 pt-3">
+		<div class="btn-group" role="group" aria-label="Basic example">
+			<button type="submit" class="btn btn-dark">Фильтр</button>
+			<button class="btn btn-secondary" onclick="refreshFilters()">Сбросить</button>
+		</div>
+	</div>
 </form>
 
 <div class="mb-2 mt-2 row" style="max-width: 450px;">
-  <label for="PageSize" class="col-sm-6 col-form-label">Элементов на странице:</label>
-  <div class="col-sm-3">
-    <input type="number" id="PageSize" name="PageSize" value="@Model.PageViewModelAnchors.PageSize" class="form-control"
-           step="1" min="1" max="20" onchange="ChangeSizeOfPage(document.getElementById('PageSize').value)">
-  </div>
-  <div class="col-sm-3">
-        <button class="btn btn-secondary" onclick="location.href='/anchor/Anchor/Anchors';">Сбросить</button>
-  </div>
+	<label for="PageSize" class="col-sm-6 col-form-label">Элементов на странице:</label>
+
+	<div class="col-sm-3">
+		<input type="number" id="PageSize" name="PageSize" value="@Model.PageViewModelAnchors.PageSize" class="form-control" step="1" min="1" max="20" onchange="ChangeSizeOfPage(document.getElementById('PageSize').value)">
+	</div>
+
+	<div class="col-sm-3">
+		<button class="btn btn-secondary" onclick="location.href='/anchor/Anchor/Anchors';">Сбросить</button>
+	</div>
 </div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
-     @if (@Model.Anchors.Count == 0)
-    {
-        <h2>Анкеров нет</h2>
-    }
-    else
-    {
-          @foreach (var item in Model.Anchors)
-    {
-   <div id="anchor-@item.Id" class="col mb-5">
-                <div class="card h-100" onclick="location.href='@Url.Action("Details","Anchor",new { id = item.Id })';" style="cursor: pointer;">
-                    <div class="card-img-top" id="@item.Id" style="cursor: pointer;"></div>
-       <div class="card-body">
-        <h5 class="card-title"># @item.Id</h5>
-        <p class="card-text">Цена: @Math.Round(item.Price, MidpointRounding.AwayFromZero) сом</p>
-        <p class="card-text">Автор: @if (item.User != null) { @item.User.UserName }</p>
-      </div>
-      <div class="card-footer">
-        <small class="text-muted">Дата создания: @item.DateCreate</small>
-      </div>
-    </div>
-      @if (User.IsInRole("admin"))
-       {
-           <button type="button" class="btn btn-danger my-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setIdForButton(@item.Id)">
-               Удалить
-           </button>
-       }
-   </div> 
-    }   
-    }
+	@if (@Model.Anchors.Count == 0)
+	{
+		<h2>Анкеров нет</h2>
+	}
+	else
+	{
+		@foreach (var item in Model.Anchors)
+		{
+			<div id="anchor-@item.Id" class="col mb-5">
+				<div class="card h-100" onclick="location.href='@Url.Action("Details","Anchor",new { id = item.Id })';" style="cursor: pointer;">
+					<div class="card-img-top" id="@item.Id" style="cursor: pointer;"></div>
+
+					<div class="card-body">
+						<h5 class="card-title"># @item.Id</h5>
+						<p class="card-text">Цена: @item.Price сом</p>
+						<p class="card-text">Автор: @if (item.User != null) { @item.User.UserName }</p>
+					</div>
+					<div class="card-footer">
+						<small class="text-muted">Дата создания: @item.DateCreate</small>
+					</div>
+				</div>
+
+				@if (User.IsInRole("admin"))
+				{
+					<button type="button" class="btn btn-danger my-2" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setIdForButton(@item.Id)">Удалить</button>
+				}
+			</div>
+		}
+	}
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Удаление анкера</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div id="modal_body" class="modal-body">
-                Вы действительно хотите удалить?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
-                <button id="btnDelCard" type="button" class="btn btn-danger">Да</button>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Удаление анкера</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<div id="modal_body" class="modal-body">
+				Вы действительно хотите удалить?
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+				<button id="btnDelCard" type="button" class="btn btn-danger">Да</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="mt-4">
-    <page-link page-model="Model.PageViewModelAnchors" page-action="Anchors"
-           page-url-SelectedMaterial="@(Model.FilterView.SelectedMaterial)"
-           page-url-SelectedUserName="@(Model.FilterView.SelectedUserName)"
-           page-url-DateTimeFrom="@(Model.FilterView.DateTimeFrom)"
-           page-url-DateTimeTill="@(Model.FilterView.DateTimeTill)"
-           page-url-PriceFrom="@(Model.FilterView.PriceFrom)"
-           page-url-PriceTill="@(Model.FilterView.PriceTill)"
-           page-url-PageSize="@(Model.PageViewModelAnchors.PageSize)">
-    </page-link>
+	<page-link page-model="Model.PageViewModelAnchors" page-action="Anchors"
+	           page-url-SelectedMaterial="@(Model.FilterView.SelectedMaterial)"
+	           page-url-SelectedUserName="@(Model.FilterView.SelectedUserName)"
+	           page-url-DateTimeFrom="@(Model.FilterView.DateTimeFrom)"
+	           page-url-DateTimeTill="@(Model.FilterView.DateTimeTill)"
+	           page-url-PriceFrom="@(Model.FilterView.PriceFrom)"
+	           page-url-PriceTill="@(Model.FilterView.PriceTill)"
+	           page-url-PageSize="@(Model.PageViewModelAnchors.PageSize)">
+	</page-link>
 </div>
 
 <div>
-    <input type="hidden" id="SelectedMaterialForChangeSize" value="@(Model.FilterView.SelectedMaterial)"/>
-    <input type="hidden" id="SelectedUserNameForChangeSize" value="@(Model.FilterView.SelectedUserName)"/>
-    <input type="hidden" id="DateTimeFromForChangeSize" value="@(Model.FilterView.DateTimeFrom)"/>
-    <input type="hidden" id="DateTimeTillForChangeSize" value="@(Model.FilterView.DateTimeTill)"/>
-    <input type="hidden" id="PriceFromForChangeSize" value="@(Model.FilterView.PriceFrom)"/>
-    <input type="hidden" id="PriceTillForChangeSize" value="@(Model.FilterView.PriceTill)"/>
+	<input type="hidden" id="SelectedMaterialForChangeSize" value="@(Model.FilterView.SelectedMaterial)"/>
+	<input type="hidden" id="SelectedUserNameForChangeSize" value="@(Model.FilterView.SelectedUserName)"/>
+	<input type="hidden" id="DateTimeFromForChangeSize" value="@(Model.FilterView.DateTimeFrom)"/>
+	<input type="hidden" id="DateTimeTillForChangeSize" value="@(Model.FilterView.DateTimeTill)"/>
+	<input type="hidden" id="PriceFromForChangeSize" value="@(Model.FilterView.PriceFrom)"/>
+	<input type="hidden" id="PriceTillForChangeSize" value="@(Model.FilterView.PriceTill)"/>
 </div>
 
 @section Scripts
 {
-   <script>
+	<script>
+		function setIdForButton(id)
+		{
+			var btnDelCard = document.getElementById("btnDelCard");
+			var modal_body = document.getElementById("modal_body");
 
-        function setIdForButton(id) {
-            var btnDelCard = document.getElementById("btnDelCard");
-            var modal_body = document.getElementById("modal_body");
-            modal_body.innerHTML = 'Вы действительно хотите удалить анкер # '+ id+'?';
-            btnDelCard.setAttribute('onclick', 'delAnchor('+ id +');');
-        }
+			modal_body.innerHTML = 'Вы действительно хотите удалить анкер # '+ id+'?';
+			btnDelCard.onclick = () => deleteAnchor(id);
+		}
 
-        function delAnchor(id) {
-            event.preventDefault();
-            var element = document.getElementById('anchor-' + id + '')
-            element.remove();
-            $.ajax(
-                {
-                    url: '@Url.Action("Delete","Anchor")',
-                    type: 'POST',
-                    data: { 'id': id }
-                }
-            )
-        }
+		function deleteAnchor(id)
+		{
+			event.preventDefault();
+			var element = document.getElementById('anchor-' + id + '');
+			element.remove();
+			$.ajax(
+			{
+				url: '@Url.Action("Delete","Anchor")',
+				type: 'POST',
+				data: { 'id': id }
+			});
+		}
 
-       function ChangeSizeOfPage(pageSize){
-         $.ajax(
-             {
-                url: '@Url.Action("Anchors", "Anchor")',
-                type: 'GET',
-                data : {'pageSize' : pageSize,
-                        'selectedMaterial' : '@Model.FilterView.SelectedMaterial',
-                        'selectedUserName' : '@Model.FilterView.SelectedUserName',
-                        'dateTimeFrom' : '@Model.FilterView.DateTimeFrom',
-                        'dateTimeTill' : '@Model.FilterView.DateTimeTill',
-                        'priceFrom' : '@Model.FilterView.PriceFrom',
-                        'priceTill' : '@Model.FilterView.PriceTill'
-                       },
-                datatype: "html",
-                success : function(data){
-                    document.body.innerHTML = data;
-                    addSvgs();
-                }
-         }
-         )
-       }
+		function ChangeSizeOfPage(pageSize)
+		{
+			$.ajax(
+			{
+				url: '@Url.Action("Anchors", "Anchor")',
+				type: 'GET',
+				data : {
+					'pageSize' : pageSize,
+					'selectedMaterial' : '@Model.FilterView.SelectedMaterial',
+					'selectedUserName' : '@Model.FilterView.SelectedUserName',
+					'dateTimeFrom' : '@Model.FilterView.DateTimeFrom',
+					'dateTimeTill' : '@Model.FilterView.DateTimeTill',
+					'priceFrom' : '@Model.FilterView.PriceFrom',
+					'priceTill' : '@Model.FilterView.PriceTill'
+				},
+				datatype: "html",
+				success : function (data)
+				{
+					document.body.innerHTML = data;
+					addSvgs();
+				}
+			});
+		}
 
-       function addSvgs(){
-            let divsImg = document.getElementsByClassName("card-img-top");
-          let exampleAttr; 
-          let ids = [];
-            for(let i = 0; i < divsImg.length; i++){
-                exampleAttr = divsImg[i].getAttribute("id");
-                ids.push(exampleAttr)
-            }
-            let stringIds = ids.join(',');
-           $.ajax(
-                  {
-                      url: '@Url.Action("GetListAnchorJsonResult", "Anchor")',
-                      type: 'GET',
-                      data : {'ids' : stringIds},
-                      success: function (response) {
-                      if(response.success) {
-                          var anchorsSvg = response.anchorsSvg;
-                          let idMin = response.idMin;
-                          let idMax = response.idMax;
-                          let divId = '';
-                          let j = 0;
-                          for(i=idMin; i<=idMax; i++){
-                            divId = document.getElementById(i);
-                            if(divId !== null){
-                                divId.innerHTML = anchorsSvg[j++];                                
-                            };                           
-                          }
-                      }}})
-      }
+		function addSvgs()
+		{
+			let divsImg = document.getElementsByClassName("card-img-top");
+			let exampleAttr;
+			let ids = [];
 
+			for (let i = 0; i < divsImg.length; i++)
+			{
+				exampleAttr = divsImg[i].getAttribute("id");
+				ids.push(exampleAttr)
+			}
 
+			let stringIds = ids.join(',');
+			$.ajax(
+			{
+				url: '@Url.Action("GetListAnchorJsonResult", "Anchor")',
+				type: 'GET',
+				data : {'ids' : stringIds},
+				success: function (response)
+				{
+					if (response.success)
+					{
+						var anchorsSvg = response.anchorsSvg;
+						let idMin = response.idMin;
+						let idMax = response.idMax;
+						let divId = '';
+						let j = 0;
 
-      document.addEventListener('DOMContentLoaded', addSvgs());
+						for (let i = idMin; i <= idMax; i++)
+						{
+							divId = document.getElementById(i);
+							if (divId !== null)
+								divId.innerHTML = anchorsSvg[j++];
+						}
+					}
+				}
+			});
+		}
 
-      function refreshFilters() {
-          var selectBox = document.getElementById("selectBox");
-          selectBox.value=0;
-          var inputSelectedUserName = document.getElementById("SelectedUserName");
-          inputSelectedUserName.value = null;
-          var DateTimeFrom = document.getElementById("DateTimeFrom");
-          DateTimeFrom.value = null;
-          var DateTimeTill = document.getElementById("DateTimeTill");
-          DateTimeTill.value = null;
-          var PriceFrom = document.getElementById("PriceFrom");
-          PriceFrom.value = 0;
-          var PriceTill = document.getElementById("PriceTill");
-          PriceTill.value = 0;          
-      }     
+		document.addEventListener('DOMContentLoaded', addSvgs());
 
-   </script>
-    
+		function refreshFilters()
+		{
+			var selectBox = document.getElementById("selectBox");
+			selectBox.value = 0;
+
+			var inputSelectedUserName = document.getElementById("SelectedUserName");
+			inputSelectedUserName.value = null;
+
+			var DateTimeFrom = document.getElementById("DateTimeFrom");
+			DateTimeFrom.value = null;
+
+			var DateTimeTill = document.getElementById("DateTimeTill");
+			DateTimeTill.value = null;
+
+			var PriceFrom = document.getElementById("PriceFrom");
+			PriceFrom.value = 0;
+
+			var PriceTill = document.getElementById("PriceTill");
+			PriceTill.value = 0;
+		}
+	</script>
 }

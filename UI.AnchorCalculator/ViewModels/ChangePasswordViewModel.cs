@@ -1,11 +1,10 @@
-﻿namespace UI.AnchorCalculator.ViewModels
+﻿namespace UI.AnchorCalculator.ViewModels;
+
+public class ChangePasswordViewModel
 {
-    public class ChangePasswordViewModel
-    {
-        public string Id { get; set; }
-        public string Email { get; set; }
-        public string UserName { get; set; }
-        public string NewPassword { get; set; }
-        public string OldPassword { get; set; }
-    }
+	public string Id { get; set; }
+	public string Email { get; set; }
+	public string UserName { get; set; }
+	public string NewPassword { get; set; }
+	public string OldPassword { get; set; }
 }
