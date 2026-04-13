@@ -64,53 +64,41 @@ public class CalculateService
 
 		if (anchor.ThreadLengthMillimeters > 0)
 		{
+			double threadLengths = 0;
+
 			if (anchor.Kind == AnchorKind.DoubleBend)
 			{
-				threadRollingPriceDollars = anchor.Material.ThreadRollingHours * (2 * anchor.ThreadLengthMillimeters / workCost.EffectiveLengthMillimeters) * workCost.PnrRollingThreadDollars;
-
-				threadCuttingPriceDollars = anchor.Material.ThreadCuttingHours * (2 * anchor.ThreadLengthMillimeters / workCost.EffectiveLengthMillimeters) * workCost.AreaLockSmithDollars
-				                          + anchor.Material.CutterCount * workCost.CutterPriceDollars + anchor.Material.PlashkaCount * workCost.PlashkaPriceDollars;
-				if (anchor.ProductionId != 0)
-				{
-					productionHours += anchor.Material.ThreadRollingHours * (2 * anchor.ThreadLengthMillimeters / workCost.EffectiveLengthMillimeters);
-					productionHours += workCost.SetThreadRollingHours / anchor.Quantity;
-
-					productionThreadHours += anchor.Material.ThreadRollingHours * (2 * anchor.ThreadLengthMillimeters / workCost.EffectiveLengthMillimeters);
-					productionThreadHours += workCost.SetThreadRollingHours / anchor.Quantity;
-				}
-				else
-				{
-					productionHours += anchor.Material.ThreadCuttingHours * (2 * anchor.ThreadLengthMillimeters / workCost.EffectiveLengthMillimeters);
-
-					productionThreadHours += anchor.Material.ThreadCuttingHours * (2 * anchor.ThreadLengthMillimeters / workCost.EffectiveLengthMillimeters);
-				}
+				threadLengths = 2 * anchor.ThreadLengthMillimeters;
 
 				if (anchor.WithoutBindThreadDiamMaterial && anchor.ThreadDiameterMillimeters < anchor.DiameterMillimeters - 1)
-					timeCutWithoutBindThreadMaterial = anchor.Material.ThreadRollingHours * (2 * anchor.ThreadLengthMillimeters / (workCost.EffectiveLengthMillimeters / anchor.Quantity));
+					timeCutWithoutBindThreadMaterial = anchor.Material.ThreadRollingHours * (threadLengths / (workCost.EffectiveLengthMillimeters / anchor.Quantity));
 			}
 			else
 			{
-				threadRollingPriceDollars = anchor.Material.ThreadRollingHours * ((anchor.ThreadLengthMillimeters + anchor.ThreadSecondLengthMillimeters) / workCost.EffectiveLengthMillimeters) * workCost.PnrRollingThreadDollars;
-
-				threadCuttingPriceDollars = anchor.Material.ThreadCuttingHours * ((anchor.ThreadLengthMillimeters + anchor.ThreadSecondLengthMillimeters) / workCost.EffectiveLengthMillimeters) * workCost.AreaLockSmithDollars
-				                          + anchor.Material.CutterCount * workCost.CutterPriceDollars + anchor.Material.PlashkaCount * workCost.PlashkaPriceDollars;
-				if (anchor.ProductionId != 0)
-				{
-					productionHours += anchor.Material.ThreadRollingHours * ((anchor.ThreadLengthMillimeters + anchor.ThreadSecondLengthMillimeters) / workCost.EffectiveLengthMillimeters);
-					productionHours += workCost.SetThreadRollingHours / anchor.Quantity;
-
-					productionThreadHours += anchor.Material.ThreadRollingHours * ((anchor.ThreadLengthMillimeters + anchor.ThreadSecondLengthMillimeters) / workCost.EffectiveLengthMillimeters);
-					productionThreadHours += workCost.SetThreadRollingHours / anchor.Quantity;
-				}
-				else
-				{
-					productionHours += anchor.Material.ThreadCuttingHours * ((anchor.ThreadLengthMillimeters + anchor.ThreadSecondLengthMillimeters) / workCost.EffectiveLengthMillimeters);
-
-					productionThreadHours += anchor.Material.ThreadCuttingHours * ((anchor.ThreadLengthMillimeters + anchor.ThreadSecondLengthMillimeters) / workCost.EffectiveLengthMillimeters);
-				}
+				threadLengths = anchor.ThreadLengthMillimeters + anchor.ThreadSecondLengthMillimeters;
 
 				if (anchor.WithoutBindThreadDiamMaterial && anchor.ThreadDiameterMillimeters < anchor.DiameterMillimeters - 1)
-					timeCutWithoutBindThreadMaterial = anchor.Material.ThreadRollingHours * ((anchor.ThreadLengthMillimeters + anchor.ThreadSecondLengthMillimeters) / (workCost.EffectiveLengthMillimeters * anchor.Quantity));
+					timeCutWithoutBindThreadMaterial = anchor.Material.ThreadRollingHours * (threadLengths / (workCost.EffectiveLengthMillimeters * anchor.Quantity));
+			}
+
+			threadLengths /= workCost.EffectiveLengthMillimeters;
+
+			threadRollingPriceDollars = anchor.Material.ThreadRollingHours * threadLengths  * workCost.PnrRollingThreadDollars;
+			threadCuttingPriceDollars = anchor.Material.ThreadCuttingHours * threadLengths * workCost.MetalworkingAreaDollars + anchor.Material.CutterCount * workCost.CutterPriceDollars + anchor.Material.PlashkaCount * workCost.PlashkaPriceDollars;
+
+			if (anchor.ProductionId != 0)
+			{
+				productionHours += anchor.Material.ThreadRollingHours * (threadLengths / workCost.EffectiveLengthMillimeters);
+				productionHours += workCost.SetThreadRollingHours / anchor.Quantity;
+
+				productionThreadHours += anchor.Material.ThreadRollingHours * (threadLengths / workCost.EffectiveLengthMillimeters);
+				productionThreadHours += workCost.SetThreadRollingHours / anchor.Quantity;
+			}
+			else
+			{
+				productionHours += anchor.Material.ThreadCuttingHours * (threadLengths / workCost.EffectiveLengthMillimeters);
+
+				productionThreadHours += anchor.Material.ThreadCuttingHours * (threadLengths / workCost.EffectiveLengthMillimeters);
 			}
 
 			if (anchor.WithoutBindThreadDiamMaterial && anchor.ThreadDiameterMillimeters < anchor.DiameterMillimeters - 1)
@@ -123,7 +111,7 @@ public class CalculateService
 			workCost.PnrRollingThreadDollars = 0;
 		}
 
-		double bandSawPriceDollars = anchor.Material.BandSawHours * workCost.PnrBandSawDollars + anchor.Material.BandSawBladeLengthMeters * workCost.BandSawPriceDollars;
+		double bandSawPriceDollars = anchor.Material.BandSawHours * workCost.PnrBandSawDollars + anchor.Material.BandSawBladeCount * workCost.BandSawPriceDollars;
 		double materialAnchorPriceDollars = ((anchor.BilletLengthMillimeters / 1000) * anchor.Material.PricePerMeter) / workCost.ExchangeDollar;
 
 		productionHours += anchor.Material.BandSawHours;

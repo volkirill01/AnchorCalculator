@@ -13,10 +13,10 @@ public class Material : Entity
 	public double Size { get; set; }
 	public double ThreadRollingHours { get; set; }
 	public double ThreadCuttingHours { get; set; }
-	public double PlashkaCount { get; set; } // TODO: Possibly make it int
-	public double CutterCount { get; set; } // TODO: Possibly make it int
+	public double PlashkaCount { get; set; }
+	public double CutterCount { get; set; }
 	public double BandSawHours { get; set; }
-	public double BandSawBladeLengthMeters { get; set; }
+	public double BandSawBladeCount { get; set; }
 
 	public virtual int TypeId
 	{

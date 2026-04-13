@@ -31,7 +31,7 @@ public class MaterialService
 			ThreadRollingHours = viewModel.ThreadRollingHours,
 			ThreadCuttingHours = viewModel.ThreadCuttingHours,
 			BandSawHours = viewModel.BandSawHours,
-			BandSawBladeLengthMeters = viewModel.BandSawBladeLengthMeters,
+			BandSawBladeCount = viewModel.BandSawBladeCount,
 			PlashkaCount = viewModel.PlashkaCount,
 			CutterCount = viewModel.CutterCount
 		};
@@ -50,7 +50,7 @@ public class MaterialService
 		material.ThreadRollingHours = viewModel.TheradRollingHours;
 		material.ThreadCuttingHours = viewModel.ThreadCuttingHours;
 		material.BandSawHours = viewModel.BandSawHours;
-		material.BandSawBladeLengthMeters = viewModel.BandSawBladeLengthMeters;
+		material.BandSawBladeCount = viewModel.BandSawBladeCount;
 		material.PlashkaCount = viewModel.PlashkaCount;
 		material.CutterCount = viewModel.CutterCount;
 
@@ -110,7 +110,7 @@ public class MaterialService
 			TheradRollingHours = material.ThreadRollingHours,
 			ThreadCuttingHours = material.ThreadCuttingHours,
 			BandSawHours = material.BandSawHours,
-			BandSawBladeLengthMeters = material.BandSawBladeLengthMeters,
+			BandSawBladeCount = material.BandSawBladeCount,
 			PlashkaCount = material.PlashkaCount,
 			CutterCount = material.CutterCount,
 		};
@@ -139,7 +139,7 @@ public class MaterialService
 			SetBendHours = materialsAndWorkCostViewModel.WorkCost.SetBendHours,
 			MarkupPercent = materialsAndWorkCostViewModel.WorkCost.MarkupPercent,
 			AdditionalMarkupPercent_DiameterMoreThan30 = materialsAndWorkCostViewModel.WorkCost.AdditionalMarkupPercent_DiameterMoreThan30,
-			AreaLockSmithDollars = materialsAndWorkCostViewModel.WorkCost.AreaLockSmithDollars,
+			MetalworkingAreaDollars = materialsAndWorkCostViewModel.WorkCost.MetalworkingAreaDollars,
 			PlashkaPriceDollars = materialsAndWorkCostViewModel.WorkCost.PlashkaPriceDollars,
 			CutterPriceDollars = materialsAndWorkCostViewModel.WorkCost.CutterPriceDollars
 		};

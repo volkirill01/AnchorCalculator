@@ -37,12 +37,12 @@ public class MaterialViewModelForEdit
 	[Range(0, Double.MaxValue, ErrorMessage = "Укажите кол-во плашки")]
 	[Display(Name = "Кол-во плашки, шт")]
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
-	public double PlashkaCount { get; set; } // TODO: Possibly make an int
+	public double PlashkaCount { get; set; }
 
 	[Range(0, Double.MaxValue, ErrorMessage = "Укажите кол-во резца")]
 	[Display(Name = "Кол-во резца, шт")]
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
-	public double CutterCount { get; set; } // TODO: Possibly make an int
+	public double CutterCount { get; set; }
 
 	[Range(0, Double.MaxValue, ErrorMessage = "Укажите время лентопила")]
 	[Display(Name = "Время лентопила,ч")]
@@ -50,9 +50,9 @@ public class MaterialViewModelForEdit
 	public double BandSawHours { get; set; }
 
 	[Range(0, Double.MaxValue, ErrorMessage = "Укажите длину полотна лентопила")]
-	[Display(Name = "Длина полотна лентопила,м")]
+	[Display(Name = "Полотно лентопила,шт")]
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
-	public double BandSawBladeLengthMeters { get; set; }
+	public double BandSawBladeCount { get; set; }
 
 	public Array? Types { get; set; }
 	public string[]? Names { get; set; }

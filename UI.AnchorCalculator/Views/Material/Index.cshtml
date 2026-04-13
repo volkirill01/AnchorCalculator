@@ -14,7 +14,7 @@
 					<th scope="col">Время накатки резьбы,ч</th>
 					<th scope="col">Время нарезки резьбы,ч</th>
 					<th scope="col">Время лентопила,ч</th>
-					<th scope="col">Длина полотна лентопила,мм</th>
+					<th scope="col">Полотно лентопила,шт</th>
 					<th scope="col">Плашка,шт</th>
 					<th scope="col">Резец,шт</th>
 					<th scope="col">Дата обнов-я</th>
@@ -35,7 +35,7 @@
 							<td>@item.ThreadRollingHours</td>
 							<td>@item.ThreadCuttingHours</td>
 							<td>@item.BandSawHours</td>
-							<td>@item.BandSawBladeLengthMeters</td>
+							<td>@item.BandSawBladeCount</td>
 							<td>@item.PlashkaCount</td>
 							<td>@item.CutterCount</td>
 							<td>@item.DateUpdate.ToLocalTime()</td>
@@ -81,14 +81,14 @@
 							<input asp-for="WorkCost.PnrBandSawDollars" type="text" class="form-control" id="PnrBandSawDollars" value="@Model.WorkCost.PnrBandSawDollars">
 						</div>
 
-						<label for="AreaLockSmithDollars" class="col-sm-9 col-form-label ml-0 pl-0">Слесарный участок,$:</label>
+						<label for="MetalworkingAreaDollars" class="col-sm-9 col-form-label ml-0 pl-0">Слесарный участок,$:</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.AreaLockSmithDollars" type="text" class="form-control" id="AreaLockSmithDollars" value="@Model.WorkCost.AreaLockSmithDollars">
+							<input asp-for="WorkCost.MetalworkingAreaDollars" type="text" class="form-control" id="MetalworkingAreaDollars" value="@Model.WorkCost.MetalworkingAreaDollars">
 						</div>
 
 						<label for="EffectiveLengthMillimeters" class="col-sm-9 col-form-label ml-0 pl-0">Расчетная длина,мм:</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.EffectiveLengthMillimeters" type="text" class="form-control" id="EffectiveLengthMillimeters" value="100" readonly>
+							<input asp-for="WorkCost.EffectiveLengthMillimeters" type="text" class="form-control" id="EffectiveLengthMillimeters" value="@Model.WorkCost.EffectiveLengthMillimeters" readonly>
 						</div>
 
 						<label for="BandSawPriceDollars" class="col-sm-9 col-form-label ml-0 pl-0">Цена лентопила,$:</label>
@@ -254,7 +254,7 @@
 			max: 9999.9999
 		});
 
-		$("#AreaLockSmithDollars").inputmask(
+		$("#MetalworkingAreaDollars").inputmask(
 		{
 			alias: 'decimal',
 			allowMinus: false,

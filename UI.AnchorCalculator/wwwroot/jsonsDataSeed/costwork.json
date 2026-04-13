@@ -10,7 +10,7 @@
 	"SetBendHours": 0.25,
 	"MarkupPercent": 1,
 	"AdditionalMarkupPercent_DiameterMoreThan30": 0,
-	"AreaLockSmithDollars": 8.5,
+	"MetalworkingAreaDollars": 8.5,
 	"PlashkaPriceDollars": 4.29,
 	"CutterPriceDollars": 3.27
 }
