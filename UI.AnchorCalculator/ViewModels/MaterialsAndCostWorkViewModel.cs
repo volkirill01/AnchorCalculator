@@ -9,15 +9,15 @@ public class MaterialsAndWorkCostViewModel
 
 	public WorkCost? WorkCost { get; set; }
 
-	public double MarginPercent
+	public double MarkupPercent
 	{
-		get => WorkCost.MarginPercent * 100;
-		set => WorkCost.MarginPercent = value / 100;
+		get => WorkCost.MarkupPercent * 100;
+		set => WorkCost.MarkupPercent = value / 100;
 	}
 
-	public double MarginFBPercent
+	public double AdditionalMarkupPercent_DiameterMoreThan30
 	{
-		get => WorkCost.MarginFBPercent * 100;
-		set => WorkCost.MarginFBPercent = value / 100;
+		get => WorkCost.AdditionalMarkupPercent_DiameterMoreThan30 * 100;
+		set => WorkCost.AdditionalMarkupPercent_DiameterMoreThan30 = value / 100;
 	}
 }

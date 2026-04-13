@@ -121,14 +121,14 @@
 							<input asp-for="WorkCost.SetBendHours" type="text" class="form-control" id="SetBendHours" value="@Model.WorkCost.SetBendHours">
 						</div>
 
-						<label for="Margin" class="col-sm-9 col-form-label ml-0 pl-0">Наценка,%:</label>
+						<label for="MarkupPercent" class="col-sm-9 col-form-label ml-0 pl-0">Наценка,%:</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="MarginPercent" type="text" class="form-control" id="Margin" value="@Model.MarginPercent">
+							<input asp-for="MarkupPercent" type="text" class="form-control" id="MarkupPercent" value="@Model.MarkupPercent">
 						</div>
 
-						<label for="MarginFB" class="col-sm-9 col-form-label ml-0 pl-0">Наценка для > М30,%:</label>
+						<label for="AdditionalMarkupPercent_DiameterMoreThan30" class="col-sm-9 col-form-label ml-0 pl-0">Дополнительная наценка для толщины > М30,%:</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="MarginFBPercent" type="text" class="form-control" id="MarginFB" value="@Model.MarginFBPercent">
+							<input asp-for="AdditionalMarkupPercent_DiameterMoreThan30" type="text" class="form-control" id="AdditionalMarkupPercent_DiameterMoreThan30" value="@Model.AdditionalMarkupPercent_DiameterMoreThan30">
 						</div>
 					</div>
 
@@ -318,7 +318,7 @@
 			max: 999
 		});
 
-		$("#Margin").inputmask(
+		$("#MarkupPercent").inputmask(
 		{
 			alias: 'numeric',
 			allowMinus: false,
@@ -326,7 +326,7 @@
 			max: 999
 		});
 
-		$("#MarginFB").inputmask(
+		$("#AdditionalMarkupPercent_DiameterMoreThan30").inputmask(
 		{
 			alias: 'numeric',
 			allowMinus: false,
@@ -340,14 +340,14 @@
 	{
 		event.preventDefault();
 
-		let inputMargin = document.getElementById("Margin");
-		let inputMarginFB = document.getElementById("MarginFB");
+		let inputMarkupPercent = document.getElementById("MarkupPercent");
+		let inputAdditionalMarkupPercent_DiameterMoreThan30 = document.getElementById("AdditionalMarkupPercent_DiameterMoreThan30");
 
-		if (inputMargin.value.trim() === "")
-			inputMargin.value = 0;
+		if (inputMarkupPercent.value.trim() === "")
+			inputMarkupPercent.value = 0;
 
-		if (inputMarginFB.value.trim() === "")
-			inputMarginFB.value = 0;
+		if (inputAdditionalMarkupPercent_DiameterMoreThan30.value.trim() === "")
+			inputAdditionalMarkupPercent_DiameterMoreThan30.value = 0;
 
 		var formData = new FormData(workCostForm);
 		$.ajax(

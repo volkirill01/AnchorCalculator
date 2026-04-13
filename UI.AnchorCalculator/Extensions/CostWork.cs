@@ -4,7 +4,7 @@ namespace UI.AnchorCalculator.Extensions;
 
 public class WorkCost
 {
-	public double ExchangeDollar { get; set; } // TODO: What? Som / $
+	public double ExchangeDollar { get; set; } // Conversion from $ to som
 	public double PnrRollingThreadDollars { get; set; }
 	public double PnrBendingAnchorDollars { get; set; }
 	public double PnrBandSawDollars { get; set; }
@@ -13,8 +13,8 @@ public class WorkCost
 	public double SetThreadRollingHours { get; set; }
 	public double BendHours { get; set; }
 	public double SetBendHours { get; set; }
-	public double MarginPercent { get; set; }
-	public double MarginFBPercent { get; set; } // Margin for anchors from diameter 30mm and more // TODO: Rename to more self explanatory name and remove comment
+	public double MarkupPercent { get; set; }
+	public double AdditionalMarkupPercent_DiameterMoreThan30 { get; set; } 
 	public double AreaLockSmithDollars { get; set; }
 	public double PlashkaPriceDollars { get; set; }
 	public double CutterPriceDollars { get; set; }

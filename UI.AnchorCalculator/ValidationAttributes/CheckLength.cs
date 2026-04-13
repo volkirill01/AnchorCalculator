@@ -37,7 +37,7 @@ public class CheckLength : ValidationAttribute
 					BendLengthMillimeters = model.BendLengthMillimeters
 				};
 
-				var billetLength = CalculParams.GetLengthBillet(anchorForBilletLength);
+				var billetLength = CalculParams.GetBilletLength(anchorForBilletLength);
 
 				if (length <= 0)
 					return new ValidationResult("Длина должна быть больше 0 мм");

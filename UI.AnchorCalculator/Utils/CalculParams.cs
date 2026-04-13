@@ -5,11 +5,11 @@ namespace UI.AnchorCalculator.Utils;
 
 static class CalculParams
 {
-	public static double GetLengthBillet(Anchor? anchor = null)
+	public static double GetBilletLength(Anchor? anchor = null)
 	{
 		anchor ??= new Anchor();
 
-		double lengthBillet;
+		double billetLength;
 		double kFactor = 1 / (Math.Log(1 + (double)anchor.DiameterMillimeters / anchor.BendRadiusMillimeters)) - anchor.BendRadiusMillimeters / anchor.DiameterMillimeters;
 		anchor.RollerPathLengthMillimeters = Math.PI * anchor.BendRadiusMillimeters * 1 / 2;
 
@@ -22,24 +22,24 @@ static class CalculParams
 		{
 			case AnchorKind.SingleBend:
 			{
-				lengthBillet = anchor.LengthMillimeters - anchor.BendRadiusMillimeters - anchor.DiameterMillimeters
+				billetLength = anchor.LengthMillimeters - anchor.BendRadiusMillimeters - anchor.DiameterMillimeters
 					+ ((Math.PI * (anchor.BendRadiusMillimeters + kFactor * anchor.DiameterMillimeters) * 1 / 2)
 					+ (anchor.BendLengthMillimeters - (anchor.DiameterMillimeters + anchor.BendRadiusMillimeters)));
 				break;
 			}
 			case AnchorKind.DoubleBend:
 			{
-				lengthBillet = anchor.LengthMillimeters + anchor.SecondLengthMillimeters
+				billetLength = anchor.LengthMillimeters + anchor.SecondLengthMillimeters
 					- 2 * (anchor.BendRadiusMillimeters + anchor.DiameterMillimeters - (Math.PI * (anchor.BendRadiusMillimeters + kFactor * anchor.DiameterMillimeters) * 1 / 2))
 					+ anchor.BendLengthMillimeters - 2 * (anchor.DiameterMillimeters + anchor.BendRadiusMillimeters);
 				break;
 			}
 			default:
 			{
-				lengthBillet = anchor.LengthMillimeters;
+				billetLength = anchor.LengthMillimeters;
 				break;
 			}
 		}
-		return lengthBillet;
+		return billetLength;
 	}
 }

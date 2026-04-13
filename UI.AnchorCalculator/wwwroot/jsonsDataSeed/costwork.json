@@ -1,1 +1,16 @@
-{"ExchangeDollar":90,"PnrRollingThreadDollars":15,"PnrBendingAnchorDollars":15,"PnrBandSawDollars":7,"EffectiveLengthMillimeters":100,"BandSawPriceDollars":25.36,"SetThreadRollingHours":1,"BendHours":0.01,"SetBendHours":0.25,"Margin":1,"MarginFB":0,"AreaLockSmithDollars":8.5,"PlashkaPriceDollars":4.29,"CutterPriceDollars":3.27}
+{
+	"ExchangeDollar": 90,
+	"PnrRollingThreadDollars": 15,
+	"PnrBendingAnchorDollars": 15,
+	"PnrBandSawDollars": 7,
+	"EffectiveLengthMillimeters": 100,
+	"BandSawPriceDollars": 25.36,
+	"SetThreadRollingHours": 1,
+	"BendHours": 0.01,
+	"SetBendHours": 0.25,
+	"MarkupPercent": 1,
+	"AdditionalMarkupPercent_DiameterMoreThan30": 0,
+	"AreaLockSmithDollars": 8.5,
+	"PlashkaPriceDollars": 4.29,
+	"CutterPriceDollars": 3.27
+}

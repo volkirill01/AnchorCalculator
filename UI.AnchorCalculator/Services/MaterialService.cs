@@ -137,8 +137,8 @@ public class MaterialService
 			SetThreadRollingHours = materialsAndWorkCostViewModel.WorkCost.SetThreadRollingHours,
 			BendHours = materialsAndWorkCostViewModel.WorkCost.BendHours,
 			SetBendHours = materialsAndWorkCostViewModel.WorkCost.SetBendHours,
-			MarginPercent = materialsAndWorkCostViewModel.WorkCost.MarginPercent,
-			MarginFBPercent = materialsAndWorkCostViewModel.WorkCost.MarginFBPercent,
+			MarkupPercent = materialsAndWorkCostViewModel.WorkCost.MarkupPercent,
+			AdditionalMarkupPercent_DiameterMoreThan30 = materialsAndWorkCostViewModel.WorkCost.AdditionalMarkupPercent_DiameterMoreThan30,
 			AreaLockSmithDollars = materialsAndWorkCostViewModel.WorkCost.AreaLockSmithDollars,
 			PlashkaPriceDollars = materialsAndWorkCostViewModel.WorkCost.PlashkaPriceDollars,
 			CutterPriceDollars = materialsAndWorkCostViewModel.WorkCost.CutterPriceDollars
