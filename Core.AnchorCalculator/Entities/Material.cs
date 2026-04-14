@@ -31,10 +31,5 @@ public class Material : Entity
 
 	public DateTime DateUpdate { get; set; }
 
-	public HashSet<Anchor>? Anchors { get; private set; }
-
-	public Material()
-	{
-		Anchors = new();
-	}
+	public HashSet<Anchor> Anchors { get; private set; } = new();
 }

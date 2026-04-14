@@ -84,9 +84,9 @@ public class AnchorService
 			KindId = (int)kinds.FirstOrDefault(e => e.ToString() == viewModel.Kind),
 			ThreadSecondLengthMillimeters = viewModel.ThreadSecondLengthMillimeters,
 			ThreadProductionType = threadProductionType,
-			ProductionThreadHours = viewModel.ProductionThreadHours,
-			ProductionBendHours = viewModel.ProductionBendHours,
-			ProductionBandSawHours = viewModel.ProductionBandSawHours,
+			ProductionHours_Thread = viewModel.ProductionHours_Thread,
+			ProductionHours_Bend = viewModel.ProductionHours_Bend,
+			ProductionHours_BandSaw = viewModel.ProductionHours_BandSaw,
 			FullLengthMeters = viewModel.FullLengthMeters,
 			HasCuttingThread = viewModel.HasCuttingThread,
 			WithoutBindThreadDiamMaterial = viewModel.WithoutBindThreadDiamMaterial
@@ -159,13 +159,13 @@ public class AnchorService
 			anchors = anchors.Where(e => e.DateCreate >= DateTimeFrom && e.DateCreate <= DateTimeTill);
 
 		if (PriceFrom > 0 && PriceFrom < Double.PositiveInfinity && PriceTill == 0)
-			anchors = anchors.Where(e => e.Price >= PriceFrom);
+			anchors = anchors.Where(e => e.CostSom_SingleAnchor >= PriceFrom);
 
 		if (PriceTill > 0 && PriceTill < Double.PositiveInfinity && PriceFrom == 0)
-			anchors = anchors.Where(e => e.Price <= PriceTill);
+			anchors = anchors.Where(e => e.CostSom_SingleAnchor <= PriceTill);
 
 		if (PriceFrom > 0 && PriceFrom < Double.PositiveInfinity && PriceTill > 0 && PriceTill < Double.PositiveInfinity)
-			anchors = anchors.Where(e => e.Price >= PriceFrom && e.Price <= PriceTill);
+			anchors = anchors.Where(e => e.CostSom_SingleAnchor >= PriceFrom && e.CostSom_SingleAnchor <= PriceTill);
 	}
 
 	public PagingData Pagination(ref IQueryable<Anchor> anchors, int pageSize, int page)
@@ -206,37 +206,37 @@ public class AnchorService
 			{
 				LengthMillimeters = viewModel.LengthMillimeters,
 				DiameterMillimeters = float.Parse(viewModel.DiameterMillimeters, CultureInfo.InvariantCulture),
-				WeightKg = double.Parse(viewModel.WeightKg, CultureInfo.InvariantCulture),
-				Price = double.Parse(viewModel.Price, CultureInfo.InvariantCulture),
+				WeightKg_SingleAnchor = double.Parse(viewModel.WeightKg_SingleAnchor, CultureInfo.InvariantCulture),
+				CostSom_SingleAnchor = double.Parse(viewModel.CostSom_SingleAnchor, CultureInfo.InvariantCulture),
 				BendLengthMillimeters = viewModel.BendLengthMillimeters,
 				BendRadiusMillimeters = viewModel.BendRadiusMillimeters,
 				ThreadLengthMillimeters = viewModel.ThreadLengthMillimeters,
 				ThreadSecondLengthMillimeters = viewModel.ThreadSecondLengthMillimeters,
 				ThreadDiameterMillimeters = viewModel.ThreadDiameterMillimeters,
 				ThreadStepMillimeters = float.Parse(viewModel.ThreadStepMillimeters, CultureInfo.InvariantCulture),
-				TotalCost = double.Parse(viewModel.TotalCost, CultureInfo.InvariantCulture),
+				CostSom_Total = double.Parse(viewModel.CostSom_Total, CultureInfo.InvariantCulture),
 				Quantity = viewModel.Quantity,
 				DateCreate = DateTime.Now,
 				SvgElement = viewModel.SvgElement,
-				BatchWeightKg = double.Parse(viewModel.BatchWeightKg, CultureInfo.InvariantCulture),
+				WeightKg_Total = double.Parse(viewModel.WeightKg_Total, CultureInfo.InvariantCulture),
 				BilletLengthMillimeters = double.Parse(viewModel.BilletLengthMillimeters, CultureInfo.InvariantCulture),
 				MaterialId = viewModel.MaterialId,
-				Sebes = double.Parse(viewModel.Sebes, CultureInfo.InvariantCulture),
-				BatchSebes = double.Parse(viewModel.BatchSebes, CultureInfo.InvariantCulture),
+				SebesSom_SingleAnchor = double.Parse(viewModel.SebesSom_SingleAnchor, CultureInfo.InvariantCulture),
+				SebesSom_Total = double.Parse(viewModel.SebesSom_Total, CultureInfo.InvariantCulture),
 				UserId = userId,
 				UserJson = userJson,
 				MaterialJson = materialJson,
 				KindId = int.Parse(viewModel.Kind),
-				BatchPriceMaterial = viewModel.BatchPriceMaterial,
-				BatchPriceProductionThread = viewModel.BatchPriceProductionThread,
-				BatchPriceProductionBend = viewModel.BatchPriceProductionBend,
-				BatchPriceProductionBandSaw = viewModel.BatchPriceProductionBandSaw,
+				PriceSom_Material_Total = viewModel.PriceSom_Material_Total,
+				PriceSom_ProductionThread_Total = viewModel.PriceSom_ProductionThread_Total,
+				PriceSom_ProductionBend_Total = viewModel.PriceSom_ProductionBend_Total,
+				PriceSom_ProductionBandSaw_Total = viewModel.PriceSom_ProductionBandSaw_Total,
 				RollerPathLengthMillimeters = viewModel.RollerPathLengthMillimeters,
 				RollerPathLengthMillimetersBeforeEnd = viewModel.RollerPathLengthMillimetersBeforeEnd,
 				ThreadProductionTypeId = viewModel.ThreadProductionTypeId,
-				ProductionThreadHours = viewModel.ProductionThreadHours,
-				ProductionBendHours = viewModel.ProductionBendHours,
-				ProductionBandSawHours = viewModel.ProductionBandSawHours,
+				ProductionHours_Thread = viewModel.ProductionHours_Thread,
+				ProductionHours_Bend = viewModel.ProductionHours_Bend,
+				ProductionHours_BandSaw = viewModel.ProductionHours_BandSaw,
 				FullLengthMeters = viewModel.FullLengthMeters,
 				WithoutBindThreadDiamMaterial = viewModel.WithoutBindThreadDiamMaterial
 			};

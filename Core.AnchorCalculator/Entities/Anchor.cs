@@ -9,10 +9,10 @@ public class Anchor : Entity
 	public int LengthMillimeters { get; set; }
 	public int SecondLengthMillimeters { get; set; }
 	public float DiameterMillimeters { get; set; }
-	public double WeightKg { get; set; }
-	public double Sebes { get; set; }
-	public double BatchSebes { get; set; }
-	public double Price { get; set; }
+	public double WeightKg_SingleAnchor { get; set; }
+	public double SebesSom_SingleAnchor { get; set; }
+	public double SebesSom_Total { get; set; }
+	public double CostSom_SingleAnchor { get; set; }
 
 	public int BendLengthMillimeters { get; set; }
 	public int BendRadiusMillimeters { get; set; }
@@ -20,11 +20,11 @@ public class Anchor : Entity
 	public int ThreadSecondLengthMillimeters { get; set; }
 	public int ThreadDiameterMillimeters { get; set; }
 	public float ThreadStepMillimeters { get; set; }
-	public double TotalCost { get; set; }
+	public double CostSom_Total { get; set; }
 	public int Quantity { get; set; }
 	public DateTime DateCreate { get; set; }
 	public string? SvgElement { get; set; }
-	public double BatchWeightKg { get; set; }
+	public double WeightKg_Total { get; set; }
 	public double BilletLengthMillimeters { get; set; }
 	public string MaterialJson { get; set; }
 	public string UserJson { get; set; }
@@ -42,21 +42,28 @@ public class Anchor : Entity
 		set => ThreadProductionType = (ThreadProductionType)value;
 	}
 	public ThreadProductionType ThreadProductionType { get; set; }
-	public double PricePerMeter { get; set; }
+	public double PriceSom_PerMeter { get; set; }
+
+	public double PriceSom_Material_Total { get; set; }
 	[NotMapped]
-	public double PriceMaterial => BatchPriceMaterial / Quantity;
-	public double BatchPriceMaterial { get; set; }
-	public double PriceProductionThread => BatchPriceProductionThread / Quantity;
-	public double BatchPriceProductionThread { get; set; }
-	public double PriceProductionBend => BatchPriceProductionBend / Quantity;
-	public double BatchPriceProductionBend { get; set; }
-	public double PriceProductionBandSaw => BatchPriceProductionBandSaw / Quantity;
-	public double BatchPriceProductionBandSaw { get; set; }
+	public double PriceSom_Material_SingleAnchor => PriceSom_Material_Total / Quantity;
+
+	public double PriceSom_ProductionThread_Total { get; set; }
+	public double PriceSom_ProductionThread_SingleAnchor => PriceSom_ProductionThread_Total / Quantity;
+
+	public double PriceSom_ProductionBend_Total { get; set; }
+	public double PriceSom_ProductionBend_SingleAnchor => PriceSom_ProductionBend_Total / Quantity;
+
+	public double PriceSom_ProductionBandSaw_Total { get; set; }
+	public double PriceSom_ProductionBandSaw_SingleAnchor => PriceSom_ProductionBandSaw_Total / Quantity;
+
 	public double RollerPathLengthMillimeters { get; set; }
 	public double RollerPathLengthMillimetersBeforeEnd { get; set; }
-	public double ProductionThreadHours { get; set; }
-	public double ProductionBendHours { get; set; }
-	public double ProductionBandSawHours { get; set; }
+
+	public double ProductionHours_Thread { get; set; }
+	public double ProductionHours_Bend { get; set; }
+	public double ProductionHours_BandSaw { get; set; }
+
 	public double FullLengthMeters { get; set; } // TODO: Maybe this is millimeters
 	[NotMapped]
 	public bool HasCuttingThread { get; set; }

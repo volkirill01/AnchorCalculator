@@ -21,9 +21,9 @@ public class AnchorViewModel
 	[Display(Name = "Диаметр (мм)")]
 	public string DiameterMillimeters { get; set; }
 
-	public string? WeightKg { get; set; }
+	public string? WeightKg_SingleAnchor { get; set; }
 
-	public string? Price { get; set; } // TODO: Figure out units
+	public string? CostSom_SingleAnchor { get; set; }
 
 	[Display(Name = "Длина загиба (мм)")]
 	public int BendLengthMillimeters { get; set; }
@@ -52,7 +52,7 @@ public class AnchorViewModel
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
 	public string ThreadStepMillimeters { get; set; }
 
-	public string? TotalCost { get; set; } // TODO: Possibly make it int
+	public string? CostSom_Total { get; set; }
 
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
 	[Range(1, Int32.MaxValue, ErrorMessage = "Кол-во не может быть равно 0")]
@@ -63,16 +63,18 @@ public class AnchorViewModel
 	public DateTime DateCreate { get; set; }
 	public string? Material { get; set; }
 	public string? SvgElement { get; set; }
-	public string? BatchWeightKg { get; set; } // TODO: Possibly make it float
-	public string? BilletLengthMillimeters { get; set; } // TODO: Possibly make it float
-	public double BatchPriceMaterial { get; set; } // TODO: Figure out units
-	public double BatchPriceProductionThread { get; set; } // TODO: Figure out units
-	public double BatchPriceProductionBend { get; set; } // TODO: Figure out units
-	public double BatchPriceProductionBandSaw { get; set; } // TODO: Figure out units
+	public string? WeightKg_Total { get; set; }
+	public string? BilletLengthMillimeters { get; set; }
+
+	public double PriceSom_Material_Total { get; set; }
+	public double PriceSom_ProductionThread_Total { get; set; }
+	public double PriceSom_ProductionBend_Total { get; set; }
+	public double PriceSom_ProductionBandSaw_Total { get; set; }
+
 	public double RollerPathLengthMillimeters { get; set; }
 	public double RollerPathLengthMillimetersBeforeEnd { get; set; }
-	public string? Sebes { get; set; } // TODO: Figure out units
-	public string? BatchSebes { get; set; } // TODO: Figure out units
+	public string? SebesSom_SingleAnchor { get; set; }
+	public string? SebesSom_Total { get; set; }
 	public string? UserName { get; set; }
 	public string? Kind { get; set; }
 	public int ThreadProductionTypeId { get; set; }
@@ -83,10 +85,12 @@ public class AnchorViewModel
 	[ValidateNever]
 	public bool HasCuttingThread { get; set; }
 	[ValidateNever]
-	public bool HasVariableLength { get; set; } // TODO: Figure out units
-	public double ProductionThreadHours { get; set; }
-	public double ProductionBendHours { get; set; }
-	public double ProductionBandSawHours { get; set; }
+	public bool HasVariableLength { get; set; }
+
+	public double ProductionHours_Thread { get; set; }
+	public double ProductionHours_Bend { get; set; }
+	public double ProductionHours_BandSaw { get; set; }
+
 	public double FullLengthMeters { get; set; }
 	public string? MaterialName { get; set; }
 	[Display(Name = "Материал")]

@@ -368,24 +368,24 @@
 
 						if (response.isAuthen)
 						{
-							price_Production = '<p class="card-text">Цена накатки/нарезки резьбы: ' + response.anchorJS.batchPriceProductionThread + ' сом</p>' +
-							                   '<p class="card-text">Цена гибки: ' + response.anchorJS.batchPriceProductionBend + ' сом</p>' +
-							                   '<p class="card-text">Цена лентопила: ' + response.anchorJS.batchPriceProductionBandSaw + ' сом</p>';
+							price_Production = '<p class="card-text">Цена накатки/нарезки резьбы: ' + response.anchorJS.priceSom_ProductionThread_Total + ' сом</p>' +
+							                   '<p class="card-text">Цена гибки: ' + response.anchorJS.priceSom_ProductionBend_Total + ' сом</p>' +
+							                   '<p class="card-text">Цена лентопила: ' + response.anchorJS.priceSom_ProductionBandSaw_Total + ' сом</p>';
 
-							time_Production = '<p class="card-text">Время накатки/нарезки резьбы: ' + response.anchorJS.productionThreadHours + ' ч</p>' +
-							                  '<p class="card-text">Время гибки: ' + response.anchorJS.productionBendHours + ' ч</p>' +
-							                  '<p class="card-text">Время лентопила: ' + response.anchorJS.productionBandSawHours + ' ч</p>';
+							time_Production = '<p class="card-text">Время накатки/нарезки резьбы: ' + response.anchorJS.productionHours_Thread + ' ч</p>' +
+							                  '<p class="card-text">Время гибки: ' + response.anchorJS.productionHours_Bend + ' ч</p>' +
+							                  '<p class="card-text">Время лентопила: ' + response.anchorJS.productionHours_BandSaw + ' ч</p>';
 
 							Descript_to_blank = '<div id="Descript_to_blank">' +
 							                        '<h5 class="card-title">Результаты расчёта</h5>' +
 							                        '<p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
-							                        '<p class="card-text">Цена: ' + response.anchorJS.price + ' сом</p>' +
-							                        '<p class="card-text">Общая стоимость: ' + response.anchorJS.totalCost + ' сом</p>' +
+							                        '<p class="card-text">Цена: ' + response.anchorJS.costSom_SingleAnchor + ' сом</p>' +
+							                        '<p class="card-text">Общая стоимость: ' + response.anchorJS.costSom_Total + ' сом</p>' +
 							                        '<p class="card-text">Длина заготовки: ' + response.anchorJS.billetLengthMillimeters + ' мм</p>' +
-							                        '<p class="card-text">Цена мат-ла на 1 шт: ' + response.anchorJS.priceMaterial + ' сом</p>' +
-							                        '<p class="card-text">Цена мат-ла на ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.batchPriceMaterial + ' сом</p>' +
-							                        '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weightKg + ' кг</p>' +
-							                        '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.batchWeightKg + ' кг</p>' +
+							                        '<p class="card-text">Цена мат-ла на 1 шт: ' + response.anchorJS.priceSom_Material_SingleAnchor + ' сом</p>' +
+							                        '<p class="card-text">Цена мат-ла на ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.priceSom_Material_Total + ' сом</p>' +
+							                        '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weightKg_SingleAnchor + ' кг</p>' +
+							                        '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.weightKg_Total + ' кг</p>' +
 							                        '<p class="card-text">Материал: ' + response.anchorJS.material.fullName + '</p>' +
 							                        '<p class="card-text">Исполнитель: @User.Identity!.Name</p>' + price_Production + time_Production +
 							                        '<p class="card-text">Общая длина: ' + response.anchorJS.fullLengthMeters + ' м</p>' +
@@ -407,24 +407,24 @@
 							                        '<input id="quantityToDB" type="hidden" value="'+ response.anchorJS.quantity +'">' +
 							                        '<input id="bendLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.bendLengthMillimeters +'">' +
 							                        '<input id="bendRadiusMillimetersToDB" type="hidden" value="'+ response.anchorJS.bendRadiusMillimeters +'">' +
-							                        '<input id="sebesToDB" type="hidden" value="'+ response.anchorJS.sebes +'">' +
-							                        '<input id="batchSebesToDB" type="hidden" value="'+ response.anchorJS.batchSebes +'">' +
-							                        '<input id="priceToDB" type="hidden" value="'+ response.anchorJS.price +'">' +
-							                        '<input id="totalCostToDB" type="hidden" value="'+ response.anchorJS.totalCost +'">' +
+							                        '<input id="sebesSom_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.sebesSom_SingleAnchor +'">' +
+							                        '<input id="sebesSom_TotalToDB" type="hidden" value="'+ response.anchorJS.sebesSom_Total +'">' +
+							                        '<input id="costSom_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.costSom_SingleAnchor +'">' +
+							                        '<input id="costSom_TotalToDB" type="hidden" value="'+ response.anchorJS.costSom_Total +'">' +
 							                        '<input id="billetLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.billetLengthMillimeters +'">' +
-							                        '<input id="weightKgToDB" type="hidden" value="'+ response.anchorJS.weightKg +'">' +
-							                        '<input id="batchWeightKgToDB" type="hidden" value="'+ response.anchorJS.batchWeightKg +'">' +
+							                        '<input id="weightKg_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.weightKg_SingleAnchor +'">' +
+							                        '<input id="weightKg_TotalToDB" type="hidden" value="'+ response.anchorJS.weightKg_Total +'">' +
 							                        '<input id="kindToDB" type="hidden" value="'+ response.anchorJS.kind +'">' +
-							                        '<input id="batchPriceProductionThreadToDB" type="hidden" value="' + response.anchorJS.batchPriceProductionThread + '">' +
-							                        '<input id="batchPriceProductionBendToDB" type="hidden" value="' + response.anchorJS.batchPriceProductionBend + '">' +
-							                        '<input id="batchPriceProductionBandSawToDB" type="hidden" value="' + response.anchorJS.batchPriceProductionBandSaw + '">' +
-							                        '<input id="batchPriceMaterialToDB" type="hidden" value="' + response.anchorJS.batchPriceMaterial + '">' +
+							                        '<input id="priceSom_ProductionThread_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionThread_Total + '">' +
+							                        '<input id="priceSom_ProductionBend_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionBend_Total + '">' +
+							                        '<input id="priceSom_ProductionBandSaw_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionBandSaw_Total + '">' +
+							                        '<input id="priceSom_Material_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_Material_Total + '">' +
 							                        '<input id="pathRollerLengthMillimetersToDB" type="hidden" value="' + response.anchorJS.pathRollerLengthMillimeters + '">' +
 							                        '<input id="pathRollerLengthMillimetersBeforeEndToDB" type="hidden" value="' + response.anchorJS.pathRollerLengthMillimetersBeforeEnd + '">' +
-							                        '<input id="productionIdToDB" type="hidden" value="' + response.anchorJS.productionId + '">' +
-							                        '<input id="productionThreadHoursToDB" type="hidden" value="' + response.anchorJS.productionThreadHours + '">' +
-							                        '<input id="productionBendHoursToDB" type="hidden" value="' + response.anchorJS.productionBendHours + '">' +
-							                        '<input id="productionBandSawHoursToDB" type="hidden" value="' + response.anchorJS.productionBandSawHours + '">' +
+							                        '<input id="threadProductionIdToDB" type="hidden" value="' + response.anchorJS.threadProductionId + '">' +
+							                        '<input id="productionHours_ThreadToDB" type="hidden" value="' + response.anchorJS.productionHours_Thread + '">' +
+							                        '<input id="productionHours_BendToDB" type="hidden" value="' + response.anchorJS.productionHours_Bend + '">' +
+							                        '<input id="productionHours_BandSawToDB" type="hidden" value="' + response.anchorJS.productionHours_BandSaw + '">' +
 							                        '<input id="fullLengthMetersToDB" type="hidden" value="' + response.anchorJS.fullLengthMeters + '">' +
 							                        '<input id="hasCuttingThreadToDB" type="hidden" value="' + response.anchorJS.hasCuttingThread + '">' +
 							                        '<input id="withoutBindThreadDiamMaterialToDB" type="hidden" value="' + response.anchorJS.withoutBindThreadDiamMaterial + '">' +
@@ -439,11 +439,11 @@
 						{
 							Descript_to_blank = '<h5 class="card-title">Результаты расчёта</h5>' +
 							    '<p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
-							    '<p class="card-text">Цена: ' + response.anchorJS.price + ' сом</p>' +
-							    '<p class="card-text">Общая стоимость: ' + response.anchorJS.totalCost + ' сом</p>' +
+							    '<p class="card-text">Цена: ' + response.anchorJS.costSom_SingleAnchor + ' сом</p>' +
+							    '<p class="card-text">Общая стоимость: ' + response.anchorJS.costSom_Total + ' сом</p>' +
 							    '<p class="card-text">Длина заготовки: ' + response.anchorJS.billetLengthMillimeters + ' мм</p>' +
-							    '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weightKg + ' кг</p>' +
-							    '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.batchWeightKg + ' кг</p>' +
+							    '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weightKg_SingleAnchor + ' кг</p>' +
+							    '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.weightKg_Total + ' кг</p>' +
 							    '<p class="card-text">Материал: ' + response.anchorJS.material.fullName + '</p>';
 
 							document.getElementById("listBlank").innerHTML = Descript_to_blank;
@@ -1013,25 +1013,25 @@
 			let quantityToDB = document.getElementById("quantityToDB").value;
 			let bendLengthMillimetersToDB = document.getElementById("bendLengthMillimetersToDB").value;
 			let bendRadiusMillimetersToDB = document.getElementById("bendRadiusMillimetersToDB").value;
-			let priceToDB = document.getElementById("priceToDB").value;
-			let totalCostToDB = document.getElementById("totalCostToDB").value;
+			let costSom_SingleAnchorToDB = document.getElementById("costSom_SingleAnchorToDB").value;
+			let costSom_TotalToDB = document.getElementById("costSom_TotalToDB").value;
 			let billetLengthMillimetersToDB = document.getElementById("billetLengthMillimetersToDB").value;
-			let weightKgToDB = document.getElementById("weightKgToDB").value;
-			let batchWeightKgToDB = document.getElementById("batchWeightKgToDB").value;
-			let sebesToDB = document.getElementById("sebesToDB").value;
-			let batchSebesToDB = document.getElementById("batchSebesToDB").value;
+			let weightKg_SingleAnchorToDB = document.getElementById("weightKg_SingleAnchorToDB").value;
+			let weightKg_TotalToDB = document.getElementById("weightKg_TotalToDB").value;
+			let sebesSom_SingleAnchorToDB = document.getElementById("sebesSom_SingleAnchorToDB").value;
+			let sebesSom_TotalToDB = document.getElementById("sebesSom_TotalToDB").value;
 			let svgToDB = document.getElementById("containSvg").innerHTML;
 			let kindToDB = document.getElementById("kindToDB").value;
-			let batchPriceMaterialToDB = document.getElementById("batchPriceMaterialToDB").value;
-			let batchPriceProductionThreadToDB = document.getElementById("batchPriceProductionThreadToDB").value;
-			let batchPriceProductionBendToDB = document.getElementById("batchPriceProductionBendToDB").value;
-			let batchPriceProductionBandSawToDB = document.getElementById("batchPriceProductionBandSawToDB").value;
+			let priceSom_Material_TotalToDB = document.getElementById("priceSom_Material_TotalToDB").value;
+			let priceSom_ProductionThread_TotalToDB = document.getElementById("priceSom_ProductionThread_TotalToDB").value;
+			let priceSom_ProductionBend_TotalToDB = document.getElementById("priceSom_ProductionBend_TotalToDB").value;
+			let priceSom_ProductionBandSaw_TotalToDB = document.getElementById("priceSom_ProductionBandSaw_TotalToDB").value;
 			let pathRollerLengthMillimetersToDB = document.getElementById("pathRollerLengthMillimetersToDB").value;
 			let pathRollerLengthMillimetersBeforeEndToDB = document.getElementById("pathRollerLengthMillimetersBeforeEndToDB").value;
-			let productionIdToDB = document.getElementById("productionIdToDB").value;
-			let productionThreadHoursToDB = document.getElementById("productionThreadHoursToDB").value;
-			let productionBendHoursToDB = document.getElementById("productionBendHoursToDB").value;
-			let productionBandSawHoursToDB = document.getElementById("productionBandSawHoursToDB").value;
+			let threadProductionIdToDB = document.getElementById("threadProductionIdToDB").value;
+			let productionHours_ThreadToDB = document.getElementById("productionHours_ThreadToDB").value;
+			let productionHours_BendToDB = document.getElementById("productionHours_BendToDB").value;
+			let productionHours_BandSawToDB = document.getElementById("productionHours_BandSawToDB").value;
 			let fullLengthMetersToDB = document.getElementById("fullLengthMetersToDB").value;
 			let hasCuttingThreadToDB = document.getElementById("hasCuttingThreadToDB").value;
 			let withoutBindThreadDiamMaterialToDB = document.getElementById("withoutBindThreadDiamMaterialToDB").value;
@@ -1054,25 +1054,25 @@
 					'quantity': quantityToDB,
 					'bendLengthMillimeters': bendLengthMillimetersToDB,
 					'bendRadiusMillimeters': bendRadiusMillimetersToDB,
-					'price': priceToDB,
-					'totalCost': totalCostToDB,
+					'costSom_SingleAnchor': costSom_SingleAnchorToDB,
+					'costSom_Total': costSom_TotalToDB,
 					'billetLengthMillimeters': billetLengthMillimetersToDB,
-					'weightKg': weightKgToDB,
-					'batchWeightKg': batchWeightKgToDB,
+					'weightKg_SingleAnchor': weightKg_SingleAnchorToDB,
+					'weightKg_Total': weightKg_TotalToDB,
 					'svgElement' : svgToDB,
-					'sebes': sebesToDB,
-					'batchSebes': batchSebesToDB,
+					'sebesSom_SingleAnchor': sebesSom_SingleAnchorToDB,
+					'sebesSom_Total': sebesSom_TotalToDB,
 					'kind' : kindToDB,
-					'batchPriceProductionThread' : batchPriceProductionThreadToDB,
-					'batchPriceProductionBend' : batchPriceProductionBendToDB,
-					'batchPriceProductionBandSaw' : batchPriceProductionBandSawToDB,
-					'batchPriceMaterial': batchPriceMaterialToDB,
+					'priceSom_ProductionThread_Total' : priceSom_ProductionThread_TotalToDB,
+					'priceSom_ProductionBend_Total' : priceSom_ProductionBend_TotalToDB,
+					'priceSom_ProductionBandSaw_Total' : priceSom_ProductionBandSaw_TotalToDB,
+					'priceSom_Material_Total': priceSom_Material_TotalToDB,
 					'pathRollerLengthMillimeters': pathRollerLengthMillimetersToDB,
 					'pathRollerLengthMillimetersBeforeEnd': pathRollerLengthMillimetersBeforeEndToDB,
-					'productionId': productionIdToDB,
-					'productionThreadHours': productionThreadHoursToDB,
-					'productionBendHours': productionBendHoursToDB,
-					'productionBandSawHours': productionBandSawHoursToDB,
+					'threadProductionId': threadProductionIdToDB,
+					'productionHours_Thread': productionHours_ThreadToDB,
+					'productionHours_Bend': productionHours_BendToDB,
+					'productionHours_BandSaw': productionHours_BandSawToDB,
 					'fullLengthMeters': fullLengthMetersToDB,
 					'hasCuttingThread': hasCuttingThreadToDB,
 					'withoutBindThreadDiamMaterial': withoutBindThreadDiamMaterialToDB,

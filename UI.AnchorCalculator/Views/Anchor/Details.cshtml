@@ -26,24 +26,24 @@
 					<p class="card-text">Радиус загиба: @Model.Anchor.BendRadiusMillimeters мм</p>
 					<p class="card-text" id="billetLengthMillimeters">Длина заготовки: @Model.Anchor.BilletLengthMillimeters мм</p>
 					<p class="card-text">Кол-во: @Model.Anchor.Quantity шт</p>
-					<p class="card-text">Вес 1 шт: @Model.Anchor.WeightKg, 2) кг</p>
-					<p class="card-text">Вес @Model.Anchor.Quantity шт: @Model.Anchor.BatchWeightKg кг</p>
-					<p class="card-text">Себестоимость: @Model.Anchor.Sebes сом</p>
-					<p class="card-text">Общая cебестоимость: @Model.Anchor.BatchSebes сом</p>
-					<p class="card-text">Цена: @Model.Anchor.Price сом</p>
-					<p class="card-text">Общая стоимость: @Model.Anchor.TotalCost сом</p>
-					<p class="card-text">Цена мат-ла на 1 шт: @Model.Anchor.PriceMaterial сом</p>
-					<p class="card-text">Цена мат-ла на @Model.Anchor.Quantity шт: @Model.Anchor.BatchPriceMaterial сом</p>
+					<p class="card-text">Вес 1 шт: @Model.Anchor.WeightKg_SingleAnchor, 2) кг</p>
+					<p class="card-text">Вес @Model.Anchor.Quantity шт: @Model.Anchor.WeightKg_Total кг</p>
+					<p class="card-text">Себестоимость: @Model.Anchor.SebesSom_SingleAnchor сом</p>
+					<p class="card-text">Общая cебестоимость: @Model.Anchor.SebesSom_Total сом</p>
+					<p class="card-text">Цена: @Model.Anchor.CostSom_SingleAnchor сом</p>
+					<p class="card-text">Общая стоимость: @Model.Anchor.CostSom_Total сом</p>
+					<p class="card-text">Цена мат-ла на 1 шт: @Model.Anchor.PriceSom_Material_SingleAnchor сом</p>
+					<p class="card-text">Цена мат-ла на @Model.Anchor.Quantity шт: @Model.Anchor.PriceSom_Material_Total сом</p>
 					<p class="card-text" id="material">Материал: @Model.MaterialName</p>
 					<p class="card-text" id="author">Исполнитель: @Model.UserName</p>
-					<p class="card-text">Цена накатки/нарезки резьбы: @Model.Anchor.BatchPriceProductionThread сом</p>
-					<p class="card-text">Цена гибки: @Model.Anchor.BatchPriceProductionBend сом</p>
-					<p class="card-text">Цена лентопила: @Model.Anchor.BatchPriceProductionBandSaw сом</p>
+					<p class="card-text">Цена накатки/нарезки резьбы: @Model.Anchor.PriceSom_ProductionThread_Total сом</p>
+					<p class="card-text">Цена гибки: @Model.Anchor.PriceSom_ProductionBend_Total сом</p>
+					<p class="card-text">Цена лентопила: @Model.Anchor.PriceSom_ProductionBandSaw_Total сом</p>
 					@if (Model.Anchor.ThreadProductionTypeId != 0)
 					{
-						<p class="card-text">Время накатки/нарезки резьбы: @Model.Anchor.ProductionThreadHours, 2) ч</p>
-						<p class="card-text">Время гибки: @Model.Anchor.ProductionBendHours, 2) ч</p>
-						<p class="card-text">Время лентопила: @Model.Anchor.ProductionBandSawHours, 2) ч</p>
+						<p class="card-text">Время накатки/нарезки резьбы: @Model.Anchor.ProductionHours_Thread, 2) ч</p>
+						<p class="card-text">Время гибки: @Model.Anchor.ProductionHours_Bend, 2) ч</p>
+						<p class="card-text">Время лентопила: @Model.Anchor.ProductionHours_BandSaw, 2) ч</p>
 					}
 					<p class="card-text">Общая длина: @Model.Anchor.FullLengthMeters, 1) м</p>
 					<p class="card-text"><small class="text-muted">Дата создания: @Model.Anchor.DateCreate</small></p>
