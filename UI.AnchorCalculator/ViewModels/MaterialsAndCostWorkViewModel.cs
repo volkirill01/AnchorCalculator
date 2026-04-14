@@ -3,21 +3,21 @@ using UI.AnchorCalculator.Extensions;
 
 namespace UI.AnchorCalculator.ViewModels;
 
-public class MaterialsAndWorkCostViewModel
+public class MaterialsAndWorkPriceViewModel
 {
 	public List<Material>? Materials { get; set; }
 
-	public WorkCost? WorkCost { get; set; }
+	public WorkPrice? WorkPrice { get; set; }
 
 	public double MarkupPercent
 	{
-		get => WorkCost.MarkupPercent * 100;
-		set => WorkCost.MarkupPercent = value / 100;
+		get => WorkPrice.MarkupPercent * 100;
+		set => WorkPrice.MarkupPercent = value / 100;
 	}
 
 	public double AdditionalMarkupPercent_DiameterMoreThan30
 	{
-		get => WorkCost.AdditionalMarkupPercent_DiameterMoreThan30 * 100;
-		set => WorkCost.AdditionalMarkupPercent_DiameterMoreThan30 = value / 100;
+		get => WorkPrice.AdditionalMarkupPercent_DiameterMoreThan30 * 100;
+		set => WorkPrice.AdditionalMarkupPercent_DiameterMoreThan30 = value / 100;
 	}
 }

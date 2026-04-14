@@ -68,17 +68,17 @@ public class MaterialService
 		return materialViewModel;
 	}
 
-	public async Task<MaterialsAndWorkCostViewModel> GetMaterialsAndWorkCostViewModel()
+	public async Task<MaterialsAndWorkPriceViewModel> GetMaterialsAndWorkPriceViewModel()
 	{
-		WorkCost workCost = new();
-		MaterialsAndWorkCostViewModel materialsAndWorkCostViewModel = new()
+		WorkPrice workPrice = new();
+		MaterialsAndWorkPriceViewModel materialsAndWorkPriceViewModel = new()
 		{
 			Materials = await m_ApplicationDbContext.Materials.OrderBy(x => x.Name).ThenBy(x => x.Size).ToListAsync(),
 		};
 
 		try
 		{
-			materialsAndWorkCostViewModel.WorkCost = await workCost.GetWorkCost(m_Environment);
+			materialsAndWorkPriceViewModel.WorkPrice = await workPrice.GetWorkPrice(m_Environment);
 		}
 		catch (Exception ex)
 		{
@@ -86,7 +86,7 @@ public class MaterialService
 			m_Logger.LogDebug(exception);
 			throw;
 		}
-		return materialsAndWorkCostViewModel;
+		return materialsAndWorkPriceViewModel;
 	}
 
 	public async Task<List<Material>> GetAllMaterials() => await m_ApplicationDbContext.Materials.ToListAsync();
@@ -124,25 +124,25 @@ public class MaterialService
 		await m_ApplicationDbContext.SaveChangesAsync();
 	}
 
-	public async Task EditWorkCost(MaterialsAndWorkCostViewModel materialsAndWorkCostViewModel)
+	public async Task EditWorkPrice(MaterialsAndWorkPriceViewModel materialsAndWorkPriceViewModel)
 	{
-		WorkCost workCost = new()
+		WorkPrice workPrice = new()
 		{
-			ExchangeDollar = materialsAndWorkCostViewModel.WorkCost.ExchangeDollar,
-			PnrRollingThreadDollars = materialsAndWorkCostViewModel.WorkCost.PnrRollingThreadDollars,
-			PnrBendingAnchorDollars = materialsAndWorkCostViewModel.WorkCost.PnrBendingAnchorDollars,
-			PnrBandSawDollars = materialsAndWorkCostViewModel.WorkCost.PnrBandSawDollars,
-			EffectiveLengthMillimeters = materialsAndWorkCostViewModel.WorkCost.EffectiveLengthMillimeters,
-			BandSawPriceDollars = materialsAndWorkCostViewModel.WorkCost.BandSawPriceDollars,
-			ThreadRollingSettingHours = materialsAndWorkCostViewModel.WorkCost.ThreadRollingSettingHours,
-			BendHours = materialsAndWorkCostViewModel.WorkCost.BendHours,
-			BendSettingHours = materialsAndWorkCostViewModel.WorkCost.BendSettingHours,
-			MarkupPercent = materialsAndWorkCostViewModel.WorkCost.MarkupPercent,
-			AdditionalMarkupPercent_DiameterMoreThan30 = materialsAndWorkCostViewModel.WorkCost.AdditionalMarkupPercent_DiameterMoreThan30,
-			PnrMetalworkingAreaDollars = materialsAndWorkCostViewModel.WorkCost.PnrMetalworkingAreaDollars,
-			PlashkaPriceDollars = materialsAndWorkCostViewModel.WorkCost.PlashkaPriceDollars,
-			CutterPriceDollars = materialsAndWorkCostViewModel.WorkCost.CutterPriceDollars
+			ExchangeDollar = materialsAndWorkPriceViewModel.WorkPrice.ExchangeDollar,
+			PnrRollingThreadDollars = materialsAndWorkPriceViewModel.WorkPrice.PnrRollingThreadDollars,
+			PnrBendingAnchorDollars = materialsAndWorkPriceViewModel.WorkPrice.PnrBendingAnchorDollars,
+			PnrBandSawDollars = materialsAndWorkPriceViewModel.WorkPrice.PnrBandSawDollars,
+			EffectiveLengthMillimeters = materialsAndWorkPriceViewModel.WorkPrice.EffectiveLengthMillimeters,
+			BandSawPriceDollars = materialsAndWorkPriceViewModel.WorkPrice.BandSawPriceDollars,
+			ThreadRollingSettingHours = materialsAndWorkPriceViewModel.WorkPrice.ThreadRollingSettingHours,
+			BendHours = materialsAndWorkPriceViewModel.WorkPrice.BendHours,
+			BendSettingHours = materialsAndWorkPriceViewModel.WorkPrice.BendSettingHours,
+			MarkupPercent = materialsAndWorkPriceViewModel.WorkPrice.MarkupPercent,
+			AdditionalMarkupPercent_DiameterMoreThan30 = materialsAndWorkPriceViewModel.WorkPrice.AdditionalMarkupPercent_DiameterMoreThan30,
+			PnrMetalworkingAreaDollars = materialsAndWorkPriceViewModel.WorkPrice.PnrMetalworkingAreaDollars,
+			PlashkaPriceDollars = materialsAndWorkPriceViewModel.WorkPrice.PlashkaPriceDollars,
+			CutterPriceDollars = materialsAndWorkPriceViewModel.WorkPrice.CutterPriceDollars
 		};
-		await workCost.AddWorkCost(workCost, m_Environment);
+		await workPrice.AddWorkPrice(workPrice, m_Environment);
 	}
 }

@@ -17,8 +17,8 @@ public class MaterialController : Controller
 	[HttpGet] // MaterialController
 	public async Task<ActionResult> Index()
 	{
-		MaterialsAndWorkCostViewModel materialsAndCost = await m_MaterialService.GetMaterialsAndWorkCostViewModel();
-		return View(materialsAndCost);
+		MaterialsAndWorkPriceViewModel materialsAndPrice = await m_MaterialService.GetMaterialsAndWorkPriceViewModel();
+		return View(materialsAndPrice);
 	}
 
 	[HttpGet] // MaterialController/Details/5
@@ -60,12 +60,12 @@ public class MaterialController : Controller
 	}
 
 	[HttpPost] // MaterialController/Edit
-	public async Task<JsonResult> EditWorkCost(MaterialsAndWorkCostViewModel materialsAndCost)
+	public async Task<JsonResult> EditWorkPrice(MaterialsAndWorkPriceViewModel materialsAndPrice)
 	{
 		if (!ModelState.IsValid)
 			return Json(new { success = false });
 
-		await m_MaterialService.EditWorkCost(materialsAndCost);
+		await m_MaterialService.EditWorkPrice(materialsAndPrice);
 		return Json(new { success = true });
 	}
 

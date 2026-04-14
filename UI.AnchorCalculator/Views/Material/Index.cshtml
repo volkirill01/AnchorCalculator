@@ -1,4 +1,4 @@
-﻿@model UI.AnchorCalculator.ViewModels.MaterialsAndWorkCostViewModel
+﻿@model UI.AnchorCalculator.ViewModels.MaterialsAndWorkPriceViewModel
 @{ ViewData["Title"] = "Material"; }
 
 <div class="row" style="max-width: 1400px">
@@ -59,66 +59,66 @@
 			<div class="card-body">
 				<h5 class="card-title">Стоимость работ и наценка</h5>
 
-				<form id="WorkCostForm">
+				<form id="WorkPriceForm">
 					<div class="row mb-3">
 						<label for="ExchangeDollar" class="col-sm-9 col-form-label ml-0 pl-0">Курс доллара (сом/$):</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.ExchangeDollar" type="text" class="form-control" id="ExchangeDollar" value="@Model.WorkCost.ExchangeDollar">
+							<input asp-for="WorkPrice.ExchangeDollar" type="text" class="form-control" id="ExchangeDollar" value="@Model.WorkPrice.ExchangeDollar">
 						</div>
 
 						<label for="PnrRollingThreadDollars" class="col-sm-9 col-form-label ml-0 pl-0">ПНР накатки резьбы ($)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.PnrRollingThreadDollars" type="text" class="form-control" id="PnrRollingThreadDollars" value="@Model.WorkCost.PnrRollingThreadDollars">
+							<input asp-for="WorkPrice.PnrRollingThreadDollars" type="text" class="form-control" id="PnrRollingThreadDollars" value="@Model.WorkPrice.PnrRollingThreadDollars">
 						</div>
 
 						<label for="PnrBendingAnchorDollars" class="col-sm-9 col-form-label ml-0 pl-0">ПНР гибки анкеров ($)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.PnrBendingAnchorDollars" type="text" class="form-control" id="PnrBendingAnchorDollars" value="@Model.WorkCost.PnrBendingAnchorDollars">
+							<input asp-for="WorkPrice.PnrBendingAnchorDollars" type="text" class="form-control" id="PnrBendingAnchorDollars" value="@Model.WorkPrice.PnrBendingAnchorDollars">
 						</div>
 
 						<label for="PnrBandSawDollars" class="col-sm-9 col-form-label ml-0 pl-0">ПНР резки лентопила ($)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.PnrBandSawDollars" type="text" class="form-control" id="PnrBandSawDollars" value="@Model.WorkCost.PnrBandSawDollars">
+							<input asp-for="WorkPrice.PnrBandSawDollars" type="text" class="form-control" id="PnrBandSawDollars" value="@Model.WorkPrice.PnrBandSawDollars">
 						</div>
 
 						<label for="PnrMetalworkingAreaDollars" class="col-sm-9 col-form-label ml-0 pl-0">ПНР слесарного участка ($)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.PnrMetalworkingAreaDollars" type="text" class="form-control" id="PnrMetalworkingAreaDollars" value="@Model.WorkCost.PnrMetalworkingAreaDollars">
+							<input asp-for="WorkPrice.PnrMetalworkingAreaDollars" type="text" class="form-control" id="PnrMetalworkingAreaDollars" value="@Model.WorkPrice.PnrMetalworkingAreaDollars">
 						</div>
 
 						<label for="EffectiveLengthMillimeters" class="col-sm-9 col-form-label ml-0 pl-0">Расчетная длина (мм)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.EffectiveLengthMillimeters" type="text" class="form-control" id="EffectiveLengthMillimeters" value="@Model.WorkCost.EffectiveLengthMillimeters" readonly>
+							<input asp-for="WorkPrice.EffectiveLengthMillimeters" type="text" class="form-control" id="EffectiveLengthMillimeters" value="@Model.WorkPrice.EffectiveLengthMillimeters" readonly>
 						</div>
 
 						<label for="BandSawPriceDollars" class="col-sm-9 col-form-label ml-0 pl-0">Цена лентопила ($)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.BandSawPriceDollars" type="text" class="form-control" id="BandSawPriceDollars" value="@Model.WorkCost.BandSawPriceDollars">
+							<input asp-for="WorkPrice.BandSawPriceDollars" type="text" class="form-control" id="BandSawPriceDollars" value="@Model.WorkPrice.BandSawPriceDollars">
 						</div>
 
 						<label for="PlashkaPriceDollars" class="col-sm-9 col-form-label ml-0 pl-0">Цена плашки ($)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.PlashkaPriceDollars" type="text" class="form-control" id="PlashkaPriceDollars" value="@Model.WorkCost.PlashkaPriceDollars">
+							<input asp-for="WorkPrice.PlashkaPriceDollars" type="text" class="form-control" id="PlashkaPriceDollars" value="@Model.WorkPrice.PlashkaPriceDollars">
 						</div>
 
 						<label for="CutterPriceDollars" class="col-sm-9 col-form-label ml-0 pl-0">Цена резца ($)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.CutterPriceDollars" type="text" class="form-control" id="CutterPriceDollars" value="@Model.WorkCost.CutterPriceDollars">
+							<input asp-for="WorkPrice.CutterPriceDollars" type="text" class="form-control" id="CutterPriceDollars" value="@Model.WorkPrice.CutterPriceDollars">
 						</div>
 
 						<label for="ThreadRollingSettingHours" class="col-sm-9 col-form-label ml-0 pl-0">Время настройки резьбонакатного станка (ч)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.ThreadRollingSettingHours" type="text" class="form-control" id="ThreadRollingSettingHours" value="@Model.WorkCost.ThreadRollingSettingHours">
+							<input asp-for="WorkPrice.ThreadRollingSettingHours" type="text" class="form-control" id="ThreadRollingSettingHours" value="@Model.WorkPrice.ThreadRollingSettingHours">
 						</div>
 
 						<label for="BendHours" class="col-sm-9 col-form-label ml-0 pl-0">Время гиба (ч)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.BendHours" type="text" class="form-control" id="BendHours" value="@Model.WorkCost.BendHours">
+							<input asp-for="WorkPrice.BendHours" type="text" class="form-control" id="BendHours" value="@Model.WorkPrice.BendHours">
 						</div>
 
 						<label for="BendSettingHours" class="col-sm-9 col-form-label ml-0 pl-0">Время настройки гибочного станка (ч)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.BendSettingHours" type="text" class="form-control" id="BendSettingHours" value="@Model.WorkCost.BendSettingHours">
+							<input asp-for="WorkPrice.BendSettingHours" type="text" class="form-control" id="BendSettingHours" value="@Model.WorkPrice.BendSettingHours">
 						</div>
 
 						<label for="MarkupPercent" class="col-sm-9 col-form-label ml-0 pl-0">Наценка (%)</label>
@@ -335,8 +335,8 @@
 		});
 	});
 
-	var workCostForm = document.getElementById("WorkCostForm");
-	workCostForm.addEventListener("submit", function formSubmit(event)
+	var workPriceForm = document.getElementById("WorkPriceForm");
+	workPriceForm.addEventListener("submit", function formSubmit(event)
 	{
 		event.preventDefault();
 
@@ -349,10 +349,10 @@
 		if (inputAdditionalMarkupPercent_DiameterMoreThan30.value.trim() === "")
 			inputAdditionalMarkupPercent_DiameterMoreThan30.value = 0;
 
-		var formData = new FormData(workCostForm);
+		var formData = new FormData(workPriceForm);
 		$.ajax(
 		{
-			url: '@Url.Action("EditWorkCost", "Material")',
+			url: '@Url.Action("EditWorkPrice", "Material")',
 			type: 'POST',
 			contentType: false,
 			processData: false,

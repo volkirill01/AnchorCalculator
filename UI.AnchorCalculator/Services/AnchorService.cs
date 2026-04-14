@@ -57,10 +57,10 @@ public class AnchorService
 		float diameterMillimeters = float.Parse(viewModel.DiameterMillimeters, CultureInfo.InvariantCulture);
 		ThreadProductionType threadProductionType = viewModel.HasCuttingThread ? ThreadProductionType.CuttingThreadOnLathe : ThreadProductionType.RollingThreadOnMechanicMachine;
 
-		WorkCost workCost = new();
+		WorkPrice workPrice = new();
 		try
 		{
-			workCost = await workCost.GetWorkCost(m_AppEnvironment);
+			workPrice = await workPrice.GetWorkPrice(m_AppEnvironment);
 		}
 		catch (Exception ex)
 		{
@@ -159,13 +159,13 @@ public class AnchorService
 			anchors = anchors.Where(e => e.DateCreate >= DateTimeFrom && e.DateCreate <= DateTimeTill);
 
 		if (PriceFrom > 0 && PriceFrom < Double.PositiveInfinity && PriceTill == 0)
-			anchors = anchors.Where(e => e.CostSom_SingleAnchor >= PriceFrom);
+			anchors = anchors.Where(e => e.PriceSom_SingleAnchor >= PriceFrom);
 
 		if (PriceTill > 0 && PriceTill < Double.PositiveInfinity && PriceFrom == 0)
-			anchors = anchors.Where(e => e.CostSom_SingleAnchor <= PriceTill);
+			anchors = anchors.Where(e => e.PriceSom_SingleAnchor <= PriceTill);
 
 		if (PriceFrom > 0 && PriceFrom < Double.PositiveInfinity && PriceTill > 0 && PriceTill < Double.PositiveInfinity)
-			anchors = anchors.Where(e => e.CostSom_SingleAnchor >= PriceFrom && e.CostSom_SingleAnchor <= PriceTill);
+			anchors = anchors.Where(e => e.PriceSom_SingleAnchor >= PriceFrom && e.PriceSom_SingleAnchor <= PriceTill);
 	}
 
 	public PagingData Pagination(ref IQueryable<Anchor> anchors, int pageSize, int page)
@@ -207,14 +207,14 @@ public class AnchorService
 				LengthMillimeters = viewModel.LengthMillimeters,
 				DiameterMillimeters = float.Parse(viewModel.DiameterMillimeters, CultureInfo.InvariantCulture),
 				WeightKg_SingleAnchor = double.Parse(viewModel.WeightKg_SingleAnchor, CultureInfo.InvariantCulture),
-				CostSom_SingleAnchor = double.Parse(viewModel.CostSom_SingleAnchor, CultureInfo.InvariantCulture),
+				PriceSom_SingleAnchor = double.Parse(viewModel.PriceSom_SingleAnchor, CultureInfo.InvariantCulture),
 				BendLengthMillimeters = viewModel.BendLengthMillimeters,
 				BendRadiusMillimeters = viewModel.BendRadiusMillimeters,
 				ThreadLengthMillimeters = viewModel.ThreadLengthMillimeters,
 				ThreadSecondLengthMillimeters = viewModel.ThreadSecondLengthMillimeters,
 				ThreadDiameterMillimeters = viewModel.ThreadDiameterMillimeters,
 				ThreadStepMillimeters = float.Parse(viewModel.ThreadStepMillimeters, CultureInfo.InvariantCulture),
-				CostSom_Total = double.Parse(viewModel.CostSom_Total, CultureInfo.InvariantCulture),
+				PriceSom_Total = double.Parse(viewModel.PriceSom_Total, CultureInfo.InvariantCulture),
 				Quantity = viewModel.Quantity,
 				DateCreate = DateTime.Now,
 				SvgElement = viewModel.SvgElement,

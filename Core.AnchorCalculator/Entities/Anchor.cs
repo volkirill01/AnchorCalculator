@@ -12,7 +12,7 @@ public class Anchor : Entity
 	public double WeightKg_SingleAnchor { get; set; }
 	public double SebesSom_SingleAnchor { get; set; }
 	public double SebesSom_Total { get; set; }
-	public double CostSom_SingleAnchor { get; set; }
+	public double PriceSom_SingleAnchor { get; set; }
 
 	public int BendLengthMillimeters { get; set; }
 	public int BendRadiusMillimeters { get; set; }
@@ -20,7 +20,7 @@ public class Anchor : Entity
 	public int ThreadSecondLengthMillimeters { get; set; }
 	public int ThreadDiameterMillimeters { get; set; }
 	public float ThreadStepMillimeters { get; set; }
-	public double CostSom_Total { get; set; }
+	public double PriceSom_Total { get; set; }
 	public int Quantity { get; set; }
 	public DateTime DateCreate { get; set; }
 	public string? SvgElement { get; set; }

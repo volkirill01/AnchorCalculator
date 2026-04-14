@@ -23,7 +23,7 @@ public class AnchorViewModel
 
 	public string? WeightKg_SingleAnchor { get; set; }
 
-	public string? CostSom_SingleAnchor { get; set; }
+	public string? PriceSom_SingleAnchor { get; set; }
 
 	[Display(Name = "Длина загиба (мм)")]
 	public int BendLengthMillimeters { get; set; }
@@ -52,7 +52,7 @@ public class AnchorViewModel
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
 	public string ThreadStepMillimeters { get; set; }
 
-	public string? CostSom_Total { get; set; }
+	public string? PriceSom_Total { get; set; }
 
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
 	[Range(1, Int32.MaxValue, ErrorMessage = "Кол-во не может быть равно 0")]

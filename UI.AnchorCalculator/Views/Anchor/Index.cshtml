@@ -379,8 +379,8 @@
 							Descript_to_blank = '<div id="Descript_to_blank">' +
 							                        '<h5 class="card-title">Результаты расчёта</h5>' +
 							                        '<p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
-							                        '<p class="card-text">Цена: ' + response.anchorJS.costSom_SingleAnchor + ' сом</p>' +
-							                        '<p class="card-text">Общая стоимость: ' + response.anchorJS.costSom_Total + ' сом</p>' +
+							                        '<p class="card-text">Цена: ' + response.anchorJS.priceSom_SingleAnchor + ' сом</p>' +
+							                        '<p class="card-text">Общая стоимость: ' + response.anchorJS.priceSom_Total + ' сом</p>' +
 							                        '<p class="card-text">Длина заготовки: ' + response.anchorJS.billetLengthMillimeters + ' мм</p>' +
 							                        '<p class="card-text">Цена мат-ла на 1 шт: ' + response.anchorJS.priceSom_Material_SingleAnchor + ' сом</p>' +
 							                        '<p class="card-text">Цена мат-ла на ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.priceSom_Material_Total + ' сом</p>' +
@@ -409,8 +409,8 @@
 							                        '<input id="bendRadiusMillimetersToDB" type="hidden" value="'+ response.anchorJS.bendRadiusMillimeters +'">' +
 							                        '<input id="sebesSom_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.sebesSom_SingleAnchor +'">' +
 							                        '<input id="sebesSom_TotalToDB" type="hidden" value="'+ response.anchorJS.sebesSom_Total +'">' +
-							                        '<input id="costSom_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.costSom_SingleAnchor +'">' +
-							                        '<input id="costSom_TotalToDB" type="hidden" value="'+ response.anchorJS.costSom_Total +'">' +
+							                        '<input id="priceSom_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.priceSom_SingleAnchor +'">' +
+							                        '<input id="priceSom_TotalToDB" type="hidden" value="'+ response.anchorJS.priceSom_Total +'">' +
 							                        '<input id="billetLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.billetLengthMillimeters +'">' +
 							                        '<input id="weightKg_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.weightKg_SingleAnchor +'">' +
 							                        '<input id="weightKg_TotalToDB" type="hidden" value="'+ response.anchorJS.weightKg_Total +'">' +
@@ -439,8 +439,8 @@
 						{
 							Descript_to_blank = '<h5 class="card-title">Результаты расчёта</h5>' +
 							    '<p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
-							    '<p class="card-text">Цена: ' + response.anchorJS.costSom_SingleAnchor + ' сом</p>' +
-							    '<p class="card-text">Общая стоимость: ' + response.anchorJS.costSom_Total + ' сом</p>' +
+							    '<p class="card-text">Цена: ' + response.anchorJS.priceSom_SingleAnchor + ' сом</p>' +
+							    '<p class="card-text">Общая стоимость: ' + response.anchorJS.priceSom_Total + ' сом</p>' +
 							    '<p class="card-text">Длина заготовки: ' + response.anchorJS.billetLengthMillimeters + ' мм</p>' +
 							    '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weightKg_SingleAnchor + ' кг</p>' +
 							    '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.weightKg_Total + ' кг</p>' +
@@ -1013,8 +1013,8 @@
 			let quantityToDB = document.getElementById("quantityToDB").value;
 			let bendLengthMillimetersToDB = document.getElementById("bendLengthMillimetersToDB").value;
 			let bendRadiusMillimetersToDB = document.getElementById("bendRadiusMillimetersToDB").value;
-			let costSom_SingleAnchorToDB = document.getElementById("costSom_SingleAnchorToDB").value;
-			let costSom_TotalToDB = document.getElementById("costSom_TotalToDB").value;
+			let priceSom_SingleAnchorToDB = document.getElementById("priceSom_SingleAnchorToDB").value;
+			let priceSom_TotalToDB = document.getElementById("priceSom_TotalToDB").value;
 			let billetLengthMillimetersToDB = document.getElementById("billetLengthMillimetersToDB").value;
 			let weightKg_SingleAnchorToDB = document.getElementById("weightKg_SingleAnchorToDB").value;
 			let weightKg_TotalToDB = document.getElementById("weightKg_TotalToDB").value;
@@ -1054,8 +1054,8 @@
 					'quantity': quantityToDB,
 					'bendLengthMillimeters': bendLengthMillimetersToDB,
 					'bendRadiusMillimeters': bendRadiusMillimetersToDB,
-					'costSom_SingleAnchor': costSom_SingleAnchorToDB,
-					'costSom_Total': costSom_TotalToDB,
+					'priceSom_SingleAnchor': priceSom_SingleAnchorToDB,
+					'priceSom_Total': priceSom_TotalToDB,
 					'billetLengthMillimeters': billetLengthMillimetersToDB,
 					'weightKg_SingleAnchor': weightKg_SingleAnchorToDB,
 					'weightKg_Total': weightKg_TotalToDB,
