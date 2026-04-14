@@ -34,8 +34,8 @@ public class CalculateService
 
 		double hiddenMarkupPercent = HIDDEN_MARKUP_PERCENT / 100.0;
 
-		anchor.BilletLengthMillimeters = CalculParams.GetBilletLength(anchor);
-		anchor.FullLengthMeters = anchor.BilletLengthMillimeters * anchor.Quantity / 1000; // Length of material of anchor's batch in meters
+		anchor.BilletLengthMillimeters = Math.Round(CalculParams.GetBilletLength(anchor), 2);
+		anchor.FullLengthMeters = Math.Round(anchor.BilletLengthMillimeters * anchor.Quantity / 1000, 2); // Length of material of anchor's batch in meters
 		double billetWeight = anchor.BilletLengthMillimeters * (Math.PI * Math.Pow(anchor.DiameterMillimeters, 2) / 4) / Math.Pow(10, 9) * STEEL_DENSITY; // Weight of anchor's billet
 		anchor.WeightKg_SingleAnchor = billetWeight - ((Math.PI * Math.Pow(anchor.DiameterMillimeters, 2) / 4) - (Math.PI * Math.Pow(anchor.ThreadDiameterMillimeters, 2) / 4)) * anchor.ThreadLengthMillimeters / Math.Pow(10, 9) * STEEL_DENSITY; // Weight of anchor
 		if (anchor.Kind == AnchorKind.DoubleBend)
