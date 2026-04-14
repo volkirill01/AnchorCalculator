@@ -10,9 +10,9 @@ public class WorkCost
 	public double PnrBandSawDollars { get; set; }
 	public double EffectiveLengthMillimeters { get; set; }
 	public double BandSawPriceDollars { get; set; }
-	public double SetThreadRollingHours { get; set; }
+	public double ThreadRollingSettingHours { get; set; }
 	public double BendHours { get; set; }
-	public double SetBendHours { get; set; }
+	public double BendSettingHours { get; set; }
 	public double MarkupPercent { get; set; }
 	public double AdditionalMarkupPercent_DiameterMoreThan30 { get; set; } 
 	public double PnrMetalworkingAreaDollars { get; set; }

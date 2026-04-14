@@ -106,9 +106,9 @@
 							<input asp-for="WorkCost.CutterPriceDollars" type="text" class="form-control" id="CutterPriceDollars" value="@Model.WorkCost.CutterPriceDollars">
 						</div>
 
-						<label for="SetThreadRollingHours" class="col-sm-9 col-form-label ml-0 pl-0">Время настройки резьбонакатного станка (ч)</label>
+						<label for="ThreadRollingSettingHours" class="col-sm-9 col-form-label ml-0 pl-0">Время настройки резьбонакатного станка (ч)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.SetThreadRollingHours" type="text" class="form-control" id="SetThreadRollingHours" value="@Model.WorkCost.SetThreadRollingHours">
+							<input asp-for="WorkCost.ThreadRollingSettingHours" type="text" class="form-control" id="ThreadRollingSettingHours" value="@Model.WorkCost.ThreadRollingSettingHours">
 						</div>
 
 						<label for="BendHours" class="col-sm-9 col-form-label ml-0 pl-0">Время гиба (ч)</label>
@@ -116,9 +116,9 @@
 							<input asp-for="WorkCost.BendHours" type="text" class="form-control" id="BendHours" value="@Model.WorkCost.BendHours">
 						</div>
 
-						<label for="SetBendHours" class="col-sm-9 col-form-label ml-0 pl-0">Время настройки гибочного станка (ч)</label>
+						<label for="BendSettingHours" class="col-sm-9 col-form-label ml-0 pl-0">Время настройки гибочного станка (ч)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.SetBendHours" type="text" class="form-control" id="SetBendHours" value="@Model.WorkCost.SetBendHours">
+							<input asp-for="WorkCost.BendSettingHours" type="text" class="form-control" id="BendSettingHours" value="@Model.WorkCost.BendSettingHours">
 						</div>
 
 						<label for="MarkupPercent" class="col-sm-9 col-form-label ml-0 pl-0">Наценка (%)</label>
@@ -286,7 +286,7 @@
 			max: 9999.9999
 		});
 
-		$("#SetThreadRollingHours").inputmask(
+		$("#ThreadRollingSettingHours").inputmask(
 		{
 			alias: 'decimal',
 			allowMinus: false,
@@ -302,7 +302,7 @@
 			max: 9999.9999
 		});
 
-		$("#SetBendHours").inputmask(
+		$("#BendSettingHours").inputmask(
 		{
 			alias: 'decimal',
 			allowMinus: false,
