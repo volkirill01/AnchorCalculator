@@ -83,8 +83,8 @@ public class CalculateService
 
 			threadLengths /= workCost.EffectiveLengthMillimeters;
 
-			threadRollingPriceDollars = anchor.Material.ThreadRollingHours * threadLengths  * workCost.PnrRollingThreadDollars;
-			threadCuttingPriceDollars = anchor.Material.ThreadCuttingHours * threadLengths * workCost.MetalworkingAreaDollars + anchor.Material.CutterCount * workCost.CutterPriceDollars + anchor.Material.PlashkaCount * workCost.PlashkaPriceDollars;
+			threadRollingPriceDollars = anchor.Material.ThreadRollingHours * threadLengths * workCost.PnrRollingThreadDollars;
+			threadCuttingPriceDollars = anchor.Material.ThreadCuttingHours * threadLengths * workCost.PnrMetalworkingAreaDollars + anchor.Material.CutterCount * workCost.CutterPriceDollars + anchor.Material.PlashkaCount * workCost.PlashkaPriceDollars;
 
 			if (anchor.ProductionId != 0)
 			{

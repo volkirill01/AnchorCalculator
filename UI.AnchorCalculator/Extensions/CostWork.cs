@@ -15,7 +15,7 @@ public class WorkCost
 	public double SetBendHours { get; set; }
 	public double MarkupPercent { get; set; }
 	public double AdditionalMarkupPercent_DiameterMoreThan30 { get; set; } 
-	public double MetalworkingAreaDollars { get; set; }
+	public double PnrMetalworkingAreaDollars { get; set; }
 	public double PlashkaPriceDollars { get; set; }
 	public double CutterPriceDollars { get; set; }
 
