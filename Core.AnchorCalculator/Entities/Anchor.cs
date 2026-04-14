@@ -46,16 +46,16 @@ public class Anchor : Entity
 
 	public double PriceSom_Material_Total { get; set; }
 	[NotMapped]
-	public double PriceSom_Material_SingleAnchor => PriceSom_Material_Total / Quantity;
+	public double PriceSom_Material_SingleAnchor => Math.Ceiling(PriceSom_Material_Total / Quantity);
 
 	public double PriceSom_ProductionThread_Total { get; set; }
-	public double PriceSom_ProductionThread_SingleAnchor => PriceSom_ProductionThread_Total / Quantity;
+	public double PriceSom_ProductionThread_SingleAnchor => Math.Ceiling(PriceSom_ProductionThread_Total / Quantity);
 
 	public double PriceSom_ProductionBend_Total { get; set; }
-	public double PriceSom_ProductionBend_SingleAnchor => PriceSom_ProductionBend_Total / Quantity;
+	public double PriceSom_ProductionBend_SingleAnchor => Math.Ceiling(PriceSom_ProductionBend_Total / Quantity);
 
 	public double PriceSom_ProductionBandSaw_Total { get; set; }
-	public double PriceSom_ProductionBandSaw_SingleAnchor => PriceSom_ProductionBandSaw_Total / Quantity;
+	public double PriceSom_ProductionBandSaw_SingleAnchor => Math.Ceiling(PriceSom_ProductionBandSaw_Total / Quantity);
 
 	public double RollerPathLengthMillimeters { get; set; }
 	public double RollerPathLengthMillimetersBeforeEnd { get; set; }
