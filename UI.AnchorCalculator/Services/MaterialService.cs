@@ -139,7 +139,7 @@ public class MaterialService
 			SetBendHours = materialsAndWorkCostViewModel.WorkCost.SetBendHours,
 			MarkupPercent = materialsAndWorkCostViewModel.WorkCost.MarkupPercent,
 			AdditionalMarkupPercent_DiameterMoreThan30 = materialsAndWorkCostViewModel.WorkCost.AdditionalMarkupPercent_DiameterMoreThan30,
-			MetalworkingAreaDollars = materialsAndWorkCostViewModel.WorkCost.MetalworkingAreaDollars,
+			PnrMetalworkingAreaDollars = materialsAndWorkCostViewModel.WorkCost.PnrMetalworkingAreaDollars,
 			PlashkaPriceDollars = materialsAndWorkCostViewModel.WorkCost.PlashkaPriceDollars,
 			CutterPriceDollars = materialsAndWorkCostViewModel.WorkCost.CutterPriceDollars
 		};

@@ -66,24 +66,24 @@
 							<input asp-for="WorkCost.ExchangeDollar" type="text" class="form-control" id="ExchangeDollar" value="@Model.WorkCost.ExchangeDollar">
 						</div>
 
-						<label for="PnrRollingThreadDollars" class="col-sm-9 col-form-label ml-0 pl-0">Накатка резьбы ($)</label>
+						<label for="PnrRollingThreadDollars" class="col-sm-9 col-form-label ml-0 pl-0">ПНР накатки резьбы ($)</label>
 						<div class="col-sm-3 mb-1">
 							<input asp-for="WorkCost.PnrRollingThreadDollars" type="text" class="form-control" id="PnrRollingThreadDollars" value="@Model.WorkCost.PnrRollingThreadDollars">
 						</div>
 
-						<label for="PnrBendingAnchorDollars" class="col-sm-9 col-form-label ml-0 pl-0">Гибка анкеров ($)</label>
+						<label for="PnrBendingAnchorDollars" class="col-sm-9 col-form-label ml-0 pl-0">ПНР гибки анкеров ($)</label>
 						<div class="col-sm-3 mb-1">
 							<input asp-for="WorkCost.PnrBendingAnchorDollars" type="text" class="form-control" id="PnrBendingAnchorDollars" value="@Model.WorkCost.PnrBendingAnchorDollars">
 						</div>
 
-						<label for="PnrBandSawDollars" class="col-sm-9 col-form-label ml-0 pl-0">Лентопил ($)</label>
+						<label for="PnrBandSawDollars" class="col-sm-9 col-form-label ml-0 pl-0">ПНР резки лентопила ($)</label>
 						<div class="col-sm-3 mb-1">
 							<input asp-for="WorkCost.PnrBandSawDollars" type="text" class="form-control" id="PnrBandSawDollars" value="@Model.WorkCost.PnrBandSawDollars">
 						</div>
 
-						<label for="MetalworkingAreaDollars" class="col-sm-9 col-form-label ml-0 pl-0">Слесарный участок ($)</label>
+						<label for="PnrMetalworkingAreaDollars" class="col-sm-9 col-form-label ml-0 pl-0">ПНР слесарного участка ($)</label>
 						<div class="col-sm-3 mb-1">
-							<input asp-for="WorkCost.MetalworkingAreaDollars" type="text" class="form-control" id="MetalworkingAreaDollars" value="@Model.WorkCost.MetalworkingAreaDollars">
+							<input asp-for="WorkCost.PnrMetalworkingAreaDollars" type="text" class="form-control" id="PnrMetalworkingAreaDollars" value="@Model.WorkCost.PnrMetalworkingAreaDollars">
 						</div>
 
 						<label for="EffectiveLengthMillimeters" class="col-sm-9 col-form-label ml-0 pl-0">Расчетная длина (мм)</label>
@@ -254,7 +254,7 @@
 			max: 9999.9999
 		});
 
-		$("#MetalworkingAreaDollars").inputmask(
+		$("#PnrMetalworkingAreaDollars").inputmask(
 		{
 			alias: 'decimal',
 			allowMinus: false,
