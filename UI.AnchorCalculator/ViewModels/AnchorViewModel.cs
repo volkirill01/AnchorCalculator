@@ -75,7 +75,7 @@ public class AnchorViewModel
 	public string? BatchSebes { get; set; } // TODO: Figure out units
 	public string? UserName { get; set; }
 	public string? Kind { get; set; }
-	public int ProductionId { get; set; }
+	public int ThreadProductionTypeId { get; set; }
 	[ValidateNever]
 	public bool WithoutBindThreadDiamMaterial { get; set; } // TODO: Whats this name?
 	[ValidateNever]

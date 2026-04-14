@@ -39,7 +39,7 @@
 					<p class="card-text">Цена накатки/нарезки резьбы: @Model.Anchor.BatchPriceProductionThread сом</p>
 					<p class="card-text">Цена гибки: @Model.Anchor.BatchPriceProductionBend сом</p>
 					<p class="card-text">Цена лентопила: @Model.Anchor.BatchPriceProductionBandSaw сом</p>
-					@if (Model.Anchor.ProductionId != 0)
+					@if (Model.Anchor.ThreadProductionTypeId != 0)
 					{
 						<p class="card-text">Время накатки/нарезки резьбы: @Model.Anchor.ProductionThreadHours, 2) ч</p>
 						<p class="card-text">Время гибки: @Model.Anchor.ProductionBendHours, 2) ч</p>

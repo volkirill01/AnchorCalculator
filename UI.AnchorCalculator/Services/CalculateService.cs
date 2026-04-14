@@ -84,19 +84,18 @@ public class CalculateService
 			threadRollingPriceDollars = anchor.Material.ThreadRollingHours * threadLengths * workCost.PnrRollingThreadDollars;
 			threadCuttingPriceDollars = anchor.Material.ThreadCuttingHours * threadLengths * workCost.PnrMetalworkingAreaDollars + anchor.Material.CutterCount * workCost.CutterPriceDollars + anchor.Material.PlashkaCount * workCost.PlashkaPriceDollars;
 
-			if (anchor.ProductionId != 0)
+			if (anchor.ThreadProductionTypeId != 0)
 			{
 				productionHours += anchor.Material.ThreadRollingHours * (threadLengths / workCost.EffectiveLengthMillimeters);
 				productionHours += workCost.ThreadRollingSettingHours / anchor.Quantity;
 
-				productionThreadHours += anchor.Material.ThreadRollingHours * (threadLengths / workCost.EffectiveLengthMillimeters);
-				productionThreadHours += workCost.ThreadRollingSettingHours / anchor.Quantity;
+				productionThreadHours = anchor.Material.ThreadRollingHours * (threadLengths / workCost.EffectiveLengthMillimeters) + workCost.ThreadRollingSettingHours / anchor.Quantity;
 			}
 			else
 			{
 				productionHours += anchor.Material.ThreadCuttingHours * (threadLengths / workCost.EffectiveLengthMillimeters);
 
-				productionThreadHours += anchor.Material.ThreadCuttingHours * (threadLengths / workCost.EffectiveLengthMillimeters);
+				productionThreadHours = anchor.Material.ThreadCuttingHours * (threadLengths / workCost.EffectiveLengthMillimeters);
 			}
 
 			if (anchor.WithoutBindThreadDiamMaterial && anchor.ThreadDiameterMillimeters < anchor.DiameterMillimeters - 1)
@@ -129,7 +128,7 @@ public class CalculateService
 		double totalExchangeWithMarkup = workCost.ExchangeDollar * (1.0 + workCost.MarkupPercent) * hiddenMarkupPercent;
 
 		double workCostInterm;
-		if (anchor.ProductionId != 0)
+		if (anchor.ThreadProductionTypeId != 0)
 		{
 			workCostInterm = (bendPriceDollars + threadRollingPriceDollars + bandSawPriceDollars + additPriceCutWithoutBindThreadMaterial) * anchor.Quantity + workCost.ThreadRollingSettingHours * workCost.PnrRollingThreadDollars + bendSettingHours;
 			anchor.BatchPriceProductionThread = ((threadRollingPriceDollars + additPriceCutWithoutBindThreadMaterial) * anchor.Quantity + workCost.ThreadRollingSettingHours * workCost.PnrRollingThreadDollars) * totalExchangeWithMarkup; // Sebes of batch anchor's thread production in som

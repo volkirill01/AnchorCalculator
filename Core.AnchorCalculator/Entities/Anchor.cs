@@ -36,12 +36,12 @@ public class Anchor : Entity
 
 	[EnumDataType(typeof(AnchorKind))]
 	public AnchorKind Kind { get; set; }
-	public virtual int ProductionId
+	public virtual int ThreadProductionTypeId
 	{
-		get => (int)Production;
-		set => Production = (Production)value;
+		get => (int)ThreadProductionType;
+		set => ThreadProductionType = (ThreadProductionType)value;
 	}
-	public Production Production { get; set; }
+	public ThreadProductionType ThreadProductionType { get; set; }
 	public double PricePerMeter { get; set; }
 	[NotMapped]
 	public double PriceMaterial => BatchPriceMaterial / Quantity;
