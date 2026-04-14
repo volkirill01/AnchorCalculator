@@ -9,34 +9,34 @@ public class AnchorViewModel
 {
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
 	[CheckLength()] // Min 1000 for hydraulic, 400 for rolling and cutting, min bendRadius + 60 for nonThread, BilletLength >= 400 мм for double bend radius anchor
-	[Display(Name = "Длина, мм:")]
+	[Display(Name = "Длина (мм)")]
 	public int LengthMillimeters { get; set; }
 
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
 	[CheckLength()] // Min 1000 for hydraulic, 400 for rolling and cutting, min bendRadius + 60 for nonThread, BilletLength >= 400 мм for double bend radius anchor
-	[Display(Name = "Длина вторая, мм:")]
+	[Display(Name = "Длина вторая (мм)")]
 	public int SecondLengthMillimeters { get; set; }
 
 	[Required(ErrorMessage = "Выберите материал")]
-	[Display(Name = "Диаметр, мм:")]
+	[Display(Name = "Диаметр (мм)")]
 	public string DiameterMillimeters { get; set; }
 
 	public string? WeightKg { get; set; }
 
 	public string? Price { get; set; } // TODO: Figure out units
 
-	[Display(Name = "Длина загиба, мм:")]
+	[Display(Name = "Длина загиба (мм)")]
 	public int BendLengthMillimeters { get; set; }
 
-	[Display(Name = "Радиус загиба, мм:")]
+	[Display(Name = "Радиус загиба (мм)")]
 	public int BendRadiusMillimeters { get; set; }
 
 	[CheckThreadLength]
-	[Display(Name = "Длина резьбы, мм:")]
+	[Display(Name = "Длина резьбы (мм)")]
 	public int ThreadLengthMillimeters { get; set; }
 
 	[CheckThreadLength]
-	[Display(Name = "Длина резьбы, мм:")]
+	[Display(Name = "Длина резьбы (мм)")]
 	public int ThreadSecondLengthMillimeters { get; set; }
 
 	[ValidateNever]
@@ -45,10 +45,10 @@ public class AnchorViewModel
 	[ValidateNever]
 	public bool HasThread { get; set; }
 
-	[Display(Name = "Диаметр резьбы, мм:")]
+	[Display(Name = "Диаметр резьбы (мм)")]
 	public int ThreadDiameterMillimeters { get; set; }
 
-	[Display(Name = "Шаг резьбы, мм:")]
+	[Display(Name = "Шаг резьбы (мм)")]
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
 	public string ThreadStepMillimeters { get; set; }
 
@@ -56,7 +56,7 @@ public class AnchorViewModel
 
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
 	[Range(1, Int32.MaxValue, ErrorMessage = "Кол-во не может быть равно 0")]
-	[Display(Name = "Кол-во, шт:")]
+	[Display(Name = "Кол-во (шт)")]
 	public int Quantity { get; set; } // TODO: Make uint
 
 	public int TypeProfileId { get; set; }
