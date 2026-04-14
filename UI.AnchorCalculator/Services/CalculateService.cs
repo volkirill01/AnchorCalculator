@@ -8,6 +8,7 @@ namespace UI.AnchorCalculator.Services;
 public class CalculateService
 {
 	const double STEEL_DENSITY = 7850;
+	const double HIDDEN_MARKUP_PERCENT = 110;
 
 	private readonly LoggerManager m_Logger;
 	private readonly IWebHostEnvironment m_AppEnvironment;
@@ -31,6 +32,8 @@ public class CalculateService
 			throw;
 		}
 
+		double hiddenMarkupPercent = HIDDEN_MARKUP_PERCENT / 100.0;
+
 		anchor.BilletLengthMillimeters = CalculParams.GetBilletLength(anchor);
 		anchor.FullLengthMeters = anchor.BilletLengthMillimeters * anchor.Quantity / 1000; // Length of material of anchor's batch in meters
 		double billetWeight = anchor.BilletLengthMillimeters * (Math.PI * Math.Pow(anchor.DiameterMillimeters, 2) / 4) / Math.Pow(10, 9) * STEEL_DENSITY; // Weight of anchor's billet
@@ -51,17 +54,15 @@ public class CalculateService
 		double threadRollingPriceDollars = 0;
 		double threadCuttingPriceDollars = 0;
 
-		double productionThreadHours = 0;
-		double productionBendHours = 0;
-		double productionBandSawHours = 0;
 		double productionHours = 0;
 
 		double additPriceCutWithoutBindThreadMaterial = 0; // Additional work cost if it is necessary cutting diameter material before thread diameter
 		double timeCutWithoutBindThreadMaterial = 0;
 
-		productionHours += workCost.BendHours * bendCount;
-		productionBendHours += workCost.BendHours * bendCount;
+		double productionBendHours = workCost.BendHours * bendCount;
+		productionHours += productionBendHours;
 
+		double productionThreadHours = 0;
 		if (anchor.ThreadLengthMillimeters > 0)
 		{
 			double threadLengths = 0;
@@ -71,14 +72,14 @@ public class CalculateService
 				threadLengths = 2 * anchor.ThreadLengthMillimeters;
 
 				if (anchor.WithoutBindThreadDiamMaterial && anchor.ThreadDiameterMillimeters < anchor.DiameterMillimeters - 1)
-					timeCutWithoutBindThreadMaterial = anchor.Material.ThreadRollingHours * (threadLengths / (workCost.EffectiveLengthMillimeters / anchor.Quantity));
+					timeCutWithoutBindThreadMaterial = anchor.Material.ThreadRollingHours * (threadLengths / (workCost.EffectiveLengthMillimeters / anchor.Quantity)); // TODO: Why one condition has / and other has *
 			}
 			else
 			{
 				threadLengths = anchor.ThreadLengthMillimeters + anchor.ThreadSecondLengthMillimeters;
 
 				if (anchor.WithoutBindThreadDiamMaterial && anchor.ThreadDiameterMillimeters < anchor.DiameterMillimeters - 1)
-					timeCutWithoutBindThreadMaterial = anchor.Material.ThreadRollingHours * (threadLengths / (workCost.EffectiveLengthMillimeters * anchor.Quantity));
+					timeCutWithoutBindThreadMaterial = anchor.Material.ThreadRollingHours * (threadLengths / (workCost.EffectiveLengthMillimeters * anchor.Quantity)); // TODO: Why one condition has * and other has /
 			}
 
 			threadLengths /= workCost.EffectiveLengthMillimeters;
@@ -114,9 +115,8 @@ public class CalculateService
 		double bandSawPriceDollars = anchor.Material.BandSawHours * workCost.PnrBandSawDollars + anchor.Material.BandSawBladeCount * workCost.BandSawPriceDollars;
 		double materialAnchorPriceDollars = ((anchor.BilletLengthMillimeters / 1000) * anchor.Material.PricePerMeter) / workCost.ExchangeDollar;
 
-		productionHours += anchor.Material.BandSawHours;
-
-		productionBandSawHours += anchor.Material.BandSawHours;
+		double productionBandSawHours = anchor.Material.BandSawHours;
+		productionHours += productionBandSawHours;
 
 		double setBend = 0;
 		if (anchor.Kind != AnchorKind.Straight)
@@ -126,30 +126,32 @@ public class CalculateService
 			productionBendHours += workCost.SetBendHours / anchor.Quantity;
 		}
 
+		double totalExchangeWithMarkup = workCost.ExchangeDollar * (1.0 + workCost.MarkupPercent) * hiddenMarkupPercent;
+
 		double workCostInterm;
 		if (anchor.ProductionId != 0)
 		{
 			workCostInterm = (bendPriceDollars + threadRollingPriceDollars + bandSawPriceDollars + additPriceCutWithoutBindThreadMaterial) * anchor.Quantity + workCost.SetThreadRollingHours * workCost.PnrRollingThreadDollars + setBend;
-			anchor.BatchPriceProductionThread = ((threadRollingPriceDollars + additPriceCutWithoutBindThreadMaterial) * anchor.Quantity + workCost.SetThreadRollingHours * workCost.PnrRollingThreadDollars) * workCost.ExchangeDollar * (1 + workCost.MarkupPercent) * 1.1; // Sebes of batch anchor's thread production in som
+			anchor.BatchPriceProductionThread = ((threadRollingPriceDollars + additPriceCutWithoutBindThreadMaterial) * anchor.Quantity + workCost.SetThreadRollingHours * workCost.PnrRollingThreadDollars) * totalExchangeWithMarkup; // Sebes of batch anchor's thread production in som
 		}
 		else
 		{
 			workCostInterm = (bendPriceDollars + threadCuttingPriceDollars + bandSawPriceDollars + additPriceCutWithoutBindThreadMaterial) * anchor.Quantity + setBend;
-			anchor.BatchPriceProductionThread = (threadCuttingPriceDollars + additPriceCutWithoutBindThreadMaterial) * anchor.Quantity * workCost.ExchangeDollar * (1 + workCost.MarkupPercent) * 1.1; // Sebes of batch anchor's thread production in som
+			anchor.BatchPriceProductionThread = (threadCuttingPriceDollars + additPriceCutWithoutBindThreadMaterial) * anchor.Quantity * totalExchangeWithMarkup; // Sebes of batch anchor's thread production in som
 		}
 
-		anchor.BatchSebes = (workCostInterm + materialAnchorPriceDollars * anchor.Quantity) * workCost.ExchangeDollar * 1.1; // Sebes of batch anchor in som
+		anchor.BatchSebes = (workCostInterm + materialAnchorPriceDollars * anchor.Quantity) * workCost.ExchangeDollar * hiddenMarkupPercent; // Sebes of batch anchor in som
 		anchor.Sebes = anchor.BatchSebes / anchor.Quantity; // Sebes of 1 anchor in som
-		anchor.BatchPriceMaterial = materialAnchorPriceDollars * workCost.ExchangeDollar * anchor.Quantity * 1.1; // Price of anchor's material batch in som
-		anchor.BatchPriceProductionBend = (bendPriceDollars * anchor.Quantity + setBend) * workCost.ExchangeDollar * (1 + workCost.MarkupPercent) * 1.1; // Sebes of batch anchor's bend production in som
-		anchor.BatchPriceProductionBandSaw = bandSawPriceDollars * anchor.Quantity * workCost.ExchangeDollar * (1 + workCost.MarkupPercent) * 1.1; // Sebes of batch anchor's bandSaw production in som
-		double markupPercent = 1 + workCost.MarkupPercent;
+		anchor.BatchPriceMaterial = materialAnchorPriceDollars * workCost.ExchangeDollar * anchor.Quantity * hiddenMarkupPercent; // Price of anchor's material batch in som
+		anchor.BatchPriceProductionBend = (bendPriceDollars * anchor.Quantity + setBend) * totalExchangeWithMarkup; // Sebes of batch anchor's bend production in som
+		anchor.BatchPriceProductionBandSaw = bandSawPriceDollars * anchor.Quantity * totalExchangeWithMarkup; // Sebes of batch anchor's bandSaw production in som
+		double markupPercent = 1.0 + workCost.MarkupPercent;
 		if (anchor.ThreadDiameterMillimeters > 30) markupPercent += workCost.AdditionalMarkupPercent_DiameterMoreThan30;
-		anchor.TotalCost = (workCostInterm * markupPercent + materialAnchorPriceDollars * anchor.Quantity) * workCost.ExchangeDollar * 1.1; // Total cost in som
+		anchor.TotalCost = (workCostInterm * markupPercent + materialAnchorPriceDollars * anchor.Quantity) * workCost.ExchangeDollar * hiddenMarkupPercent; // Total cost in som
 
 		anchor.Price = anchor.TotalCost / anchor.Quantity; // Cost of 1 anchor in som
 		anchor.ProductionThreadHours = (productionThreadHours + timeCutWithoutBindThreadMaterial) * anchor.Quantity; // Time of anchor's thread production in hours
 		anchor.ProductionBendHours = productionBendHours * anchor.Quantity; // Time of anchor's bend production in hours
-		anchor.ProductionBandSawHours = productionBandSawHours * anchor.Quantity; // Time of anchor's bandSaw production in hours
+		anchor.ProductionBandSawHours = productionBandSawHours * anchor.Quantity;
 	}
 }
