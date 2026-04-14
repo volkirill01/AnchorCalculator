@@ -53,13 +53,9 @@ public class AnchorService
 	{
 		m_Logger.Debug($"viewModel.ThreadStepMillimeters: {viewModel.ThreadStepMillimeters}; culture: {Thread.CurrentThread.CurrentCulture.DisplayName}");
 		List<AnchorKind> kinds = Enum.GetValues(typeof(AnchorKind)).Cast<AnchorKind>().ToList();
-		var threadStepMillimeters = float.Parse(viewModel.ThreadStepMillimeters, CultureInfo.InvariantCulture);
-		var diameterMillimeters = float.Parse(viewModel.DiameterMillimeters, CultureInfo.InvariantCulture);
-		int prodId;
-		if (viewModel.HasCuttingThread)
-			prodId = (int)Production.CuttingThreadOnLathe;
-		else
-			prodId = (int)Production.RollingThreadOnMechanicMachine;
+		float threadStepMillimeters = float.Parse(viewModel.ThreadStepMillimeters, CultureInfo.InvariantCulture);
+		float diameterMillimeters = float.Parse(viewModel.DiameterMillimeters, CultureInfo.InvariantCulture);
+		ThreadProductionType threadProductionType = viewModel.HasCuttingThread ? ThreadProductionType.CuttingThreadOnLathe : ThreadProductionType.RollingThreadOnMechanicMachine;
 
 		WorkCost workCost = new();
 		try
@@ -87,7 +83,7 @@ public class AnchorService
 			Material = await m_MaterialService.GetMaterialById(viewModel.MaterialId),
 			KindId = (int)kinds.FirstOrDefault(e => e.ToString() == viewModel.Kind),
 			ThreadSecondLengthMillimeters = viewModel.ThreadSecondLengthMillimeters,
-			ProductionId = prodId,
+			ThreadProductionType = threadProductionType,
 			ProductionThreadHours = viewModel.ProductionThreadHours,
 			ProductionBendHours = viewModel.ProductionBendHours,
 			ProductionBandSawHours = viewModel.ProductionBandSawHours,
@@ -237,7 +233,7 @@ public class AnchorService
 				BatchPriceProductionBandSaw = viewModel.BatchPriceProductionBandSaw,
 				RollerPathLengthMillimeters = viewModel.RollerPathLengthMillimeters,
 				RollerPathLengthMillimetersBeforeEnd = viewModel.RollerPathLengthMillimetersBeforeEnd,
-				ProductionId = viewModel.ProductionId,
+				ThreadProductionTypeId = viewModel.ThreadProductionTypeId,
 				ProductionThreadHours = viewModel.ProductionThreadHours,
 				ProductionBendHours = viewModel.ProductionBendHours,
 				ProductionBandSawHours = viewModel.ProductionBandSawHours,

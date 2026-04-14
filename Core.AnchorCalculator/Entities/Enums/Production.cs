@@ -1,8 +1,9 @@
 ﻿namespace Core.AnchorCalculator.Entities.Enums;
 
-public enum Production
+public enum ThreadProductionType
 {
 	CuttingThreadOnLathe,
+
 	RollingThreadOnMechanicMachine,
 	RollingThreadHydraulicMachine
 }
