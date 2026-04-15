@@ -420,7 +420,7 @@
 							                        '<input id="priceSom_ProductionBandSaw_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionBandSaw_Total + '">' +
 							                        '<input id="priceSom_Material_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_Material_Total + '">' +
 							                        '<input id="pathRollerLengthMillimetersToDB" type="hidden" value="' + response.anchorJS.pathRollerLengthMillimeters + '">' +
-							                        '<input id="pathRollerLengthMillimetersBeforeEndToDB" type="hidden" value="' + response.anchorJS.pathRollerLengthMillimetersBeforeEnd + '">' +
+							                        '<input id="rollerPathLengthMillimetersBeforeEndToDB" type="hidden" value="' + response.anchorJS.rollerPathLengthMillimetersBeforeEnd + '">' +
 							                        '<input id="threadProductionIdToDB" type="hidden" value="' + response.anchorJS.threadProductionId + '">' +
 							                        '<input id="productionHours_ThreadToDB" type="hidden" value="' + response.anchorJS.productionHours_Thread + '">' +
 							                        '<input id="productionHours_BendToDB" type="hidden" value="' + response.anchorJS.productionHours_Bend + '">' +
@@ -1027,7 +1027,7 @@
 			let priceSom_ProductionBend_TotalToDB = document.getElementById("priceSom_ProductionBend_TotalToDB").value;
 			let priceSom_ProductionBandSaw_TotalToDB = document.getElementById("priceSom_ProductionBandSaw_TotalToDB").value;
 			let pathRollerLengthMillimetersToDB = document.getElementById("pathRollerLengthMillimetersToDB").value;
-			let pathRollerLengthMillimetersBeforeEndToDB = document.getElementById("pathRollerLengthMillimetersBeforeEndToDB").value;
+			let rollerPathLengthMillimetersBeforeEndToDB = document.getElementById("rollerPathLengthMillimetersBeforeEndToDB").value;
 			let threadProductionIdToDB = document.getElementById("threadProductionIdToDB").value;
 			let productionHours_ThreadToDB = document.getElementById("productionHours_ThreadToDB").value;
 			let productionHours_BendToDB = document.getElementById("productionHours_BendToDB").value;
@@ -1068,7 +1068,7 @@
 					'priceSom_ProductionBandSaw_Total' : priceSom_ProductionBandSaw_TotalToDB,
 					'priceSom_Material_Total': priceSom_Material_TotalToDB,
 					'pathRollerLengthMillimeters': pathRollerLengthMillimetersToDB,
-					'pathRollerLengthMillimetersBeforeEnd': pathRollerLengthMillimetersBeforeEndToDB,
+					'rollerPathLengthMillimetersBeforeEnd': rollerPathLengthMillimetersBeforeEndToDB,
 					'threadProductionId': threadProductionIdToDB,
 					'productionHours_Thread': productionHours_ThreadToDB,
 					'productionHours_Bend': productionHours_BendToDB,

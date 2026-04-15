@@ -26,7 +26,7 @@
 				let date = dateNow.getDate().toString().padStart(2, '0');
 				let month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
 				let year = dateNow.getFullYear().toString();
-				let pathRollerLengthMillimetersBeforeEnd = response.anchor.pathRollerLengthMillimetersBeforeEnd;
+				let rollerPathLengthMillimetersBeforeEnd = response.anchor.rollerPathLengthMillimetersBeforeEnd;
 				let productionStr = '';
 				let withoutBindThreadDiamMaterialInfo = '';
 				if (response.anchor.productionId === 0)
@@ -110,13 +110,13 @@
 
 				let toleranceNum = 3;
 				let productionNum = 5;
-				let pathRollerLengthMillimetersEnd = '<p class="card-text" > 2. Длина до конца пути ролика ' + pathRollerLengthMillimetersBeforeEnd + ' мм</p>';
+				let rollerPathLengthMillimetersBeforeEndP = '<p class="card-text" > 2. Длина до конца пути ролика ' + rollerPathLengthMillimetersBeforeEnd + ' мм</p>';
 				let tooling = '<span class="mr-auto">4. Оснастка: центр: палец ' + fingerCenter + ', оправка: ' + mandrelCenter + '; бок: палец ' + fingerSide + ', оправка ' + mandrelSide + '';
 				if (response.anchor.kind === 0)
 				{
 					toleranceNum = 2;
 					productionNum = 3;
-					pathRollerLengthMillimetersEnd = '';
+					rollerPathLengthMillimetersBeforeEndP = '';
 					tooling = '';
 					if (response.anchor.threadSecondLengthMillimeters > 0)
 						form = 'прямая две резьбы';
@@ -145,7 +145,7 @@
 					notes =
 						'<div><p class="card-text fw-bold">Кол - во: ' + quantity + ' шт.</p>' +
 						'<p class="card-text">1. Размер заготовки ' + billetLengthMillimeters + ' мм</p>' +
-						pathRollerLengthMillimetersEnd +
+						rollerPathLengthMillimetersBeforeEndP +
 						'<p class="card-text">' + toleranceNum + '. Поле допуска на диаметр резьбы 8q по ГОСТ 16093</p>' +
 						'<p class="card-text"' +
 						tooling + '</p>' +
@@ -156,7 +156,7 @@
 					notes =
 						'<div><p class="card-text fw-bold">Кол - во: ' + quantity + ' шт.</p>' +
 						'<p class="card-text">1. Размер заготовки ' + billetLengthMillimeters + ' мм</p>' +
-						pathRollerLengthMillimetersEnd +
+						rollerPathLengthMillimetersBeforeEndP +
 						'<p class="card-text">' + toleranceNum + '. Поле допуска на диаметр резьбы 8q по ГОСТ 16093</p>' +
 						'<p class="card-text"' +
 						tooling + '</p></div > ';

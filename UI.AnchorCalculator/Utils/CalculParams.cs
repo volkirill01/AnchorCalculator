@@ -16,7 +16,7 @@ static class CalculParams
 		if (anchor.Kind == AnchorKind.Straight)
 			anchor.RollerPathLengthMillimetersBeforeEnd = 0;
 		else
-			anchor.RollerPathLengthMillimetersBeforeEnd = anchor.LengthMillimeters - anchor.BendRadiusMillimeters + anchor.RollerPathLengthMillimeters;
+			anchor.RollerPathLengthMillimetersBeforeEnd = Math.Round(anchor.LengthMillimeters - anchor.BendRadiusMillimeters + anchor.RollerPathLengthMillimeters, 2);
 
 		switch (anchor.Kind)
 		{
