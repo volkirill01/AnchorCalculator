@@ -1,8 +1,10 @@
-﻿using DAL.AnchorCalculator;
+using DAL.AnchorCalculator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UI.AnchorCalculator.Controllers;
 
+[AllowAnonymous]
 public class ValidationController : Controller
 {
 	private readonly ApplicationDbContext m_ApplicationDbContext;

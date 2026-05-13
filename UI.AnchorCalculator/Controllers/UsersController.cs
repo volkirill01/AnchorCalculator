@@ -1,11 +1,13 @@
-﻿using Core.AnchorCalculator.Entities;
+using Core.AnchorCalculator.Entities;
 using DAL.AnchorCalculator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UI.AnchorCalculator.ViewModels;
 
 namespace UI.AnchorCalculator.Controllers;
 
+[Authorize]
 public class UsersController : Controller
 {
 	private readonly UserManager<User> m_UserManager;

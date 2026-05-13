@@ -1,5 +1,6 @@
-﻿using Core.AnchorCalculator.Entities;
+using Core.AnchorCalculator.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UI.AnchorCalculator.Extensions;
 using UI.AnchorCalculator.ViewModels;
@@ -17,9 +18,17 @@ public class AccountController : Controller
 		m_SignInManager = signInManager;
 	}
 
+	[AllowAnonymous]
 	[HttpGet]
-	public IActionResult Register() => View();
+	public IActionResult Register()
+	{
+		if (User.Identity?.IsAuthenticated == true)
+			return RedirectToAction("Index", "Anchor");
 
+		return View();
+	}
+
+	[AllowAnonymous]
 	[HttpPost]
 	public async Task<IActionResult> Register(RegisterViewModel model)
 	{
@@ -48,9 +57,22 @@ public class AccountController : Controller
 		return View(model);
 	}
 
+	[AllowAnonymous]
 	[HttpGet]
-	public IActionResult Login(string? returnUrl = null) => View(new LoginViewModel{ ReturnUrl = returnUrl });
+	public IActionResult Login(string? returnUrl = null)
+	{
+		if (User.Identity?.IsAuthenticated == true)
+		{
+			if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+				return Redirect(returnUrl);
 
+			return RedirectToAction("Index", "Anchor");
+		}
+
+		return View(new LoginViewModel { ReturnUrl = returnUrl });
+	}
+
+	[AllowAnonymous]
 	[HttpPost]
 	[ValidateAntiForgeryToken]
 	public async Task<IActionResult> Login(LoginViewModel model)

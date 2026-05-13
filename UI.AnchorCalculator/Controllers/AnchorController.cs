@@ -1,4 +1,4 @@
-﻿using Core.AnchorCalculator.Entities;
+using Core.AnchorCalculator.Entities;
 using Core.AnchorCalculator.Entities.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +9,7 @@ using UI.AnchorCalculator.ViewModels;
 
 namespace UI.AnchorCalculator.Controllers;
 
+[Authorize]
 public class AnchorController : Controller
 {
 	private readonly AnchorService m_AnchorService;
@@ -64,7 +65,6 @@ public class AnchorController : Controller
 	}
 
 	[HttpPost] // AnchorController
-	[AllowAnonymous]
 	public async Task<JsonResult> GetAnchorJsonResult(AnchorViewModel viewModel)
 	{
 		double minBendLength = 60 + viewModel.BendRadiusMillimeters;

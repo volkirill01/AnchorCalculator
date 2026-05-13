@@ -1,10 +1,12 @@
-﻿using Core.AnchorCalculator.Entities;
+using Core.AnchorCalculator.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UI.AnchorCalculator.Services;
 using UI.AnchorCalculator.ViewModels;
 
 namespace UI.AnchorCalculator.Controllers;
 
+[Authorize]
 public class MaterialController : Controller
 {
 	private readonly MaterialService m_MaterialService;
