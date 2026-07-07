@@ -1,11 +1,12 @@
-﻿.container {
-    margin-left: 1%;
-    max-width: 1600px;
+﻿.container1 {
+	width: calc(100% - 20px);
+	/*    margin-left: 1%;*/
+	/*    max-width: 1600px;*/
 }
 
 svg {
-    width: 100%;
-    height: auto;
+	width: 100%;
+	height: auto;
 }
 
 .radios > label {

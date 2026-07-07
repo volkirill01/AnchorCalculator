@@ -22,3 +22,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#notes_pdf {
+	padding: 0 1em 0 1em;
+}
