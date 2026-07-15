@@ -3,6 +3,7 @@ using Core.AnchorCalculator.Entities.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using UI.AnchorCalculator.Extensions;
 using UI.AnchorCalculator.Services;
 using UI.AnchorCalculator.ViewModels;
@@ -48,8 +49,8 @@ public class AnchorController : Controller
 		List<Anchor> anchors = await m_AnchorService.GetListAnchorFromPage(ids);
 		var anchorsSvg = anchors.Select(e => e.SvgElement).ToList();
 		var anchorsId = anchors.Select(e => e.Id).ToList();
-		if (anchorsSvg.Count>0)
-			return Json(new { success = true, anchorsSvg, idMin = anchorsId[0], idMax = anchorsId[^1]});
+		if (anchorsSvg.Count > 0)
+			return Json(new { success = true, anchorsSvg, idMin = anchorsId[0], idMax = anchorsId[^1] });
 		else
 			return Json(new { success = false });
 	}
@@ -64,12 +65,44 @@ public class AnchorController : Controller
 			return Json(new { success = false });
 	}
 
+	[HttpPost]
+	public JsonResult ValidateAnchorJsonResult(AnchorViewModel viewModel)
+	{
+		var errors = ValidateAnchorViewModel(viewModel);
+		return Json(new { success = errors.Count == 0, errors });
+	}
+
 	[HttpPost] // AnchorController
 	public async Task<JsonResult> GetAnchorJsonResult(AnchorViewModel viewModel)
 	{
+		var errors = ValidateAnchorViewModel(viewModel);
+		if (errors.Count > 0)
+			return Json(new { success = false, errors });
+
+		Anchor anchor = await m_AnchorService.GetAnchor(viewModel);
+		if (anchor.Kind == AnchorKind.Straight || anchor.BendRadiusMillimeters == 0)
+		{
+			anchor.BendRadiusMillimeters = 0;
+			m_SvgService.GetSvgStraightAnchor(anchor);
+		}
+
+		if (anchor.Kind == AnchorKind.SingleBend)
+			m_SvgService.GetSvgBendAnchor(anchor);
+
+		if (anchor.Kind == AnchorKind.DoubleBend)
+			m_SvgService.GetSvgBendDoubleAnchor(anchor);
+
+		await m_CalculateService.Calculate(anchor);
+
+		return Json(new { success = true, anchorJS = anchor, isAuthen = User.Identity.IsAuthenticated });
+	}
+
+	private Dictionary<string, string> ValidateAnchorViewModel(AnchorViewModel viewModel)
+	{
 		double minBendLength = 60 + viewModel.BendRadiusMillimeters;
-		if (double.TryParse(viewModel.DiameterMillimeters, out double diameterParse))
-			minBendLength += diameterParse;
+		double diameterParse = 0;
+		if (double.TryParse(viewModel.DiameterMillimeters, NumberStyles.Float, CultureInfo.InvariantCulture, out double parsedDiameter))
+			diameterParse = parsedDiameter;
 
 		if (!viewModel.HasThread)
 		{
@@ -95,7 +128,7 @@ public class AnchorController : Controller
 			minBendLength += diameterParse;
 		}
 
-		if (!(viewModel.Kind == AnchorKind.Straight.ToString()))
+		if (viewModel.Kind != AnchorKind.Straight.ToString())
 		{
 			if (viewModel.BendLengthMillimeters < minBendLength)
 				ModelState.AddModelError(nameof(viewModel.BendLengthMillimeters), $"Длина загиба должна быть от {minBendLength}");
@@ -114,35 +147,11 @@ public class AnchorController : Controller
 				viewModel.SecondLengthMillimeters = viewModel.LengthMillimeters;
 		}
 
-		if (!ModelState.IsValid)
-			return Json(new
-			{
-				success = false,
-				errorMessageThreadDiam = ModelState["ThreadDiameterMillimeters"]?.Errors.FirstOrDefault()?.ErrorMessage,
-				errorMessageBendLen = ModelState["BendLengthMillimeters"]?.Errors.FirstOrDefault()?.ErrorMessage,
-				errorMessageThreadLen = ModelState["ThreadLengthMillimeters"]?.Errors.FirstOrDefault()?.ErrorMessage,
-				errorMessageThreadSecondLen = ModelState["ThreadSecondLengthMillimeters"]?.Errors.FirstOrDefault()?.ErrorMessage,
-				errorMessageLen = ModelState["LengthMillimeters"]?.Errors.FirstOrDefault()?.ErrorMessage,
-				errorMessageRad = ModelState["BendRadiusMillimeters"]?.Errors.FirstOrDefault()?.ErrorMessage,
-				errorMessageLenSecond = ModelState["SecondLengthMillimeters"]?.Errors.FirstOrDefault()?.ErrorMessage
-			});
-
-		Anchor Anchor = await m_AnchorService.GetAnchor(viewModel);
-		if (Anchor.Kind == AnchorKind.Straight || Anchor.BendRadiusMillimeters == 0)
-		{
-			Anchor.BendRadiusMillimeters = 0;
-			m_SvgService.GetSvgStraightAnchor(Anchor);
-		}
-
-		if (Anchor.Kind == AnchorKind.SingleBend)
-			m_SvgService.GetSvgBendAnchor(Anchor);
-
-		if (Anchor.Kind == AnchorKind.DoubleBend)
-			m_SvgService.GetSvgBendDoubleAnchor(Anchor);
-
-		await m_CalculateService.Calculate(Anchor);
-
-		return Json(new { success = true, anchorJS = Anchor, isAuthen = User.Identity.IsAuthenticated });
+		return ModelState
+			.Where(item => item.Value.Errors.Count > 0)
+			.ToDictionary(
+				item => item.Key,
+				item => item.Value.Errors.First().ErrorMessage ?? string.Empty);
 	}
 
 	[HttpGet] // AnchorController/Details/5

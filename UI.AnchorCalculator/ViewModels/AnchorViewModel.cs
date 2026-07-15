@@ -55,7 +55,7 @@ public class AnchorViewModel
 	public string? PriceSom_Total { get; set; }
 
 	[Required(ErrorMessage = "Поле обязательно для заполнения")]
-	[Range(1, Int32.MaxValue, ErrorMessage = "Кол-во не может быть равно 0")]
+	[Range(1, Int32.MaxValue, ErrorMessage = "Количество должно быть больше 0")]
 	[Display(Name = "Кол-во (шт)")]
 	public int Quantity { get; set; } // TODO: Make uint
 
@@ -95,6 +95,7 @@ public class AnchorViewModel
 	[Display(Name = "Номер заказа")]
 	public string? OrderNumber { get; set; }
 	public string? MaterialName { get; set; }
+	[Range(1, Int32.MaxValue, ErrorMessage = "Выберите материал")]
 	[Display(Name = "Материал")]
 	public int MaterialId { get; set; }
 	public List<Material>? Materials { get; set; }

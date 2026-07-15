@@ -13,7 +13,7 @@
 			<div class="row g-0">
 				<div class="col-md-8">
 					<div class="card-body">
-						<h5 class="card-title">Форма для заполнения</h5>
+						<h5 class="card-title mb-4">Форма для заполнения</h5>
 
 						<h6 class="card-text">
 							<form id="CalculateForm">
@@ -28,21 +28,22 @@
 
 								<div class="row mb-3">
 									<div class="validation" asp-validation-summary="ModelOnly"></div>
-									<label asp-for="MaterialId" class="col-sm-4 col-form-label"></label>
+									<label asp-for="MaterialId" class="col-sm-4 col-form-label required-field"></label>
 
 									<div class="col-sm-8">
 										<select id="selectBox" asp-for="MaterialId" class="form-select" aria-label="Default select example" onchange="changeFuncDiamAnchor();">
-											<option>Ничего не выбрано</option>
+											<option value="0">Ничего не выбрано</option>
 											@foreach (Material item in Model.Materials!)
 											{
 												<option id="material_@item.Id" value="@item.Id">@item.FullName</option>
 											}
 										</select>
+										<span asp-validation-for="MaterialId" class="text-danger"></span>
 									</div>
 								</div>
 
 								<div class="row mb-3">
-									<label asp-for="DiameterMillimeters" class="col-sm-4 col-form-label"></label>
+									<label asp-for="DiameterMillimeters" class="col-sm-4 col-form-label required-field"></label>
 
 									<div class="col-sm-8">
 										<input asp-for="DiameterMillimeters" type="text" class="form-control" id="diameterMillimeters" readonly>
@@ -51,11 +52,11 @@
 								</div>
 
 								<div class="row mb-3">
-									<label asp-for="LengthMillimeters" class="col-sm-4 col-form-label"></label>
+									<label asp-for="LengthMillimeters" class="col-sm-4 col-form-label required-field"></label>
 
 									<div class="col-sm-8">
 										<input asp-for="LengthMillimeters" type="text" class="form-control" id="lengthMillimeters">
-										<span id="lengthMillimetersValid" class="text-danger"></span>
+										<span asp-validation-for="LengthMillimeters" class="text-danger"></span>
 									</div>
 								</div>
 
@@ -64,7 +65,7 @@
 
 									<div class="col-sm-8">
 										<input asp-for="ThreadDiameterMillimeters" type="text" readonly class="form-control" id="threadDiameterMillimeters">
-										<span id="threadDiameterMillimetersValid" class="text-danger"></span>
+										<span asp-validation-for="ThreadDiameterMillimeters" class="text-danger"></span>
 									</div>
 								</div>
 
@@ -73,12 +74,12 @@
 
 									<div class="col-sm-8">
 										<input asp-for="ThreadLengthMillimeters" type="text" class="form-control" id="threadLengthMillimeters">
-										<span id="threadLengthMillimetersValid" class="text-danger"></span>
+										<span asp-validation-for="ThreadLengthMillimeters" class="text-danger"></span>
 									</div>
 								</div>
 
 								<div class="row mb-3">
-									<label asp-for="ThreadStepMillimeters" class="col-sm-4 col-form-label"></label>
+									<label asp-for="ThreadStepMillimeters" class="col-sm-4 col-form-label required-field"></label>
 
 									<div class="col-sm-8">
 										<input asp-for="ThreadStepMillimeters" type="text" class="form-control" id="threadStepMillimeters" readonly/>
@@ -87,7 +88,7 @@
 								</div>
 
 								<div class="row mb-3">
-									<label asp-for="Quantity" class="col-sm-4 col-form-label"></label>
+									<label asp-for="Quantity" class="col-sm-4 col-form-label required-field"></label>
 
 									<div class="col-sm-8">
 										<input asp-for="Quantity" type="text" class="form-control" id="Quantity">
@@ -114,16 +115,16 @@
 
 										<div class="col-sm-8">
 											<input asp-for="BendLengthMillimeters" onfocus="this.value=''" type="text" class="form-control" id="BendLengthMillimeters">
-											<span id="bendLengthMillimetersValid" class="text-danger"></span>
+											<span asp-validation-for="BendLengthMillimeters" class="text-danger"></span>
 										</div>
 									</div>
 
 									<div id="SecondLengthMillimetersDiv" class="row mb-3" hidden>
-										<label asp-for="SecondLengthMillimeters" class="col-sm-4 col-form-label"></label>
+										<label asp-for="SecondLengthMillimeters" class="col-sm-4 col-form-label required-field"></label>
 
 										<div class="col-sm-8">
 											<input asp-for="SecondLengthMillimeters" onfocus="this.value=''" type="text" class="form-control" id="SecondLengthMillimeters">
-											<span id="secondLengthMillimetersValid" class="text-danger"></span>
+											<span asp-validation-for="SecondLengthMillimeters" class="text-danger"></span>
 										</div>
 									</div>
 
@@ -132,7 +133,7 @@
 
 										<div class="col-sm-8">
 											<input asp-for="BendRadiusMillimeters" type="text" class="form-control" id="bendRadiusMillimeters" readonly>
-											<span id="bendRadiusMillimetersValid" class="text-danger"></span>
+											<span asp-validation-for="BendRadiusMillimeters" class="text-danger"></span>
 											@* <span asp-validation-for="bendRadiusMillimeters" class="text-danger"></span> *@
 										</div>
 									</div>
@@ -180,12 +181,12 @@
 
 										<div class="col-sm-8">
 											<input asp-for="ThreadSecondLengthMillimeters" type="text" class="form-control" id="threadSecondLengthMillimeters">
-											<span id="threadSecondLengthMillimetersValid" class="text-danger"></span>
+											<span asp-validation-for="ThreadSecondLengthMillimeters" class="text-danger"></span>
 										</div>
 									</div>
 								</div>
 
-								<button type="submit" class="btn btn-dark mt-2">Расчитать</button>
+								<button id="calculateButton" type="submit" class="btn btn-dark mt-2" disabled>Расчитать</button>
 							</form>
 						</h6>
 					</div>
@@ -249,8 +250,6 @@
 
 @section Scripts
 {
-	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-
 	<script>
 		let hasCuttingThreadDivCheckbox = document.getElementById("hasCuttingThreadDivCheckbox");
 		let withoutBindThreadDiamMaterialDivCheckbox = document.getElementById("withoutBindThreadDiamMaterialDivCheckbox");
@@ -260,26 +259,51 @@
 		let hasThreadDivCheckbox = document.getElementById("hasThreadDivCheckbox");
 		let diameterInput = document.getElementById("diameterMillimeters");
 
+		function setNonSelectableField(input, isNonSelectable)
+		{
+			if (input === null)
+				return;
+
+			input.classList.toggle("non-selectable-field", isNonSelectable);
+
+			if (isNonSelectable)
+				input.setAttribute("tabindex", "-1");
+			else
+				input.removeAttribute("tabindex");
+		}
+
 		function onWithoutBindThreadDiamMaterial()
 		{
 			if (withoutBindThreadDiamMaterialDivCheckbox.checked)
+			{
 				threadDiameterInput.readOnly = false;
+				setNonSelectableField(threadDiameterInput, false);
+			}
 			else
 			{
 				threadDiameterInput.readOnly = true;
+				setNonSelectableField(threadDiameterInput, true);
 				setThreadDiameter(getMaterialJsonResult)
 			}
+
+			scheduleValidation();
 		}
 
 		function onWithoutBindRadiusBendDiamMaterial()
 		{
 			if (withoutBindRadiusBendDiamMaterialDivCheckbox.checked)
+			{
 				bendRadiusInput.readOnly = false;
+				setNonSelectableField(bendRadiusInput, false);
+			}
 			else
 			{
 				bendRadiusInput.readOnly = true;
+				setNonSelectableField(bendRadiusInput, true);
 				setBendRadius(getMaterialJsonResult);
 			}
+
+			scheduleValidation();
 		}
 
 		function onCheckThreadCutter()
@@ -300,7 +324,7 @@
 			if (hasThreadDivCheckbox.checked)
 			{
 				threadLengthMillimeters.disabled = false;
-				threadLengthMillimeters.value = '';
+				threadLengthMillimeters.value = 0;
 				hasCuttingThreadDiv.style.display = "block";
 				withoutBindThreadDiamMaterialDiv.style.display = "block";
 
@@ -319,224 +343,284 @@
 				withoutBindThreadDiamMaterialDiv.style.display = "none";
 				withoutBindThreadDiamMaterialDivCheckbox.checked = false;
 				threadDiameterInput.readOnly = true;
+				setNonSelectableField(threadDiameterInput, true);
 			}
+
+			scheduleValidation();
 		}
 
 		let Descript_to_blank;
 		let calculateForm = document.getElementById("CalculateForm");
+		let calculateButton = document.getElementById("calculateButton");
+		let validationTimer = null;
+		let validationRequest = null;
+		let currentValidationErrors = {};
 
-		calculateForm.addEventListener("submit", function formSubmit(event)
+		function getFieldValidationSpan(fieldName)
 		{
-			event.preventDefault();
+			return calculateForm.querySelector('[data-valmsg-for="' + fieldName + '"]');
+		}
 
-			let addButton = document.getElementById("liveToastBtn");
-			if (addButton !== null)
-				addButton.disabled = false;
+		function getFieldElement(fieldName)
+		{
+			return calculateForm.querySelector('[name="' + fieldName + '"]');
+		}
 
-			let formData = new FormData(calculateForm);
-			$.ajax(
+		function clearValidationState()
+		{
+			calculateForm.querySelectorAll(".is-invalid").forEach(function (element)
 			{
-				url: '@Url.Action("GetAnchorJsonResult", "Anchor")',
+				element.classList.remove("is-invalid");
+			});
+
+			calculateForm.querySelectorAll("[data-valmsg-for]").forEach(function (span)
+			{
+				span.textContent = "";
+			});
+		}
+
+		function applyValidationErrors(errors)
+		{
+			currentValidationErrors = errors || {};
+			clearValidationState();
+
+			Object.keys(currentValidationErrors).forEach(function (fieldName)
+			{
+				let fieldElement = getFieldElement(fieldName);
+				let validationSpan = getFieldValidationSpan(fieldName);
+				let message = currentValidationErrors[fieldName] || "";
+
+				if (fieldElement !== null)
+					fieldElement.classList.add("is-invalid");
+
+				if (validationSpan !== null)
+					validationSpan.textContent = message;
+			});
+
+			calculateButton.disabled = Object.keys(currentValidationErrors).length > 0 || validationRequest !== null;
+
+			if (Object.keys(currentValidationErrors).length > 0)
+				document.getElementById("descriptAnchor").style.display = "none";
+		}
+
+		function normalizeNumericFormData(formData)
+		{
+			let numericFields = [
+				"LengthMillimeters",
+				"SecondLengthMillimeters",
+				"BendLengthMillimeters",
+				"BendRadiusMillimeters",
+				"ThreadLengthMillimeters",
+				"ThreadSecondLengthMillimeters",
+				"ThreadDiameterMillimeters",
+				"Quantity"
+			];
+
+			numericFields.forEach(function (fieldName)
+			{
+				let value = formData.get(fieldName);
+				if (value === null || String(value).trim() === '')
+					formData.set(fieldName, '0');
+			});
+		}
+
+		function getNormalizedFormData()
+		{
+			let formData = new FormData(calculateForm);
+			normalizeNumericFormData(formData);
+			return formData;
+		}
+
+		function scheduleValidation()
+		{
+			calculateButton.disabled = true;
+
+			if (validationTimer !== null)
+				clearTimeout(validationTimer);
+
+			validationTimer = setTimeout(validateFormState, 250);
+		}
+
+		function validateFormState(callback)
+		{
+			if (validationTimer !== null)
+			{
+				clearTimeout(validationTimer);
+				validationTimer = null;
+			}
+
+			if (validationRequest !== null && typeof validationRequest.abort === "function")
+				validationRequest.abort();
+
+			let formData = getNormalizedFormData();
+			validationRequest = $.ajax(
+			{
+				url: '@Url.Action("ValidateAnchorJsonResult", "Anchor")',
 				type: 'POST',
 				contentType: false,
 				processData: false,
 				data: formData,
 				success: function (response)
 				{
-					if (response.success)
-					{
-						document.getElementById("threadDiameterMillimetersValid").innerHTML = "";
-						document.getElementById("bendLengthMillimetersValid").innerHTML = "";
-						document.getElementById("threadLengthMillimetersValid").innerHTML = "";
-						document.getElementById("threadSecondLengthMillimetersValid").innerHTML = "";
-						document.getElementById("lengthMillimetersValid").innerHTML = "";
-						document.getElementById("bendRadiusMillimetersValid").innerHTML = "";
-						document.getElementById("secondLengthMillimetersValid").innerHTML = "";
+					validationRequest = null;
+					applyValidationErrors(response.errors || {});
 
-						console.log('threadDiameterMillimetersValid.innerHTML' + document.getElementById("threadDiameterMillimetersValid").innerHTML + '');
-						console.log('bendLengthMillimetersValid.innerHTML' + document.getElementById("bendLengthMillimetersValid").innerHTML + '');
+					if (typeof callback === "function")
+						callback(response.success === true);
+				},
+				error: function ()
+				{
+					validationRequest = null;
+					calculateButton.disabled = true;
 
-						document.getElementById("containSvg").innerHTML = response.anchorJS.svgElement;
-						document.getElementById("svg_pdf").innerHTML = response.anchorJS.svgElement;
-						document.getElementById("svg_blank_pdf").innerHTML = response.anchorJS.svgElement;
-						document.getElementById("descriptAnchor").style.display = "flex";
-
-						let curDate = Date.now();
-						let uptDate = new Date(response.anchorJS.material.dateUpdate);
-						const milliseconds = 86400000;
-						let dif = Math.ceil((curDate - uptDate.getTime()) / milliseconds);
-						let warn_Update = '';
-						let warn_Production = '';
-						let time_Production = '';
-						let price_Production = '';
-						if (dif > 14)
-							warn_Update = 'Стоимость материала не обновлялась ' + dif + ' дней!';
-
-						if (response.anchorJS.productionId === 0)
-							warn_Production = 'Анкер изгототавливается на токарном станке';
-
-						if (response.isAuthen)
-						{
-							price_Production = '<p class="card-text">Цена накатки/нарезки резьбы: ' + response.anchorJS.priceSom_ProductionThread_Total + ' сом</p>' +
-							                   '<p class="card-text">Цена гибки: ' + response.anchorJS.priceSom_ProductionBend_Total + ' сом</p>' +
-							                   '<p class="card-text">Цена лентопила: ' + response.anchorJS.priceSom_ProductionBandSaw_Total + ' сом</p>';
-
-							time_Production = '<p class="card-text">Время накатки/нарезки резьбы: ' + response.anchorJS.productionHours_Thread + ' ч</p>' +
-							                  '<p class="card-text">Время гибки: ' + response.anchorJS.productionHours_Bend + ' ч</p>' +
-							                  '<p class="card-text">Время лентопила: ' + response.anchorJS.productionHours_BandSaw + ' ч</p>';
-
-							Descript_to_blank = '<div id="Descript_to_blank">' +
-							                        '<h5 class="card-title">Результаты расчёта</h5>' +
-							                        '<p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
-							                        '<p class="card-text">Цена 1 шт: ' + response.anchorJS.priceSom_SingleAnchor + ' сом</p>' +
-							                        '<p class="card-text">Общая стоимость: ' + response.anchorJS.priceSom_Total + ' сом</p>' +
-							                        '<p class="card-text">Длина заготовки: ' + response.anchorJS.billetLengthMillimeters + ' мм</p>' +
-							                        '<p class="card-text">Цена мат-ла на 1 шт: ' + response.anchorJS.priceSom_Material_SingleAnchor + ' сом</p>' +
-							                        '<p class="card-text">Цена мат-ла на ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.priceSom_Material_Total + ' сом</p>' +
-							                        '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weightKg_SingleAnchor + ' кг</p>' +
-							                        '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.weightKg_Total + ' кг</p>' +
-							                        '<p class="card-text">Материал: ' + response.anchorJS.material.fullName + '</p>' +
-							                        '<p class="card-text">Исполнитель: @User.Identity!.Name</p>' + price_Production + time_Production +
-							                        '<p class="card-text">Общая длина: ' + response.anchorJS.fullLengthMeters + ' м</p>' +
-							                        '<p class="card-text text-danger">' + warn_Update + '</p></div>' +
-							                        '<p class="card-text text-success">' + warn_Production + '</p>' +
-							                    '</div>';
-
-							document.getElementById("listBlank").innerHTML = Descript_to_blank;
-
-							document.getElementById("priceWeight").innerHTML = Descript_to_blank +
-							                        '<input id="materialIdToDB" type="hidden" value="'+ response.anchorJS.materialId +'">' +
-							                        '<input id="diameterMillimetersToDB" type="hidden" value="'+ response.anchorJS.diameterMillimeters +'">' +
-							                        '<input id="lengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.lengthMillimeters +'">' +
-							                        '<input id="secondLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.secondLengthMillimeters +'">' +
-							                        '<input id="threadDiameterMillimetersToDB" type="hidden" value="'+ response.anchorJS.threadDiameterMillimeters +'">' +
-							                        '<input id="threadLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.threadLengthMillimeters +'">' +
-							                        '<input id="threadSecondLengthMillimetersToDB" type="hidden" value="' + response.anchorJS.threadSecondLengthMillimeters + '">' +
-							                        '<input id="threadStepMillimetersToDB" type="hidden" value="'+ response.anchorJS.threadStepMillimeters +'">' +
-							                        '<input id="quantityToDB" type="hidden" value="'+ response.anchorJS.quantity +'">' +
-							                        '<input id="bendLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.bendLengthMillimeters +'">' +
-							                        '<input id="bendRadiusMillimetersToDB" type="hidden" value="'+ response.anchorJS.bendRadiusMillimeters +'">' +
-							                        '<input id="sebesSom_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.sebesSom_SingleAnchor +'">' +
-							                        '<input id="sebesSom_TotalToDB" type="hidden" value="'+ response.anchorJS.sebesSom_Total +'">' +
-							                        '<input id="priceSom_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.priceSom_SingleAnchor +'">' +
-							                        '<input id="priceSom_TotalToDB" type="hidden" value="'+ response.anchorJS.priceSom_Total +'">' +
-							                        '<input id="billetLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.billetLengthMillimeters +'">' +
-							                        '<input id="weightKg_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.weightKg_SingleAnchor +'">' +
-							                        '<input id="weightKg_TotalToDB" type="hidden" value="'+ response.anchorJS.weightKg_Total +'">' +
-							                        '<input id="orderNumberToDB" type="hidden" value="'+ (response.anchorJS.orderNumber ?? '') +'">' +
-							                        '<input id="kindToDB" type="hidden" value="'+ response.anchorJS.kind +'">' +
-							                        '<input id="priceSom_ProductionThread_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionThread_Total + '">' +
-							                        '<input id="priceSom_ProductionBend_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionBend_Total + '">' +
-							                        '<input id="priceSom_ProductionBandSaw_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionBandSaw_Total + '">' +
-							                        '<input id="priceSom_Material_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_Material_Total + '">' +
-							                        '<input id="pathRollerLengthMillimetersToDB" type="hidden" value="' + response.anchorJS.pathRollerLengthMillimeters + '">' +
-							                        '<input id="rollerPathLengthMillimetersBeforeEndToDB" type="hidden" value="' + response.anchorJS.rollerPathLengthMillimetersBeforeEnd + '">' +
-							                        '<input id="threadProductionIdToDB" type="hidden" value="' + response.anchorJS.threadProductionId + '">' +
-							                        '<input id="productionHours_ThreadToDB" type="hidden" value="' + response.anchorJS.productionHours_Thread + '">' +
-							                        '<input id="productionHours_BendToDB" type="hidden" value="' + response.anchorJS.productionHours_Bend + '">' +
-							                        '<input id="productionHours_BandSawToDB" type="hidden" value="' + response.anchorJS.productionHours_BandSaw + '">' +
-							                        '<input id="fullLengthMetersToDB" type="hidden" value="' + response.anchorJS.fullLengthMeters + '">' +
-							                        '<input id="hasCuttingThreadToDB" type="hidden" value="' + response.anchorJS.hasCuttingThread + '">' +
-							                        '<input id="withoutBindThreadDiamMaterialToDB" type="hidden" value="' + response.anchorJS.withoutBindThreadDiamMaterial + '">' +
-							                        '<div class="btn-group mt-2" role="group" aria-label="Basic mixed styles example">' +
-							                            '<button type="button" id="liveToastBtn" class="btn btn-dark" onclick="Add();">Сохранить</button>' +
-							                            '<button type="button" id="btn_drawing_pdf" class="btn btn-secondary" disabled>Чертеж</button>' +
-							                            '<button type="button" id="btn_blank_pdf" class="btn btn-secondary" disabled onclick="PrintBlank();">Рез-ты</button>' +
-							                        '</div>';
-
-						}
-						else
-						{
-							Descript_to_blank = '<h5 class="card-title">Результаты расчёта</h5>' +
-							    '<p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
-							    '<p class="card-text">Цена 1 шт: ' + response.anchorJS.priceSom_SingleAnchor + ' сом</p>' +
-							    '<p class="card-text">Общая стоимость: ' + response.anchorJS.priceSom_Total + ' сом</p>' +
-							    '<p class="card-text">Длина заготовки: ' + response.anchorJS.billetLengthMillimeters + ' мм</p>' +
-							    '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weightKg_SingleAnchor + ' кг</p>' +
-							    '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.weightKg_Total + ' кг</p>' +
-							    '<p class="card-text">Материал: ' + response.anchorJS.material.fullName + '</p>';
-
-							document.getElementById("listBlank").innerHTML = Descript_to_blank;
-							document.getElementById("priceWeight").innerHTML = Descript_to_blank + '<button type="button" id="btn_blank_pdf" class="btn btn-secondary" onclick="PrintBlank();">Распечатать</button>';
-						}
-					}
-					else
-					{
-						document.getElementById("descriptAnchor").style.display = "none";
-
-						if (typeof response.errorMessageThreadDiam !== "undefined")
-						{
-							if (response.errorMessageThreadDiam === "The value '' is invalid.")
-								threadDiameterMillimetersValid.innerHTML = "Поле обязательно для заполнения";
-							else
-								threadDiameterMillimetersValid.innerHTML = response.errorMessageThreadDiam
-						}
-						else
-							threadDiameterMillimetersValid.innerHTML = "";
-
-						if (typeof response.errorMessageBendLen !== "undefined")
-						{
-							if (response.errorMessageBendLen === "The value '' is invalid.")
-								bendLengthMillimetersValid.innerHTML = "Поле обязательно для заполнения";
-							else
-								bendLengthMillimetersValid.innerHTML = response.errorMessageBendLen
-						}
-						else
-							bendLengthMillimetersValid.innerHTML = "";
-
-						if (typeof response.errorMessageThreadLen !== "undefined")
-						{
-							if (response.errorMessageThreadLen === "The value '' is invalid.")
-								threadLengthMillimetersValid.innerHTML = "Поле обязательно для заполнения";
-							else
-								threadLengthMillimetersValid.innerHTML = response.errorMessageThreadLen;
-						}
-						else
-							threadLengthMillimetersValid.innerHTML = "";
-
-						if (typeof response.errorMessageThreadSecondLen !== "undefined")
-						{
-							if (response.errorMessageThreadSecondLen === "The value '' is invalid.")
-								threadSecondLengthMillimetersValid.innerHTML = "Поле обязательно для заполнения";
-							else
-								threadSecondLengthMillimetersValid.innerHTML = response.errorMessageThreadSecondLen;
-						}
-						else
-							threadSecondLengthMillimetersValid.innerHTML = "";
-
-						if (typeof response.errorMessageLen !== "undefined")
-						{
-							if (response.errorMessageLen === "The value '' is invalid.")
-								lengthMillimetersValid.innerHTML = "Поле обязательно для заполнения";
-							else
-								lengthMillimetersValid.innerHTML = response.errorMessageLen;
-						}
-						else
-							lengthMillimetersValid.innerHTML = "";
-
-						if (typeof response.errorMessageRad !== "undefined")
-						{
-							if (response.errorMessageRad === "The value '' is invalid.")
-								bendRadiusMillimetersValid.innerHTML = "Поле обязательно для заполнения";
-							else
-								bendRadiusMillimetersValid.innerHTML = response.errorMessageRad;
-						}
-						else
-							bendRadiusMillimetersValid.innerHTML = "";
-
-						if (typeof response.errorMessageLenSecond !== "undefined")
-						{
-							if (response.errorMessageLenSecond === "The value '' is invalid.")
-								secondLengthMillimetersValid.innerHTML = "Поле обязательно для заполнения";
-							else
-								secondLengthMillimetersValid.innerHTML = response.errorMessageLenSecond;
-						}
-						else
-							secondLengthMillimetersValid.innerHTML = "";
-					}
+					if (typeof callback === "function")
+						callback(false);
 				}
 			});
+		}
+
+		calculateForm.addEventListener("submit", function formSubmit(event)
+		{
+			event.preventDefault();
+			validateFormState(function (isValid)
+			{
+				if (!isValid)
+					return;
+
+				let addButton = document.getElementById("liveToastBtn");
+				if (addButton !== null)
+					addButton.disabled = false;
+
+				let formData = getNormalizedFormData();
+				$.ajax(
+				{
+					url: '@Url.Action("GetAnchorJsonResult", "Anchor")',
+					type: 'POST',
+					contentType: false,
+					processData: false,
+					data: formData,
+					success: function (response)
+					{
+						if (response.success)
+						{
+							applyValidationErrors({});
+
+							document.getElementById("containSvg").innerHTML = response.anchorJS.svgElement;
+							document.getElementById("svg_pdf").innerHTML = response.anchorJS.svgElement;
+							document.getElementById("svg_blank_pdf").innerHTML = response.anchorJS.svgElement;
+							document.getElementById("descriptAnchor").style.display = "flex";
+
+							let curDate = Date.now();
+							let uptDate = new Date(response.anchorJS.material.dateUpdate);
+							const milliseconds = 86400000;
+							let dif = Math.ceil((curDate - uptDate.getTime()) / milliseconds);
+							let warn_Update = '';
+							let warn_Production = '';
+							let time_Production = '';
+							let price_Production = '';
+							if (dif > 14)
+								warn_Update = 'Стоимость материала не обновлялась ' + dif + ' дней!';
+
+							if (response.anchorJS.productionId === 0)
+								warn_Production = 'Анкер изгототавливается на токарном станке';
+
+							if (response.isAuthen)
+							{
+								price_Production = '<p class="card-text">Цена накатки/нарезки резьбы: ' + response.anchorJS.priceSom_ProductionThread_Total + ' сом</p>' +
+								                   '<p class="card-text">Цена гибки: ' + response.anchorJS.priceSom_ProductionBend_Total + ' сом</p>' +
+								                   '<p class="card-text">Цена лентопила: ' + response.anchorJS.priceSom_ProductionBandSaw_Total + ' сом</p>';
+
+								time_Production = '<p class="card-text">Время накатки/нарезки резьбы: ' + response.anchorJS.productionHours_Thread + ' ч</p>' +
+								                  '<p class="card-text">Время гибки: ' + response.anchorJS.productionHours_Bend + ' ч</p>' +
+								                  '<p class="card-text">Время лентопила: ' + response.anchorJS.productionHours_BandSaw + ' ч</p>';
+
+								Descript_to_blank = '<div id="Descript_to_blank">' +
+								                        '<h5 class="card-title">Результаты расчёта</h5>' +
+								                        '<p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
+								                        '<p class="card-text">Цена 1 шт: ' + response.anchorJS.priceSom_SingleAnchor + ' сом</p>' +
+								                        '<p class="card-text">Общая стоимость: ' + response.anchorJS.priceSom_Total + ' сом</p>' +
+								                        '<p class="card-text">Длина заготовки: ' + response.anchorJS.billetLengthMillimeters + ' мм</p>' +
+								                        '<p class="card-text">Цена мат-ла на 1 шт: ' + response.anchorJS.priceSom_Material_SingleAnchor + ' сом</p>' +
+								                        '<p class="card-text">Цена мат-ла на ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.priceSom_Material_Total + ' сом</p>' +
+								                        '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weightKg_SingleAnchor + ' кг</p>' +
+								                        '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.weightKg_Total + ' кг</p>' +
+								                        '<p class="card-text">Материал: ' + response.anchorJS.material.fullName + '</p>' +
+								                        '<p class="card-text">Исполнитель: @User.Identity!.Name</p>' + price_Production + time_Production +
+								                        '<p class="card-text">Общая длина: ' + response.anchorJS.fullLengthMeters + ' м</p>' +
+								                        '<p class="card-text text-danger">' + warn_Update + '</p></div>' +
+								                        '<p class="card-text text-success">' + warn_Production + '</p>' +
+								                    '</div>';
+
+								document.getElementById("listBlank").innerHTML = Descript_to_blank;
+
+								document.getElementById("priceWeight").innerHTML = Descript_to_blank +
+								                        '<input id="materialIdToDB" type="hidden" value="'+ response.anchorJS.materialId +'">' +
+								                        '<input id="diameterMillimetersToDB" type="hidden" value="'+ response.anchorJS.diameterMillimeters +'">' +
+								                        '<input id="lengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.lengthMillimeters +'">' +
+								                        '<input id="secondLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.secondLengthMillimeters +'">' +
+								                        '<input id="threadDiameterMillimetersToDB" type="hidden" value="'+ response.anchorJS.threadDiameterMillimeters +'">' +
+								                        '<input id="threadLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.threadLengthMillimeters +'">' +
+								                        '<input id="threadSecondLengthMillimetersToDB" type="hidden" value="' + response.anchorJS.threadSecondLengthMillimeters + '">' +
+								                        '<input id="threadStepMillimetersToDB" type="hidden" value="'+ response.anchorJS.threadStepMillimeters +'">' +
+								                        '<input id="quantityToDB" type="hidden" value="'+ response.anchorJS.quantity +'">' +
+								                        '<input id="bendLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.bendLengthMillimeters +'">' +
+								                        '<input id="bendRadiusMillimetersToDB" type="hidden" value="'+ response.anchorJS.bendRadiusMillimeters +'">' +
+								                        '<input id="sebesSom_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.sebesSom_SingleAnchor +'">' +
+								                        '<input id="sebesSom_TotalToDB" type="hidden" value="'+ response.anchorJS.sebesSom_Total +'">' +
+								                        '<input id="priceSom_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.priceSom_SingleAnchor +'">' +
+								                        '<input id="priceSom_TotalToDB" type="hidden" value="'+ response.anchorJS.priceSom_Total +'">' +
+								                        '<input id="billetLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.billetLengthMillimeters +'">' +
+								                        '<input id="weightKg_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.weightKg_SingleAnchor +'">' +
+								                        '<input id="weightKg_TotalToDB" type="hidden" value="'+ response.anchorJS.weightKg_Total +'">' +
+								                        '<input id="orderNumberToDB" type="hidden" value="'+ (response.anchorJS.orderNumber ?? '') +'">' +
+								                        '<input id="kindToDB" type="hidden" value="'+ response.anchorJS.kind +'">' +
+								                        '<input id="priceSom_ProductionThread_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionThread_Total + '">' +
+								                        '<input id="priceSom_ProductionBend_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionBend_Total + '">' +
+								                        '<input id="priceSom_ProductionBandSaw_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionBandSaw_Total + '">' +
+								                        '<input id="priceSom_Material_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_Material_Total + '">' +
+								                        '<input id="pathRollerLengthMillimetersToDB" type="hidden" value="' + response.anchorJS.pathRollerLengthMillimeters + '">' +
+								                        '<input id="rollerPathLengthMillimetersBeforeEndToDB" type="hidden" value="' + response.anchorJS.rollerPathLengthMillimetersBeforeEnd + '">' +
+								                        '<input id="threadProductionIdToDB" type="hidden" value="' + response.anchorJS.threadProductionId + '">' +
+								                        '<input id="productionHours_ThreadToDB" type="hidden" value="' + response.anchorJS.productionHours_Thread + '">' +
+								                        '<input id="productionHours_BendToDB" type="hidden" value="' + response.anchorJS.productionHours_Bend + '">' +
+								                        '<input id="productionHours_BandSawToDB" type="hidden" value="' + response.anchorJS.productionHours_BandSaw + '">' +
+								                        '<input id="fullLengthMetersToDB" type="hidden" value="' + response.anchorJS.fullLengthMeters + '">' +
+								                        '<input id="hasCuttingThreadToDB" type="hidden" value="' + response.anchorJS.hasCuttingThread + '">' +
+								                        '<input id="withoutBindThreadDiamMaterialToDB" type="hidden" value="' + response.anchorJS.withoutBindThreadDiamMaterial + '">' +
+								                        '<div class="btn-group mt-2" role="group" aria-label="Basic mixed styles example">' +
+								                            '<button type="button" id="liveToastBtn" class="btn btn-dark" onclick="Add();">Сохранить</button>' +
+								                            '<button type="button" id="btn_drawing_pdf" class="btn btn-secondary" disabled>Чертеж</button>' +
+								                            '<button type="button" id="btn_blank_pdf" class="btn btn-secondary" disabled onclick="PrintBlank();">Рез-ты</button>' +
+								                        '</div>';
+
+							}
+							else
+							{
+								Descript_to_blank = '<h5 class="card-title">Результаты расчёта</h5>' +
+								    '<p class="card-text">Кол-во: ' + response.anchorJS.quantity + ' шт</p>' +
+								    '<p class="card-text">Цена 1 шт: ' + response.anchorJS.priceSom_SingleAnchor + ' сом</p>' +
+								    '<p class="card-text">Общая стоимость: ' + response.anchorJS.priceSom_Total + ' сом</p>' +
+								    '<p class="card-text">Длина заготовки: ' + response.anchorJS.billetLengthMillimeters + ' мм</p>' +
+								    '<p class="card-text">Вес 1 шт: ' + response.anchorJS.weightKg_SingleAnchor + ' кг</p>' +
+								    '<p class="card-text">Вес ' + response.anchorJS.quantity + ' шт: ' + response.anchorJS.weightKg_Total + ' кг</p>' +
+								    '<p class="card-text">Материал: ' + response.anchorJS.material.fullName + '</p>';
+
+								document.getElementById("listBlank").innerHTML = Descript_to_blank;
+								document.getElementById("priceWeight").innerHTML = Descript_to_blank + '<button type="button" id="btn_blank_pdf" class="btn btn-secondary" onclick="PrintBlank();">Распечатать</button>';
+							}
+						}
+						else
+						{
+							document.getElementById("descriptAnchor").style.display = "none";
+							applyValidationErrors(response.errors || {});
+						}
+					}
+				});
+			});
 		});
+
+		calculateForm.addEventListener("input", scheduleValidation);
+		calculateForm.addEventListener("change", scheduleValidation);
 
 		function inputMask(input, maxCharacters, maxValue, minValue)
 		{
@@ -551,6 +635,9 @@
 
 			// Integer value constraints
 			inputValue = inputValue.trim();
+			if (inputValue === '')
+				return;
+
 			if (/^[0-9]*$/.test(inputValue))
 			{
 				const intValue = parseInt(inputValue);
@@ -573,6 +660,23 @@
 			inputThreadLengthValue = event.target.value;
 		});
 
+		inputThreadLength.addEventListener('blur', () =>
+		{
+			scheduleValidation();
+		});
+
+		let inputLength = document.getElementById('lengthMillimeters');
+		inputLength.addEventListener('blur', () =>
+		{
+			scheduleValidation();
+		});
+
+		let inputQuantity = document.getElementById('Quantity');
+		inputQuantity.addEventListener('blur', () =>
+		{
+			scheduleValidation();
+		});
+
 		let inputThreadSecondLengthMillimeters = document.getElementById('threadSecondLengthMillimeters');
 		let inputThreadSecondLengthMillimetersValue;
 
@@ -585,6 +689,23 @@
 				console.log(inputThreadSecondLengthMillimetersValue)
 		});
 
+		inputThreadSecondLengthMillimeters.addEventListener('blur', () =>
+		{
+			scheduleValidation();
+		});
+
+		let inputBendLength = document.getElementById('BendLengthMillimeters');
+		inputBendLength.addEventListener('blur', () =>
+		{
+			scheduleValidation();
+		});
+
+		let inputSecondLength = document.getElementById('SecondLengthMillimeters');
+		inputSecondLength.addEventListener('blur', () =>
+		{
+			scheduleValidation();
+		});
+
 		let threadDiameterValue;
 		threadDiameterInput.addEventListener('input', (event) =>
 		{
@@ -594,6 +715,11 @@
 				threadDiameterValue = event.target.value;
 				changeFuncThreadStep(threadDiameterValue);
 			}
+		});
+
+		threadDiameterInput.addEventListener('blur', () =>
+		{
+			scheduleValidation();
 		});
 
 		let bendRadiusValue;
@@ -693,6 +819,10 @@
 				}
 				else
 					console.log("Материал не выбран");
+
+				setNonSelectableField(bendRadiusMillimeters, true);
+
+				scheduleValidation();
 			});
 		}
 
@@ -709,7 +839,7 @@
 					let typeMaterial = materialJs.type;
 
 					if (diameterMaterial === 0)
-						diameterInput.value = '';
+						diameterInput.value = 0;
 					else
 						diameterInput.value = diameterMaterial;
 
@@ -890,6 +1020,9 @@
 
 				changeFuncThreadStep(threadDiameterInt);
 				threadDiameterInput.value = threadDiameterInt;
+				setNonSelectableField(document.getElementById("threadStepMillimeters"), true);
+
+				scheduleValidation();
 			})
 		}
 
@@ -901,6 +1034,11 @@
 			$("#Quantity").inputmask("9999", {"placeholder": ""});
 			$("#LengthMillimeters").inputmask("9999999", {"placeholder": ""});
 			$("#SecondLengthMillimeters").val('0');
+			setNonSelectableField(diameterInput, true);
+			setNonSelectableField(threadDiameterInput, true);
+			setNonSelectableField(bendRadiusInput, true);
+			setNonSelectableField(document.getElementById("threadStepMillimeters"), true);
+			scheduleValidation();
 		});
 
 
@@ -947,6 +1085,8 @@
 				withoutBindRadiusBendDiamMaterialDivCheckbox.checked = false;
 				bendRadiusInput.readOnly = true;
 			}
+
+			scheduleValidation();
 		}
 
 		function showthreadSecondLengthMillimetersDivInp()
@@ -966,6 +1106,8 @@
 					threadSecondLengthMillimeters.value = 0;
 				}
 			}
+
+			scheduleValidation();
 		}
 
 		function showtSecondLengthMillimetersDiv(checkbox)
@@ -973,6 +1115,7 @@
 			SecondLengthMillimetersDiv.hidden = !checkbox.checked;
 
 			$("#SecondLengthMillimeters").val('0');
+			scheduleValidation();
 		}
 
 		function changeFuncThreadStep(diameterMillimeters)
@@ -1009,6 +1152,7 @@
 				valueThreadStep = "0";
 
 			inputThreadStep.value = valueThreadStep;
+			scheduleValidation();
 		}
 
 		function Add()
