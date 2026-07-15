@@ -26,6 +26,7 @@ public class Anchor : Entity
 	public string? SvgElement { get; set; }
 	public double WeightKg_Total { get; set; }
 	public double BilletLengthMillimeters { get; set; }
+	public string? OrderNumber { get; set; }
 	public string MaterialJson { get; set; }
 	public string UserJson { get; set; }
 	public virtual int KindId

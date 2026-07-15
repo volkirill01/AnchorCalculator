@@ -18,6 +18,15 @@
 						<h6 class="card-text">
 							<form id="CalculateForm">
 								<div class="row mb-3">
+									<label asp-for="OrderNumber" class="col-sm-4 col-form-label"></label>
+
+									<div class="col-sm-8">
+										<input asp-for="OrderNumber" type="text" class="form-control" id="orderNumber">
+										<span asp-validation-for="OrderNumber" class="text-danger"></span>
+									</div>
+								</div>
+
+								<div class="row mb-3">
 									<div class="validation" asp-validation-summary="ModelOnly"></div>
 									<label asp-for="MaterialId" class="col-sm-4 col-form-label"></label>
 
@@ -414,6 +423,7 @@
 							                        '<input id="billetLengthMillimetersToDB" type="hidden" value="'+ response.anchorJS.billetLengthMillimeters +'">' +
 							                        '<input id="weightKg_SingleAnchorToDB" type="hidden" value="'+ response.anchorJS.weightKg_SingleAnchor +'">' +
 							                        '<input id="weightKg_TotalToDB" type="hidden" value="'+ response.anchorJS.weightKg_Total +'">' +
+							                        '<input id="orderNumberToDB" type="hidden" value="'+ (response.anchorJS.orderNumber ?? '') +'">' +
 							                        '<input id="kindToDB" type="hidden" value="'+ response.anchorJS.kind +'">' +
 							                        '<input id="priceSom_ProductionThread_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionThread_Total + '">' +
 							                        '<input id="priceSom_ProductionBend_TotalToDB" type="hidden" value="' + response.anchorJS.priceSom_ProductionBend_Total + '">' +
@@ -1021,6 +1031,7 @@
 			let sebesSom_SingleAnchorToDB = document.getElementById("sebesSom_SingleAnchorToDB").value;
 			let sebesSom_TotalToDB = document.getElementById("sebesSom_TotalToDB").value;
 			let svgToDB = document.getElementById("containSvg").innerHTML;
+			let orderNumberToDB = document.getElementById("orderNumberToDB").value;
 			let kindToDB = document.getElementById("kindToDB").value;
 			let priceSom_Material_TotalToDB = document.getElementById("priceSom_Material_TotalToDB").value;
 			let priceSom_ProductionThread_TotalToDB = document.getElementById("priceSom_ProductionThread_TotalToDB").value;
@@ -1062,6 +1073,7 @@
 					'svgElement' : svgToDB,
 					'sebesSom_SingleAnchor': sebesSom_SingleAnchorToDB,
 					'sebesSom_Total': sebesSom_TotalToDB,
+					'orderNumber': orderNumberToDB,
 					'kind' : kindToDB,
 					'priceSom_ProductionThread_Total' : priceSom_ProductionThread_TotalToDB,
 					'priceSom_ProductionBend_Total' : priceSom_ProductionBend_TotalToDB,

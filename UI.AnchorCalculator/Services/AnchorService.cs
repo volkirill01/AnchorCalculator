@@ -88,6 +88,7 @@ public class AnchorService
 			ProductionHours_Bend = viewModel.ProductionHours_Bend,
 			ProductionHours_BandSaw = viewModel.ProductionHours_BandSaw,
 			FullLengthMeters = viewModel.FullLengthMeters,
+			OrderNumber = viewModel.OrderNumber,
 			HasCuttingThread = viewModel.HasCuttingThread,
 			WithoutBindThreadDiamMaterial = viewModel.WithoutBindThreadDiamMaterial
 		};
@@ -238,6 +239,7 @@ public class AnchorService
 				ProductionHours_Bend = viewModel.ProductionHours_Bend,
 				ProductionHours_BandSaw = viewModel.ProductionHours_BandSaw,
 				FullLengthMeters = viewModel.FullLengthMeters,
+				OrderNumber = string.IsNullOrWhiteSpace(viewModel.OrderNumber) ? null : viewModel.OrderNumber.Trim(),
 				WithoutBindThreadDiamMaterial = viewModel.WithoutBindThreadDiamMaterial
 			};
 			await m_ApplicationDbContext.Anchors.AddAsync(anchor);

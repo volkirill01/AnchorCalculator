@@ -92,6 +92,8 @@ public class AnchorViewModel
 	public double ProductionHours_BandSaw { get; set; }
 
 	public double FullLengthMeters { get; set; }
+	[Display(Name = "Номер заказа")]
+	public string? OrderNumber { get; set; }
 	public string? MaterialName { get; set; }
 	[Display(Name = "Материал")]
 	public int MaterialId { get; set; }

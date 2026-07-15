@@ -22,6 +22,7 @@
 				let threadLengthMillimeters = response.anchor.threadLengthMillimeters;
 				let materialFullName = response.anchor.material.fullName;
 				let withoutBindThreadDiamMaterial = response.anchor.withoutBindThreadDiamMaterial;
+				let orderNumber = response.anchor.orderNumber;
 				let dateNow = new Date();
 				let date = dateNow.getDate().toString().padStart(2, '0');
 				let month = (dateNow.getMonth() + 1).toString().padStart(2, '0');
@@ -139,43 +140,32 @@
 					withoutBindThreadDiamMaterialInfo = '<p class="card-text">' + (productionNum + 1) + '. Проточить до диаметра резьбы на токарном станке</p>';
 				}
 
-				let notes;
-				if (threadLengthMillimeters > 0)
-				{
-					notes =
-						'<div><p class="card-text fw-bold">Кол - во: ' + quantity + ' шт.</p>' +
-						'<p class="card-text">1. Размер заготовки ' + billetLengthMillimeters + ' мм</p>' +
-						rollerPathLengthMillimetersBeforeEndP +
-						'<p class="card-text">' + toleranceNum + '. Поле допуска на диаметр резьбы 8q по ГОСТ 16093</p>' +
-						'<p class="card-text"' +
-						tooling + '</p>' +
-						'<p class="card-text" > ' + productionNum + '. ' + productionStr + '</p>' + withoutBindThreadDiamMaterialInfo +'</div > ';
-				}
-				else
-				{
-					notes =
-						'<div><p class="card-text fw-bold">Кол - во: ' + quantity + ' шт.</p>' +
-						'<p class="card-text">1. Размер заготовки ' + billetLengthMillimeters + ' мм</p>' +
-						rollerPathLengthMillimetersBeforeEndP +
-						'<p class="card-text">' + toleranceNum + '. Поле допуска на диаметр резьбы 8q по ГОСТ 16093</p>' +
-						'<p class="card-text"' +
-						tooling + '</p></div > ';
-				}
+				let notes = '<div>' +
+					(orderNumber && orderNumber.trim() !== '' ? `<p class="card-text h1 fw-bold">Номер заказа: ${orderNumber}</p>` : '') +
+					`<p class="card-text fw-bold">Кол - во: ${quantity} шт.</p>` +
+					`<p class="card-text">1. Размер заготовки ${billetLengthMillimeters} мм</p>${rollerPathLengthMillimetersBeforeEndP}` +
+					`<p class="card-text">${toleranceNum}. Поле допуска на диаметр резьбы 8q по ГОСТ 16093</p>` +
+					`<p class="card-text">${tooling} </p>`;
 
-				let stamp = '<table class="table table-bordered border-dark">' +
+				if (threadLengthMillimeters > 0)
+					notes += `<p class="card-text">${productionNum}. ${productionStr}</p>${withoutBindThreadDiamMaterialInfo}`;
+
+				notes += '</div>';
+
+				let stamp = '<table class="table table-bordered border-dark table-border">' +
 					'<thead>' +
 					'<tr>' +
-					'<th colspan="2" class="text-center">' + firstName + ' M' + threadDiameterMillimeters + 'x' + length + ' ' + form + '</th>' +
-					'<td class="text-left">Тип заказа:</td>' +
-					'<td class="text-center">' + materialFullName + '</td>' +
+					'<th colspan="2" class="text-center table-border">' + firstName + ' M' + threadDiameterMillimeters + 'x' + lengthMillimeters + ' ' + form + '</th>' +
+					'<td class="text-left table-border">Тип заказа:</td>' +
+					'<td class="text-center table-border">' + materialFullName + '</td>' +
 					'</tr>' +
 					'</thead>' +
 					'<tbody>' +
 					'<tr>' +
-					'<th scope="col" class="w-25">Исполнитель</th>' +
-					'<td class="w-30">' + executor + '</td>' +
-					'<td class="w-25"></td>' +
-					'<td class="text-center w-20">' + dateNowFormat + '</td>' +
+					'<th scope="col" class="w-25 table-border">Исполнитель</th>' +
+					'<td class="w-30 table-border">' + executor + '</td>' +
+					'<td class="w-25 table-border"></td>' +
+					'<td class="text-center w-20 table-border">' + dateNowFormat + '</td>' +
 					'</tr>' +
 					'</tbody>' +
 					'</table>';

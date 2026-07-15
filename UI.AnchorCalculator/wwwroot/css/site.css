@@ -26,3 +26,7 @@ body {
 #notes_pdf {
 	padding: 0 1em 0 1em;
 }
+
+.table-border {
+	border: 2px solid red !important;
+}
