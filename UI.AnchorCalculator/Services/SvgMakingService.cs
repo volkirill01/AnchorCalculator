@@ -12,7 +12,7 @@ public class SvgMakingService
 	const int VIEW_WIDTH_PIXELS = 900;
 	const int VIEW_HEIGHT_PIXELS = 1200;
 	const int WIDTH_PIXELS = 900;
-	const int HEIGHT_PIXELS = 900;
+	const int HEIGHT_PIXELS = 750;
 	const int ANCHOR_LENGTH_MAX = 700;
 	const int ANCHOR_SECOND_LENGTH_MAX = 500;
 	const int ANCHOR_BEND_LENGTH_MAX = 300;
